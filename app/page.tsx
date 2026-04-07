@@ -1,0 +1,241 @@
+"use client";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, useMemo } from "react";
+import {
+  categories, brands, kits, parts,
+  uniqueYears, makesForYear, modelsForYearMake, enginesForYearMakeModel,
+  partsForVehicle, getCategory, minPriceForPart, getBrand,
+} from "@/lib/data";
+import { tr } from "@/lib/i18n";
+import { useLocale, useActiveVehicleId, setActiveVehicleId } from "@/lib/cart";
+
+export default function Home() {
+  const locale = useLocale();
+  const router = useRouter();
+  const activeVehicleId = useActiveVehicleId();
+
+  // Inline vehicle selector
+  const [year, setYear] = useState<number | "">("");
+  const [make, setMake] = useState<string>("");
+  const [model, setModel] = useState<string>("");
+  const [vehicleId, setVehicleId] = useState<number | "">("");
+
+  const years = useMemo(() => uniqueYears(), []);
+  const makes = useMemo(() => (year ? makesForYear(year) : []), [year]);
+  const models = useMemo(() => (year && make ? modelsForYearMake(year, make) : []), [year, make]);
+  const engines = useMemo(
+    () => (year && make && model ? enginesForYearMakeModel(year, make, model) : []),
+    [year, make, model]
+  );
+
+  const submit = () => {
+    if (vehicleId) {
+      setActiveVehicleId(vehicleId as number);
+      router.push("/catalog");
+    }
+  };
+
+  const featuredParts = parts.slice(0, 8);
+  const featuredKits = kits;
+
+  return (
+    <main>
+      {/* HERO */}
+      <section className="hero" style={{ paddingBottom: 0 }}>
+        <h1>{tr("hero_title", locale)}</h1>
+        <p>{tr("hero_sub", locale)}</p>
+
+        <div className="selector-card">
+          <div className="selector-title">
+            <span className="pulse"></span>
+            {tr("cta_select_vehicle", locale)}
+          </div>
+          <div className="selector-grid">
+            <select
+              value={year}
+              onChange={(e) => {
+                setYear(parseInt(e.target.value) || "");
+                setMake(""); setModel(""); setVehicleId("");
+              }}
+            >
+              <option value="">{tr("step_year", locale)}</option>
+              {years.map((y) => <option key={y} value={y}>{y}</option>)}
+            </select>
+            <select
+              value={make}
+              disabled={!year}
+              onChange={(e) => { setMake(e.target.value); setModel(""); setVehicleId(""); }}
+            >
+              <option value="">{tr("step_make", locale)}</option>
+              {makes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
+            </select>
+            <select
+              value={model}
+              disabled={!make}
+              onChange={(e) => { setModel(e.target.value); setVehicleId(""); }}
+            >
+              <option value="">{tr("step_model", locale)}</option>
+              {models.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
+            </select>
+            <select
+              value={vehicleId}
+              disabled={!model}
+              onChange={(e) => setVehicleId(parseInt(e.target.value) || "")}
+            >
+              <option value="">{tr("step_engine", locale)}</option>
+              {engines.map((e) => <option key={e.id} value={e.id}>{e.engine}</option>)}
+            </select>
+          </div>
+          <button className="selector-cta" disabled={!vehicleId} onClick={submit}>
+            {tr("view_parts", locale)} →
+          </button>
+        </div>
+      </section>
+
+      {/* TRUST BAR */}
+      <div className="trust-bar">
+        <div className="trust-item">{tr("trust_oem", locale)}</div>
+        <div className="trust-item">{tr("trust_fitment", locale)}</div>
+        <div className="trust-item">{tr("trust_shipping", locale)}</div>
+        <div className="trust-item">{tr("trust_returns", locale)}</div>
+      </div>
+
+      {/* CATEGORIES */}
+      <section>
+        <div className="section-head">
+          <h2>{tr("popular_categories", locale)}</h2>
+          <Link href="/catalog">{tr("view_all", locale)} →</Link>
+        </div>
+        <div className="cat-grid">
+          {categories.map((c) => (
+            <Link key={c.id} href={`/catalog?cat=${c.slug}`} className="cat-card">
+              <span className="cat-icon">{c.icon}</span>
+              <span className="cat-name">{c.name[locale]}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* SERVICE KITS */}
+      <section>
+        <div className="section-head">
+          <h2>{tr("service_kits", locale)}</h2>
+        </div>
+        <div className="kits-grid">
+          {featuredKits.map((k) => (
+            <Link key={k.id} href={`/catalog`} className="kit-card">
+              <span className="badge">−{k.discountPct}%</span>
+              <div className="icon">📦</div>
+              <h3>{k.name[locale]}</h3>
+              <p>{k.description[locale]}</p>
+              <div className="price">
+                ₪{k.totalPriceIls}
+                <small>{tr("vat_inc", locale)}</small>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED PARTS */}
+      <section>
+        <div className="section-head">
+          <h2>{locale === "en" ? "Popular Parts" : locale === "ar" ? "القطع الأكثر طلباً" : "חלפים מבוקשים"}</h2>
+          <Link href="/catalog">{tr("view_all", locale)} →</Link>
+        </div>
+        <div className="parts-grid">
+          {featuredParts.map((p) => {
+            const cat = getCategory(p.categoryId);
+            const minP = minPriceForPart(p);
+            const fitsActive = activeVehicleId && p.fitsVehicleIds.includes(activeVehicleId);
+            return (
+              <Link key={p.id} href={`/part/${p.slug}`} className="part-card">
+                <div className="part-img">{cat?.icon ?? "🔧"}</div>
+                {fitsActive && (
+                  <span className="part-fitment">{tr("fits_your_car", locale)}</span>
+                )}
+                <div className="part-name">{p.name[locale]}</div>
+                <div className="part-brands">
+                  {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
+                  {p.skus.length > 3 ? ` +${p.skus.length - 3}` : ""}
+                </div>
+                <div className="part-meta">
+                  <div className="part-price">
+                    ₪{minP} <small>{tr("from_price", locale)}</small>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* WHY US */}
+      <section>
+        <div className="section-head">
+          <h2>{tr("why_us", locale)}</h2>
+        </div>
+        <div className="why-grid">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="why-card">
+              <div className="num">{i}</div>
+              <h3>{tr(`why_${i}_t` as keyof typeof import("@/lib/i18n").t, locale)}</h3>
+              <p>{tr(`why_${i}_d` as keyof typeof import("@/lib/i18n").t, locale)}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* BRANDS */}
+      <section>
+        <div className="section-head">
+          <h2>{tr("brands_we_carry", locale)}</h2>
+        </div>
+        <div className="brand-strip">
+          {brands.map((b) => (
+            <span key={b.id} className="brand-chip">
+              <span>{b.logo}</span>
+              <span>{b.name}</span>
+            </span>
+          ))}
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section>
+        <div className="section-head">
+          <h2>{tr("testimonials_title", locale)}</h2>
+        </div>
+        <div className="testi-grid">
+          {[
+            {
+              he: "מצאתי בדיוק את הרפידות שחיפשתי לקאמרי 2019. הגיעו תוך יומיים, מחיר טוב, ואחריות שנתיים. ממליץ!",
+              ar: "وجدت بالضبط الفرامل التي أبحث عنها لكامري 2019. وصلت خلال يومين، سعر جيد، وضمان سنتين. أنصح به!",
+              en: "Found exactly the brake pads I needed for my 2019 Camry. Arrived in 2 days, fair price, 2-year warranty. Recommended!",
+              author: "Yossi K., Tel Aviv",
+            },
+            {
+              he: "אתר מצוין, חיפוש לפי מספר OEM עובד מושלם. חוסך לי שעות במוסך.",
+              ar: "موقع ممتاز، البحث برقم OEM يعمل بشكل مثالي. يوفر علي ساعات في الورشة.",
+              en: "Great site, OEM number search works perfectly. Saves me hours at the garage.",
+              author: "Mohammed S., Haifa",
+            },
+            {
+              he: "הזמנתי ערכת טיפול גדול לקורולה — הכל הגיע מסודר באריזה אחת. שירות לקוחות בעברית, ערבית ואנגלית.",
+              ar: "طلبت طقم صيانة كبير للكورولا — كل شيء وصل في علبة واحدة منظمة. خدمة عملاء بالعبرية والعربية والإنجليزية.",
+              en: "Ordered a major service kit for my Corolla — everything arrived neatly packed. Customer service in Hebrew, Arabic, and English.",
+              author: "Sara M., Nazareth",
+            },
+          ].map((t, i) => (
+            <div key={i} className="testi-card">
+              <div className="stars">★★★★★</div>
+              <div className="quote">"{t[locale]}"</div>
+              <div className="author">— {t.author}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
