@@ -66,26 +66,29 @@ export default function Home() {
             </div>
             <div className="selector-grid">
               <select
+                value={make}
+                onChange={(e) => {
+                  setMake(e.target.value);
+                  setYear(""); setModel(""); setVehicleId("");
+                }}
+              >
+                <option value="">{tr("step_make", locale)}</option>
+                {makes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
+              </select>
+              <select
                 value={year}
+                disabled={!make}
                 onChange={(e) => {
                   setYear(parseInt(e.target.value) || "");
-                  setMake(""); setModel(""); setVehicleId("");
+                  setModel(""); setVehicleId("");
                 }}
               >
                 <option value="">{tr("step_year", locale)}</option>
                 {years.map((y) => <option key={y} value={y}>{y}</option>)}
               </select>
               <select
-                value={make}
-                disabled={!year}
-                onChange={(e) => { setMake(e.target.value); setModel(""); setVehicleId(""); }}
-              >
-                <option value="">{tr("step_make", locale)}</option>
-                {makes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
-              </select>
-              <select
                 value={model}
-                disabled={!make}
+                disabled={!year}
                 onChange={(e) => { setModel(e.target.value); setVehicleId(""); }}
               >
                 <option value="">{tr("step_model", locale)}</option>

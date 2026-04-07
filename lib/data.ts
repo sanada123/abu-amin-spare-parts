@@ -653,6 +653,12 @@ export function searchParts(q: string, vehicleId?: number) {
   });
 }
 
+export function allMakes() {
+  return getMakesFromVehicles();
+}
+export function yearsForMake(makeSlug: string) {
+  return getYearsForMake(makeSlug);
+}
 export function uniqueYears() {
   return Array.from(new Set(vehicles.map((v) => v.year))).sort((a, b) => b - a);
 }
