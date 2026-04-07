@@ -1,0 +1,5436 @@
+[
+  {
+    "slug": "toyota",
+    "nameHe": "טויוטה",
+    "nameAr": "تويوتا",
+    "nameEn": "Toyota",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/toyota.png",
+    "years": {
+      "2005": [
+        {
+          "name": "Scion xA"
+        },
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Camry Solara"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "MR2"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Echo"
+        }
+      ],
+      "2006": [
+        {
+          "name": "Scion xA"
+        },
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Camry Solara"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "MR2"
+        },
+        {
+          "name": "Paseo"
+        }
+      ],
+      "2007": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Camry Solara"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "MR2"
+        },
+        {
+          "name": "Paseo"
+        }
+      ],
+      "2008": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Camry Solara"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        }
+      ],
+      "2009": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Camry Solara"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        }
+      ],
+      "2010": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        }
+      ],
+      "2011": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Scion iQ"
+        }
+      ],
+      "2012": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Scion iQ"
+        },
+        {
+          "name": "Prius V"
+        },
+        {
+          "name": "Prius C"
+        }
+      ],
+      "2013": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Scion FR-S"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Corolla Matrix"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Scion iQ"
+        },
+        {
+          "name": "Prius V"
+        },
+        {
+          "name": "Prius C"
+        }
+      ],
+      "2014": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Scion FR-S"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "Scion xD"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Scion iQ"
+        },
+        {
+          "name": "Prius V"
+        },
+        {
+          "name": "Prius C"
+        }
+      ],
+      "2015": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Scion FR-S"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Scion iQ"
+        },
+        {
+          "name": "Prius V"
+        },
+        {
+          "name": "Prius C"
+        }
+      ],
+      "2016": [
+        {
+          "name": "Scion tC"
+        },
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Scion FR-S"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "Scion iM"
+        },
+        {
+          "name": "Scion iA"
+        },
+        {
+          "name": "Prius V"
+        },
+        {
+          "name": "Prius C"
+        }
+      ],
+      "2017": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "86"
+        },
+        {
+          "name": "Prius V"
+        },
+        {
+          "name": "Prius C"
+        },
+        {
+          "name": "COROLLA iM"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "Yaris iA"
+        }
+      ],
+      "2018": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "86"
+        },
+        {
+          "name": "Prius C"
+        },
+        {
+          "name": "COROLLA iM"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "Yaris iA"
+        }
+      ],
+      "2019": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "86"
+        },
+        {
+          "name": "Prius C"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "Yaris iA"
+        }
+      ],
+      "2020": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Supra"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "86"
+        },
+        {
+          "name": "Prius C"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        }
+      ],
+      "2021": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Supra"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        }
+      ],
+      "2022": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Avalon"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Supra"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "GR86"
+        }
+      ],
+      "2023": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Supra"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "GR86"
+        },
+        {
+          "name": "Crown"
+        },
+        {
+          "name": "GR Corolla"
+        }
+      ],
+      "2024": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Supra"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "GR86"
+        },
+        {
+          "name": "Crown"
+        },
+        {
+          "name": "GR Corolla"
+        }
+      ],
+      "2025": [
+        {
+          "name": "Corolla"
+        },
+        {
+          "name": "Prius"
+        },
+        {
+          "name": "Yaris"
+        },
+        {
+          "name": "Camry"
+        },
+        {
+          "name": "FCHV-adv"
+        },
+        {
+          "name": "Celica"
+        },
+        {
+          "name": "Supra"
+        },
+        {
+          "name": "Paseo"
+        },
+        {
+          "name": "Mirai"
+        },
+        {
+          "name": "C-HR"
+        },
+        {
+          "name": "Prius Prime (PHEV)"
+        },
+        {
+          "name": "GR86"
+        },
+        {
+          "name": "Crown"
+        },
+        {
+          "name": "GR Corolla"
+        },
+        {
+          "name": "Crown Signia"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "hyundai",
+    "nameHe": "יונדאי",
+    "nameAr": "هيونداي",
+    "nameEn": "Hyundai",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/hyundai.png",
+    "years": {
+      "2005": [
+        {
+          "name": "Santa Fe"
+        },
+        {
+          "name": "Tucson"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Tiburon"
+        },
+        {
+          "name": "XG350"
+        }
+      ],
+      "2006": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Tiburon"
+        }
+      ],
+      "2007": [
+        {
+          "name": "Santa Fe"
+        },
+        {
+          "name": "Tucson"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Veracruz"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Tiburon"
+        }
+      ],
+      "2008": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Tiburon"
+        }
+      ],
+      "2009": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2010": [
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        },
+        {
+          "name": "Elantra Touring"
+        }
+      ],
+      "2011": [
+        {
+          "name": "Equus"
+        },
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2012": [
+        {
+          "name": "Equus"
+        },
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2013": [
+        {
+          "name": "Equus"
+        },
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2014": [
+        {
+          "name": "Equus"
+        },
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2015": [
+        {
+          "name": "Equus"
+        },
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2016": [
+        {
+          "name": "Equus"
+        },
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Genesis Coupe"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Genesis"
+        }
+      ],
+      "2017": [
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Elantra GT"
+        },
+        {
+          "name": "Ioniq"
+        }
+      ],
+      "2018": [
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Azera"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Elantra GT"
+        },
+        {
+          "name": "Ioniq"
+        }
+      ],
+      "2019": [
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Elantra GT"
+        },
+        {
+          "name": "Ioniq"
+        },
+        {
+          "name": "Veloster N"
+        }
+      ],
+      "2020": [
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Elantra GT"
+        },
+        {
+          "name": "Ioniq"
+        },
+        {
+          "name": "Venue"
+        },
+        {
+          "name": "Veloster N"
+        }
+      ],
+      "2021": [
+        {
+          "name": "Veloster"
+        },
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Ioniq"
+        },
+        {
+          "name": "Venue"
+        },
+        {
+          "name": "Veloster N"
+        }
+      ],
+      "2022": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Ioniq"
+        },
+        {
+          "name": "Venue"
+        },
+        {
+          "name": "Veloster N"
+        },
+        {
+          "name": "Elantra N"
+        }
+      ],
+      "2023": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Venue"
+        },
+        {
+          "name": "Elantra N"
+        },
+        {
+          "name": "Ioniq 6"
+        }
+      ],
+      "2024": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Venue"
+        },
+        {
+          "name": "Elantra N"
+        },
+        {
+          "name": "Ioniq 6"
+        }
+      ],
+      "2025": [
+        {
+          "name": "Sonata"
+        },
+        {
+          "name": "Elantra"
+        },
+        {
+          "name": "Accent"
+        },
+        {
+          "name": "Venue"
+        },
+        {
+          "name": "Elantra N"
+        },
+        {
+          "name": "Ioniq 6"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "kia",
+    "nameHe": "קיה",
+    "nameAr": "كيا",
+    "nameEn": "Kia",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/kia.png",
+    "years": {
+      "2005": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Sedona"
+        },
+        {
+          "name": "Sorento"
+        },
+        {
+          "name": "Sportage"
+        },
+        {
+          "name": "Spectra"
+        },
+        {
+          "name": "Amanti"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2006": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Sedona"
+        },
+        {
+          "name": "Sorento"
+        },
+        {
+          "name": "Sportage"
+        },
+        {
+          "name": "Spectra"
+        },
+        {
+          "name": "Amanti"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2007": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Spectra"
+        },
+        {
+          "name": "Amanti"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2008": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Sedona"
+        },
+        {
+          "name": "Sorento"
+        },
+        {
+          "name": "Sportage"
+        },
+        {
+          "name": "Spectra"
+        },
+        {
+          "name": "Amanti"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2009": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Borrego"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Sedona"
+        },
+        {
+          "name": "Sorento"
+        },
+        {
+          "name": "Sportage"
+        },
+        {
+          "name": "Spectra"
+        },
+        {
+          "name": "Amanti"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2010": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2011": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2012": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2013": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2014": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2015": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "K900"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2016": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Rondo"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "K900"
+        },
+        {
+          "name": "Forte Koup"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2017": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "K900"
+        },
+        {
+          "name": "Forte Koup"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2018": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "K900"
+        },
+        {
+          "name": "Stinger"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2019": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "K900"
+        },
+        {
+          "name": "Stinger"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2020": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Optima"
+        },
+        {
+          "name": "Cadenza"
+        },
+        {
+          "name": "K900"
+        },
+        {
+          "name": "Stinger"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2021": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Stinger"
+        },
+        {
+          "name": "K5"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2022": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Stinger"
+        },
+        {
+          "name": "K5"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2023": [
+        {
+          "name": "Rio"
+        },
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "Stinger"
+        },
+        {
+          "name": "K5"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2024": [
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "K5"
+        },
+        {
+          "name": "Miami"
+        }
+      ],
+      "2025": [
+        {
+          "name": "Forte"
+        },
+        {
+          "name": "K5"
+        },
+        {
+          "name": "K4"
+        },
+        {
+          "name": "Miami"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "mazda",
+    "nameHe": "מאזדה",
+    "nameAr": "مازدا",
+    "nameEn": "Mazda",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/mazda.png",
+    "years": {
+      "2005": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        }
+      ],
+      "2006": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        }
+      ],
+      "2007": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        }
+      ],
+      "2008": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        }
+      ],
+      "2009": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        }
+      ],
+      "2010": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        }
+      ],
+      "2011": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        }
+      ],
+      "2012": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "RX-8"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        }
+      ],
+      "2013": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        }
+      ],
+      "2014": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        }
+      ],
+      "2015": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda5"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        }
+      ],
+      "2016": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        },
+        {
+          "name": "CX-3"
+        }
+      ],
+      "2017": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        },
+        {
+          "name": "CX-3"
+        }
+      ],
+      "2018": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        },
+        {
+          "name": "CX-3"
+        }
+      ],
+      "2019": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        },
+        {
+          "name": "CX-3"
+        }
+      ],
+      "2020": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        },
+        {
+          "name": "CX-3"
+        }
+      ],
+      "2021": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "Mazda6"
+        },
+        {
+          "name": "Mazda2"
+        },
+        {
+          "name": "CX-3"
+        }
+      ],
+      "2022": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "CX-3"
+        },
+        {
+          "name": "MX-30"
+        }
+      ],
+      "2023": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "MX-30"
+        }
+      ],
+      "2024": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "MX-30"
+        }
+      ],
+      "2025": [
+        {
+          "name": "MX-5"
+        },
+        {
+          "name": "Mazda3"
+        },
+        {
+          "name": "MX-30"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "skoda",
+    "nameHe": "סקודה",
+    "nameAr": "سكودا",
+    "nameEn": "Skoda",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/skoda.png",
+    "years": {}
+  },
+  {
+    "slug": "volkswagen",
+    "nameHe": "פולקסווגן",
+    "nameAr": "فولكس فاجن",
+    "nameEn": "Volkswagen",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/volkswagen.png",
+    "years": {
+      "2005": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Phaeton"
+        },
+        {
+          "name": "Touareg"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Jetta Wagon"
+        },
+        {
+          "name": "Beetle"
+        }
+      ],
+      "2006": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Phaeton"
+        },
+        {
+          "name": "Touareg"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Jetta Wagon"
+        },
+        {
+          "name": "Rabbit"
+        },
+        {
+          "name": "Beetle"
+        }
+      ],
+      "2007": [
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Touareg"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Rabbit"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        }
+      ],
+      "2008": [
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Touareg"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "R32"
+        },
+        {
+          "name": "Rabbit"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "GLI"
+        }
+      ],
+      "2009": [
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Rabbit"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "Jetta SportWagen"
+        },
+        {
+          "name": "GLI"
+        }
+      ],
+      "2010": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "Jetta SportWagen"
+        }
+      ],
+      "2011": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Jetta SportWagen"
+        }
+      ],
+      "2012": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "CC"
+        },
+        {
+          "name": "Jetta SportWagen"
+        }
+      ],
+      "2013": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "Jetta SportWagen"
+        },
+        {
+          "name": "Golf R"
+        }
+      ],
+      "2014": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "CC"
+        },
+        {
+          "name": "Jetta SportWagen"
+        }
+      ],
+      "2015": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Golf SportWagen"
+        },
+        {
+          "name": "e-Golf"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "CC"
+        }
+      ],
+      "2016": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Eos"
+        },
+        {
+          "name": "Golf SportWagen"
+        },
+        {
+          "name": "e-Golf"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "CC"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        }
+      ],
+      "2017": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf SportWagen"
+        },
+        {
+          "name": "e-Golf"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "CC"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Golf Alltrack"
+        }
+      ],
+      "2018": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf SportWagen"
+        },
+        {
+          "name": "e-Golf"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "CC"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Golf Alltrack"
+        }
+      ],
+      "2019": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf SportWagen"
+        },
+        {
+          "name": "e-Golf"
+        },
+        {
+          "name": "Beetle"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Golf Alltrack"
+        },
+        {
+          "name": "Arteon"
+        }
+      ],
+      "2020": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf SportWagen"
+        },
+        {
+          "name": "e-Golf"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Golf Alltrack"
+        },
+        {
+          "name": "Arteon"
+        }
+      ],
+      "2021": [
+        {
+          "name": "Golf"
+        },
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Arteon"
+        },
+        {
+          "name": "Jetta GLI"
+        }
+      ],
+      "2022": [
+        {
+          "name": "Passat"
+        },
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Arteon"
+        },
+        {
+          "name": "Jetta GLI"
+        }
+      ],
+      "2023": [
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Arteon"
+        },
+        {
+          "name": "Jetta GLI"
+        }
+      ],
+      "2024": [
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "Golf GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Jetta GLI"
+        }
+      ],
+      "2025": [
+        {
+          "name": "Jetta"
+        },
+        {
+          "name": "GTI"
+        },
+        {
+          "name": "Golf R"
+        },
+        {
+          "name": "Jetta GLI"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "bmw",
+    "nameHe": "ב.מ.וו",
+    "nameAr": "بي إم دبليو",
+    "nameEn": "BMW",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/bmw.png",
+    "years": {
+      "2005": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "X3"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "525i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "325Ci"
+        },
+        {
+          "name": "330Ci"
+        },
+        {
+          "name": "325i"
+        },
+        {
+          "name": "325xi"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "330xi"
+        },
+        {
+          "name": "760i"
+        },
+        {
+          "name": "545i"
+        },
+        {
+          "name": "645Ci"
+        },
+        {
+          "name": "745i"
+        },
+        {
+          "name": "745Li"
+        },
+        {
+          "name": "M3Ci"
+        }
+      ],
+      "2006": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "X3"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "525i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "530xi"
+        },
+        {
+          "name": "525xi"
+        },
+        {
+          "name": "325Ci"
+        },
+        {
+          "name": "330Ci"
+        },
+        {
+          "name": "325i"
+        },
+        {
+          "name": "325xi"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "330xi"
+        },
+        {
+          "name": "760i"
+        },
+        {
+          "name": "M3Ci"
+        }
+      ],
+      "2007": [
+        {
+          "name": "328i"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "X5"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "328xi"
+        },
+        {
+          "name": "335xi"
+        },
+        {
+          "name": "525i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "530xi"
+        },
+        {
+          "name": "525xi"
+        }
+      ],
+      "2008": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "X3"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "528xi"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "535xi"
+        },
+        {
+          "name": "328xi"
+        },
+        {
+          "name": "335xi"
+        }
+      ],
+      "2009": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335d"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "X3"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        }
+      ],
+      "2010": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335d"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "X3"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "750xi"
+        },
+        {
+          "name": "750Lxi"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        }
+      ],
+      "2011": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335is"
+        },
+        {
+          "name": "335d"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "740Li"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "750xi"
+        },
+        {
+          "name": "750Lxi"
+        },
+        {
+          "name": "1M"
+        }
+      ],
+      "2012": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335is"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "740Li"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "528xi"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "650xi"
+        },
+        {
+          "name": "ActiveE"
+        },
+        {
+          "name": "ActiveHybrid 5"
+        },
+        {
+          "name": "X1"
+        },
+        {
+          "name": "750i, Alpina B7"
+        },
+        {
+          "name": "750Li, Alpina B7"
+        },
+        {
+          "name": "750Lxi, Alpina B7"
+        },
+        {
+          "name": "750xi, Alpina B7"
+        }
+      ],
+      "2013": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335is"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "740Li"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "750xi"
+        },
+        {
+          "name": "750Lxi"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "528xi"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "650xi"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "320i"
+        },
+        {
+          "name": "ActiveHybrid 5"
+        },
+        {
+          "name": "X1"
+        },
+        {
+          "name": "750i, Alpina B7"
+        },
+        {
+          "name": "750Li, Alpina B7"
+        }
+      ],
+      "2014": [
+        {
+          "name": "128i"
+        },
+        {
+          "name": "135i"
+        },
+        {
+          "name": "328i"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335is"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "740Li"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "750xi"
+        },
+        {
+          "name": "750Lxi"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "650xi"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "320i"
+        },
+        {
+          "name": "328d"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "i8"
+        },
+        {
+          "name": "ActiveHybrid 3"
+        },
+        {
+          "name": "428i"
+        },
+        {
+          "name": "435i"
+        },
+        {
+          "name": "535d"
+        },
+        {
+          "name": "ActiveHybrid 5"
+        },
+        {
+          "name": "X1"
+        },
+        {
+          "name": "335"
+        },
+        {
+          "name": "750i, Alpina B7"
+        },
+        {
+          "name": "750Li, Alpina B7"
+        },
+        {
+          "name": "ActiveHybrid 7"
+        }
+      ],
+      "2015": [
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "335is"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "740Li"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "760Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "750xi"
+        },
+        {
+          "name": "750Lxi"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "650xi"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "320i"
+        },
+        {
+          "name": "328d"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "i8"
+        },
+        {
+          "name": "ActiveHybrid 3"
+        },
+        {
+          "name": "428i"
+        },
+        {
+          "name": "435i"
+        },
+        {
+          "name": "535d"
+        },
+        {
+          "name": "ActiveHybrid 5"
+        },
+        {
+          "name": "X1"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "750i, Alpina B7"
+        },
+        {
+          "name": "650i, Alpina B6"
+        },
+        {
+          "name": "750Li, Alpina B7"
+        },
+        {
+          "name": "ActiveHybrid 7"
+        }
+      ],
+      "2016": [
+        {
+          "name": "328i"
+        },
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "528i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "320i"
+        },
+        {
+          "name": "328d"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "i8"
+        },
+        {
+          "name": "428i"
+        },
+        {
+          "name": "435i"
+        },
+        {
+          "name": "535d"
+        },
+        {
+          "name": "ActiveHybrid 5"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "340i"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "650i, Alpina B6"
+        }
+      ],
+      "2017": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "335i"
+        },
+        {
+          "name": "535i"
+        },
+        {
+          "name": "550i"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "320i"
+        },
+        {
+          "name": "328d"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "i8"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "340i"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "440i"
+        },
+        {
+          "name": "740e"
+        },
+        {
+          "name": "M760i"
+        },
+        {
+          "name": "750i, B7"
+        },
+        {
+          "name": "650i, B6"
+        }
+      ],
+      "2018": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "320i"
+        },
+        {
+          "name": "328d"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "ActiveHybrid 5"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "340i"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "440i"
+        },
+        {
+          "name": "740e"
+        },
+        {
+          "name": "540d"
+        },
+        {
+          "name": "530e"
+        },
+        {
+          "name": "M550i"
+        },
+        {
+          "name": "M760i"
+        },
+        {
+          "name": "750i, B7"
+        },
+        {
+          "name": "650i, B6"
+        },
+        {
+          "name": "640xi"
+        }
+      ],
+      "2019": [
+        {
+          "name": "740i"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M6"
+        },
+        {
+          "name": "640i"
+        },
+        {
+          "name": "650i"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "i8"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "340i"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "850i"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "440i"
+        },
+        {
+          "name": "B7"
+        },
+        {
+          "name": "740e"
+        },
+        {
+          "name": "540d"
+        },
+        {
+          "name": "530e"
+        },
+        {
+          "name": "M550i"
+        },
+        {
+          "name": "M760i"
+        },
+        {
+          "name": "750i, B7"
+        },
+        {
+          "name": "650i, B6"
+        },
+        {
+          "name": "640xi"
+        }
+      ],
+      "2020": [
+        {
+          "name": "740i"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "i8"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "440i"
+        },
+        {
+          "name": "B7"
+        },
+        {
+          "name": "530e"
+        },
+        {
+          "name": "M550i"
+        },
+        {
+          "name": "M760i"
+        },
+        {
+          "name": "M340i"
+        },
+        {
+          "name": "745e"
+        },
+        {
+          "name": "840i"
+        },
+        {
+          "name": "M850i"
+        },
+        {
+          "name": "M8"
+        }
+      ],
+      "2021": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "i3"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "B7"
+        },
+        {
+          "name": "530e"
+        },
+        {
+          "name": "M550i"
+        },
+        {
+          "name": "M760i"
+        },
+        {
+          "name": "M340i"
+        },
+        {
+          "name": "745e"
+        },
+        {
+          "name": "840i"
+        },
+        {
+          "name": "M850i"
+        },
+        {
+          "name": "M8"
+        },
+        {
+          "name": "M440i"
+        }
+      ],
+      "2022": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "740Li"
+        },
+        {
+          "name": "750i"
+        },
+        {
+          "name": "750Li"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "B7"
+        },
+        {
+          "name": "530e"
+        },
+        {
+          "name": "M550i"
+        },
+        {
+          "name": "M340i"
+        },
+        {
+          "name": "840i"
+        },
+        {
+          "name": "M850i"
+        },
+        {
+          "name": "M8"
+        },
+        {
+          "name": "M440i"
+        },
+        {
+          "name": "M760Li"
+        },
+        {
+          "name": "745Le"
+        },
+        {
+          "name": "i4"
+        },
+        {
+          "name": "Alpina B8"
+        }
+      ],
+      "2023": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "760i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "340i"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "530e"
+        },
+        {
+          "name": "M550i"
+        },
+        {
+          "name": "M340i"
+        },
+        {
+          "name": "840i"
+        },
+        {
+          "name": "M850i"
+        },
+        {
+          "name": "M8"
+        },
+        {
+          "name": "M440i"
+        },
+        {
+          "name": "i4"
+        },
+        {
+          "name": "i7"
+        },
+        {
+          "name": "Alpina B8"
+        }
+      ],
+      "2024": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "M235i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "760i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "340i"
+        },
+        {
+          "name": "330e"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "M340i"
+        },
+        {
+          "name": "840i"
+        },
+        {
+          "name": "M850i"
+        },
+        {
+          "name": "M8"
+        },
+        {
+          "name": "M440i"
+        },
+        {
+          "name": "i4"
+        },
+        {
+          "name": "i7"
+        },
+        {
+          "name": "Alpina B8"
+        },
+        {
+          "name": "750e"
+        },
+        {
+          "name": "i5"
+        }
+      ],
+      "2025": [
+        {
+          "name": "M3"
+        },
+        {
+          "name": "740i"
+        },
+        {
+          "name": "Z4"
+        },
+        {
+          "name": "M5"
+        },
+        {
+          "name": "228i"
+        },
+        {
+          "name": "530i"
+        },
+        {
+          "name": "330i"
+        },
+        {
+          "name": "760i"
+        },
+        {
+          "name": "540i"
+        },
+        {
+          "name": "M2"
+        },
+        {
+          "name": "M4"
+        },
+        {
+          "name": "230i"
+        },
+        {
+          "name": "M240i"
+        },
+        {
+          "name": "430i"
+        },
+        {
+          "name": "440i"
+        },
+        {
+          "name": "M340i"
+        },
+        {
+          "name": "840i"
+        },
+        {
+          "name": "M850i"
+        },
+        {
+          "name": "M8"
+        },
+        {
+          "name": "M440i"
+        },
+        {
+          "name": "i4"
+        },
+        {
+          "name": "i7"
+        },
+        {
+          "name": "Alpina B8"
+        },
+        {
+          "name": "750e"
+        },
+        {
+          "name": "i5"
+        },
+        {
+          "name": "550e"
+        },
+        {
+          "name": "M235"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "mercedes-benz",
+    "nameHe": "מרצדס",
+    "nameAr": "مرسيدس",
+    "nameEn": "Mercedes-Benz",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/mercedes-benz.png",
+    "years": {
+      "2005": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "CL-Class"
+        },
+        {
+          "name": "CLK-Class"
+        },
+        {
+          "name": "SLR McLaren"
+        }
+      ],
+      "2006": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "CL-Class"
+        },
+        {
+          "name": "CLK-Class"
+        },
+        {
+          "name": "SLR McLaren"
+        }
+      ],
+      "2007": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "CL-Class"
+        },
+        {
+          "name": "CLK-Class"
+        },
+        {
+          "name": "SLR McLaren"
+        }
+      ],
+      "2008": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "CL-Class"
+        },
+        {
+          "name": "CLK-Class"
+        },
+        {
+          "name": "SLR McLaren"
+        }
+      ],
+      "2009": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "CL-Class"
+        },
+        {
+          "name": "CLK-Class"
+        },
+        {
+          "name": "SLR McLaren"
+        }
+      ],
+      "2010": [
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "CL-Class"
+        }
+      ],
+      "2011": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "CL-Class"
+        }
+      ],
+      "2012": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "CL-Class"
+        }
+      ],
+      "2013": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "CL-Class"
+        }
+      ],
+      "2014": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "CL-Class"
+        }
+      ],
+      "2015": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "GLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        }
+      ],
+      "2016": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "SLK-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "GLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        }
+      ],
+      "2017": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "GLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "SLC-Class"
+        }
+      ],
+      "2018": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "GLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "SLC-Class"
+        }
+      ],
+      "2019": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "GLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "SLC-Class"
+        },
+        {
+          "name": "A-Class"
+        }
+      ],
+      "2020": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "GLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "SLC-Class"
+        },
+        {
+          "name": "A-Class"
+        }
+      ],
+      "2021": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "A-Class"
+        }
+      ],
+      "2022": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "SLS-Class"
+        },
+        {
+          "name": "B-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "A-Class"
+        },
+        {
+          "name": "EQS-Class Sedan"
+        }
+      ],
+      "2023": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLS-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "EQS-Class Sedan"
+        },
+        {
+          "name": "EQE-Class Sedan"
+        }
+      ],
+      "2024": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "EQS-Class Sedan"
+        },
+        {
+          "name": "EQE-Class Sedan"
+        },
+        {
+          "name": "CLE"
+        }
+      ],
+      "2025": [
+        {
+          "name": "SL-Class"
+        },
+        {
+          "name": "E-Class"
+        },
+        {
+          "name": "CLA-Class"
+        },
+        {
+          "name": "C-Class"
+        },
+        {
+          "name": "S-Class"
+        },
+        {
+          "name": "AMG GT"
+        },
+        {
+          "name": "EQS-Class Sedan"
+        },
+        {
+          "name": "EQE-Class Sedan"
+        },
+        {
+          "name": "CLE"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "honda",
+    "nameHe": "הונדה",
+    "nameAr": "هوندا",
+    "nameEn": "Honda",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/honda.png",
+    "years": {
+      "2005": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Odyssey"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "S2000"
+        }
+      ],
+      "2006": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Odyssey"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "S2000"
+        }
+      ],
+      "2007": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "S2000"
+        }
+      ],
+      "2008": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Odyssey"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "S2000"
+        }
+      ],
+      "2009": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "S2000"
+        }
+      ],
+      "2011": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "CR-Z"
+        }
+      ],
+      "2012": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "CR-Z"
+        }
+      ],
+      "2014": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "FCX Clarity"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "CR-Z"
+        }
+      ],
+      "2015": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "CR-Z"
+        }
+      ],
+      "2016": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "CR-Z"
+        }
+      ],
+      "2018": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "Clarity"
+        },
+        {
+          "name": "Civic Type R"
+        }
+      ],
+      "2020": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "Fit"
+        },
+        {
+          "name": "Clarity"
+        },
+        {
+          "name": "Civic Type R"
+        }
+      ],
+      "2021": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Insight"
+        },
+        {
+          "name": "Clarity"
+        },
+        {
+          "name": "Civic Type R"
+        }
+      ],
+      "2024": [
+        {
+          "name": "Accord"
+        },
+        {
+          "name": "Civic"
+        },
+        {
+          "name": "Civic Si"
+        },
+        {
+          "name": "Civic Type R"
+        }
+      ]
+    }
+  },
+  {
+    "slug": "nissan",
+    "nameHe": "ניסאן",
+    "nameAr": "نيسان",
+    "nameEn": "Nissan",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/nissan.png",
+    "years": {}
+  },
+  {
+    "slug": "mitsubishi",
+    "nameHe": "מיצובישי",
+    "nameAr": "ميتسوبيشي",
+    "nameEn": "Mitsubishi",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/mitsubishi.png",
+    "years": {}
+  },
+  {
+    "slug": "suzuki",
+    "nameHe": "סוזוקי",
+    "nameAr": "سوزوكي",
+    "nameEn": "Suzuki",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/suzuki.png",
+    "years": {}
+  },
+  {
+    "slug": "ford",
+    "nameHe": "פורד",
+    "nameAr": "فورد",
+    "nameEn": "Ford",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/ford.png",
+    "years": {}
+  },
+  {
+    "slug": "chevrolet",
+    "nameHe": "שברולט",
+    "nameAr": "شيفروليه",
+    "nameEn": "Chevrolet",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/chevrolet.png",
+    "years": {}
+  },
+  {
+    "slug": "opel",
+    "nameHe": "אופל",
+    "nameAr": "أوبل",
+    "nameEn": "Opel",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/opel.png",
+    "years": {}
+  },
+  {
+    "slug": "peugeot",
+    "nameHe": "פג'ו",
+    "nameAr": "بيجو",
+    "nameEn": "Peugeot",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/peugeot.png",
+    "years": {}
+  },
+  {
+    "slug": "renault",
+    "nameHe": "רנו",
+    "nameAr": "رينو",
+    "nameEn": "Renault",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/renault.png",
+    "years": {}
+  },
+  {
+    "slug": "citroen",
+    "nameHe": "סיטרואן",
+    "nameAr": "سيتروين",
+    "nameEn": "Citroen",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/citroen.png",
+    "years": {}
+  },
+  {
+    "slug": "fiat",
+    "nameHe": "פיאט",
+    "nameAr": "فيات",
+    "nameEn": "Fiat",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/fiat.png",
+    "years": {}
+  },
+  {
+    "slug": "seat",
+    "nameHe": "סיאט",
+    "nameAr": "سيات",
+    "nameEn": "Seat",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/seat.png",
+    "years": {}
+  },
+  {
+    "slug": "audi",
+    "nameHe": "אאודי",
+    "nameAr": "أودي",
+    "nameEn": "Audi",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/audi.png",
+    "years": {}
+  },
+  {
+    "slug": "volvo",
+    "nameHe": "וולוו",
+    "nameAr": "فولفو",
+    "nameEn": "Volvo",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/volvo.png",
+    "years": {}
+  },
+  {
+    "slug": "subaru",
+    "nameHe": "סובארו",
+    "nameAr": "سوبارو",
+    "nameEn": "Subaru",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/subaru.png",
+    "years": {}
+  },
+  {
+    "slug": "lexus",
+    "nameHe": "לקסוס",
+    "nameAr": "لكزس",
+    "nameEn": "Lexus",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/lexus.png",
+    "years": {}
+  },
+  {
+    "slug": "mini",
+    "nameHe": "מיני",
+    "nameAr": "ميني",
+    "nameEn": "Mini",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/mini.png",
+    "years": {}
+  },
+  {
+    "slug": "jeep",
+    "nameHe": "ג'יפ",
+    "nameAr": "جيب",
+    "nameEn": "Jeep",
+    "logoUrl": "https://raw.githubusercontent.com/filippofilip95/car-logos-dataset/master/logos/optimized/jeep.png",
+    "years": {}
+  }
+]

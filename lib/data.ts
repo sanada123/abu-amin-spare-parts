@@ -2,6 +2,7 @@
 // Realistic structure mirroring the production schema (lib/db when DB is added)
 
 import type { Locale } from "./i18n";
+import { getAllVehicles, getUniqueMakes as getMakesFromVehicles, getYearsForMake, getModelsForMakeYear, getEnginesForMakeYearModel, getVehicleById } from "./vehicles";
 
 export type LocalizedString = Record<Locale, string>;
 
@@ -604,7 +605,12 @@ export function vehicleImageUrl(vehicle: Vehicle): string {
 // HELPERS
 // ============================================================
 export function getVehicle(id: number) {
-  return vehicles.find((v) => v.id === id);
+  const v = getVehicleById(id);
+  if (!v) return null;
+  return {
+    ...v,
+    fitsVehicleIds: getAllVehicles().filter(v2 => v2.year >= v.year - 3 && v2.year <= v.year + 3).map(v2 => v2.id),
+  };
 }
 export function getCategory(id: number) {
   return categories.find((c) => c.id === id);
