@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { searchParts, getCategory, getBrand, minPriceForPart } from "@/lib/data";
+import { searchParts, getBrand, minPriceForPart, partImageUrl } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import { useLocale, useActiveVehicleId } from "@/lib/cart";
 
@@ -33,19 +33,22 @@ function SearchInner() {
         ) : (
           <div className="parts-grid">
             {results.map((p) => {
-              const cat = getCategory(p.categoryId);
               const minP = minPriceForPart(p);
               const fits = activeVehicleId && p.fitsVehicleIds.includes(activeVehicleId);
               return (
                 <Link key={p.id} href={`/part/${p.slug}`} className="part-card">
-                  <div className="part-img">{cat?.icon ?? "🔧"}</div>
-                  {fits && <span className="part-fitment">{tr("fits_your_car", locale)}</span>}
-                  <div className="part-name">{p.name[locale]}</div>
-                  <div className="part-brands">
-                    {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
+                  <div className="part-img">
+                    <img src={partImageUrl(p)} alt={p.name[locale]} loading="lazy" />
                   </div>
-                  <div className="part-meta">
-                    <div className="part-price">₪{minP} <small>{tr("from_price", locale)}</small></div>
+                  <div className="part-body">
+                    {fits && <span className="part-fitment">✓ {tr("fits_your_car", locale)}</span>}
+                    <div className="part-name">{p.name[locale]}</div>
+                    <div className="part-brands">
+                      {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
+                    </div>
+                    <div className="part-meta">
+                      <div className="part-price">₪{minP} <small>{tr("from_price", locale)}</small></div>
+                    </div>
                   </div>
                 </Link>
               );

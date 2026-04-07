@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useCart, removeFromCart, updateQty, useLocale } from "@/lib/cart";
-import { getPart, getBrand, getCategory } from "@/lib/data";
+import { getPart, getBrand, getCategory, partImageUrl } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 
 export default function CartPage() {

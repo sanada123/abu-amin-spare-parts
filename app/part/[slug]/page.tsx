@@ -1,7 +1,7 @@
 "use client";
 import { useState, use } from "react";
 import Link from "next/link";
-import { getPartBySlug, getCategory, getBrand, getVehicle } from "@/lib/data";
+import { getPartBySlug, getCategory, getBrand, getVehicle, partImageUrl } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import { useLocale, useActiveVehicleId, addToCart } from "@/lib/cart";
 import { notFound } from "next/navigation";
@@ -37,7 +37,9 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
           </Link>
         </div>
         <div className="product-layout">
-          <div className="product-image-wrap">{cat?.icon ?? "🔧"}</div>
+          <div className="product-image-wrap">
+            <img src={partImageUrl(part)} alt={part.name[locale]} />
+          </div>
           <div className="product-info">
             <h1>{part.name[locale]}</h1>
             <div className="product-oem">

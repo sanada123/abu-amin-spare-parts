@@ -24,11 +24,22 @@ export default function Nav() {
 
   return (
     <>
+      <div className="top-strip">
+        <div className="top-strip-inner">
+          <span>📞 <strong>03-555-1234</strong></span>
+          <span>🚚 {locale === "en" ? "Free shipping over ₪300" : locale === "ar" ? "شحن مجاني فوق 300₪" : "משלוח חינם מעל ₪300"}</span>
+          <span>🛡️ {locale === "en" ? "1-Year Warranty" : locale === "ar" ? "ضمان سنة" : "אחריות שנה"}</span>
+          <span style={{ marginInlineStart: "auto" }}>🕒 {locale === "en" ? "Sun-Thu 8:00-19:00" : locale === "ar" ? "الأحد-الخميس 8:00-19:00" : "א׳-ה׳ 8:00-19:00"}</span>
+        </div>
+      </div>
       <nav className="nav">
         <div className="nav-inner">
           <Link href="/" className="brand">
             <span className="brand-icon">🔧</span>
-            <span>{tr("brand", locale)}</span>
+            <div className="brand-text">
+              <span className="name">{tr("brand", locale)}</span>
+              <span className="sub">{tr("tagline", locale)}</span>
+            </div>
           </Link>
           <form className="nav-search" onSubmit={submitSearch}>
             <span style={{ color: "var(--text-3)", fontSize: "1.1rem" }}>🔍</span>

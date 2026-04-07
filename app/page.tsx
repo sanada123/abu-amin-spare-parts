@@ -5,7 +5,8 @@ import { useState, useMemo } from "react";
 import {
   categories, brands, kits, parts,
   uniqueYears, makesForYear, modelsForYearMake, enginesForYearMakeModel,
-  partsForVehicle, getCategory, minPriceForPart, getBrand,
+  getCategory, minPriceForPart, getBrand,
+  partImageUrl, kitImageUrl,
 } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import { useLocale, useActiveVehicleId, setActiveVehicleId } from "@/lib/cart";
@@ -15,7 +16,6 @@ export default function Home() {
   const router = useRouter();
   const activeVehicleId = useActiveVehicleId();
 
-  // Inline vehicle selector
   const [year, setYear] = useState<number | "">("");
   const [make, setMake] = useState<string>("");
   const [model, setModel] = useState<string>("");
@@ -42,69 +42,94 @@ export default function Home() {
   return (
     <main>
       {/* HERO */}
-      <section className="hero" style={{ paddingBottom: 0 }}>
-        <h1>{tr("hero_title", locale)}</h1>
-        <p>{tr("hero_sub", locale)}</p>
+      <section className="hero" style={{ padding: 0, margin: 0, maxWidth: "100%" }}>
+        <div className="hero-inner" style={{ padding: "64px 24px 36px" }}>
+          <span className="hero-tag">
+            ★ {locale === "en" ? "TRUSTED BY 10,000+ DRIVERS" : locale === "ar" ? "موثوق من قبل أكثر من 10,000 سائق" : "מעל 10,000 לקוחות מרוצים"}
+          </span>
+          <h1>
+            {locale === "en" ? <>Find the <span className="accent">Exact Part</span> for Your Vehicle</> :
+             locale === "ar" ? <>ابحث عن <span className="accent">القطعة المناسبة</span> لسيارتك</> :
+             <>מצא את <span className="accent">החלק המדויק</span> לרכב שלך</>}
+          </h1>
+          <p>{tr("hero_sub", locale)}</p>
+        </div>
 
-        <div className="selector-card">
-          <div className="selector-title">
-            <span className="pulse"></span>
-            {tr("cta_select_vehicle", locale)}
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 64px" }}>
+          <div className="selector-card">
+            <div className="selector-title">
+              <span className="pulse"></span>
+              {tr("cta_select_vehicle", locale)}
+            </div>
+            <div className="selector-grid">
+              <select
+                value={year}
+                onChange={(e) => {
+                  setYear(parseInt(e.target.value) || "");
+                  setMake(""); setModel(""); setVehicleId("");
+                }}
+              >
+                <option value="">{tr("step_year", locale)}</option>
+                {years.map((y) => <option key={y} value={y}>{y}</option>)}
+              </select>
+              <select
+                value={make}
+                disabled={!year}
+                onChange={(e) => { setMake(e.target.value); setModel(""); setVehicleId(""); }}
+              >
+                <option value="">{tr("step_make", locale)}</option>
+                {makes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
+              </select>
+              <select
+                value={model}
+                disabled={!make}
+                onChange={(e) => { setModel(e.target.value); setVehicleId(""); }}
+              >
+                <option value="">{tr("step_model", locale)}</option>
+                {models.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
+              </select>
+              <select
+                value={vehicleId}
+                disabled={!model}
+                onChange={(e) => setVehicleId(parseInt(e.target.value) || "")}
+              >
+                <option value="">{tr("step_engine", locale)}</option>
+                {engines.map((e) => <option key={e.id} value={e.id}>{e.engine}</option>)}
+              </select>
+            </div>
+            <button className="selector-cta" disabled={!vehicleId} onClick={submit}>
+              {tr("view_parts", locale)} →
+            </button>
           </div>
-          <div className="selector-grid">
-            <select
-              value={year}
-              onChange={(e) => {
-                setYear(parseInt(e.target.value) || "");
-                setMake(""); setModel(""); setVehicleId("");
-              }}
-            >
-              <option value="">{tr("step_year", locale)}</option>
-              {years.map((y) => <option key={y} value={y}>{y}</option>)}
-            </select>
-            <select
-              value={make}
-              disabled={!year}
-              onChange={(e) => { setMake(e.target.value); setModel(""); setVehicleId(""); }}
-            >
-              <option value="">{tr("step_make", locale)}</option>
-              {makes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
-            </select>
-            <select
-              value={model}
-              disabled={!make}
-              onChange={(e) => { setModel(e.target.value); setVehicleId(""); }}
-            >
-              <option value="">{tr("step_model", locale)}</option>
-              {models.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
-            </select>
-            <select
-              value={vehicleId}
-              disabled={!model}
-              onChange={(e) => setVehicleId(parseInt(e.target.value) || "")}
-            >
-              <option value="">{tr("step_engine", locale)}</option>
-              {engines.map((e) => <option key={e.id} value={e.id}>{e.engine}</option>)}
-            </select>
-          </div>
-          <button className="selector-cta" disabled={!vehicleId} onClick={submit}>
-            {tr("view_parts", locale)} →
-          </button>
         </div>
       </section>
 
       {/* TRUST BAR */}
       <div className="trust-bar">
-        <div className="trust-item">{tr("trust_oem", locale)}</div>
-        <div className="trust-item">{tr("trust_fitment", locale)}</div>
-        <div className="trust-item">{tr("trust_shipping", locale)}</div>
-        <div className="trust-item">{tr("trust_returns", locale)}</div>
+        <div className="trust-inner">
+          <div className="trust-item">
+            <div className="icon">✓</div>
+            <div className="text">{tr("trust_oem", locale).replace("✓ ", "")}</div>
+          </div>
+          <div className="trust-item">
+            <div className="icon">🛡️</div>
+            <div className="text">{tr("trust_fitment", locale).replace("✓ ", "")}</div>
+          </div>
+          <div className="trust-item">
+            <div className="icon">🚚</div>
+            <div className="text">{tr("trust_shipping", locale).replace("✓ ", "")}</div>
+          </div>
+          <div className="trust-item">
+            <div className="icon">↩️</div>
+            <div className="text">{tr("trust_returns", locale).replace("✓ ", "")}</div>
+          </div>
+        </div>
       </div>
 
       {/* CATEGORIES */}
       <section>
         <div className="section-head">
-          <h2>{tr("popular_categories", locale)}</h2>
+          <h2>{tr("popular_categories", locale)}<span className="underline"></span></h2>
           <Link href="/catalog">{tr("view_all", locale)} →</Link>
         </div>
         <div className="cat-grid">
@@ -120,18 +145,22 @@ export default function Home() {
       {/* SERVICE KITS */}
       <section>
         <div className="section-head">
-          <h2>{tr("service_kits", locale)}</h2>
+          <h2>{tr("service_kits", locale)}<span className="underline"></span></h2>
         </div>
         <div className="kits-grid">
           {featuredKits.map((k) => (
             <Link key={k.id} href={`/catalog`} className="kit-card">
               <span className="badge">−{k.discountPct}%</span>
-              <div className="icon">📦</div>
-              <h3>{k.name[locale]}</h3>
-              <p>{k.description[locale]}</p>
-              <div className="price">
-                ₪{k.totalPriceIls}
-                <small>{tr("vat_inc", locale)}</small>
+              <div className="kit-img-wrap">
+                <img src={kitImageUrl(k)} alt={k.name[locale]} loading="lazy" />
+              </div>
+              <div className="kit-body">
+                <h3>{k.name[locale]}</h3>
+                <p>{k.description[locale]}</p>
+                <div className="price">
+                  ₪{k.totalPriceIls}
+                  <small>{tr("vat_inc", locale)}</small>
+                </div>
               </div>
             </Link>
           ))}
@@ -141,28 +170,27 @@ export default function Home() {
       {/* FEATURED PARTS */}
       <section>
         <div className="section-head">
-          <h2>{locale === "en" ? "Popular Parts" : locale === "ar" ? "القطع الأكثر طلباً" : "חלפים מבוקשים"}</h2>
+          <h2>{locale === "en" ? "Popular Parts" : locale === "ar" ? "القطع الأكثر طلباً" : "חלפים מבוקשים"}<span className="underline"></span></h2>
           <Link href="/catalog">{tr("view_all", locale)} →</Link>
         </div>
         <div className="parts-grid">
           {featuredParts.map((p) => {
-            const cat = getCategory(p.categoryId);
             const minP = minPriceForPart(p);
             const fitsActive = activeVehicleId && p.fitsVehicleIds.includes(activeVehicleId);
             return (
               <Link key={p.id} href={`/part/${p.slug}`} className="part-card">
-                <div className="part-img">{cat?.icon ?? "🔧"}</div>
-                {fitsActive && (
-                  <span className="part-fitment">{tr("fits_your_car", locale)}</span>
-                )}
-                <div className="part-name">{p.name[locale]}</div>
-                <div className="part-brands">
-                  {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
-                  {p.skus.length > 3 ? ` +${p.skus.length - 3}` : ""}
+                <div className="part-img">
+                  <img src={partImageUrl(p)} alt={p.name[locale]} loading="lazy" />
                 </div>
-                <div className="part-meta">
-                  <div className="part-price">
-                    ₪{minP} <small>{tr("from_price", locale)}</small>
+                <div className="part-body">
+                  {fitsActive && <span className="part-fitment">✓ {tr("fits_your_car", locale)}</span>}
+                  <div className="part-name">{p.name[locale]}</div>
+                  <div className="part-brands">
+                    {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
+                    {p.skus.length > 3 ? ` +${p.skus.length - 3}` : ""}
+                  </div>
+                  <div className="part-meta">
+                    <div className="part-price">₪{minP} <small>{tr("from_price", locale)}</small></div>
                   </div>
                 </div>
               </Link>
@@ -174,7 +202,7 @@ export default function Home() {
       {/* WHY US */}
       <section>
         <div className="section-head">
-          <h2>{tr("why_us", locale)}</h2>
+          <h2>{tr("why_us", locale)}<span className="underline"></span></h2>
         </div>
         <div className="why-grid">
           {[1, 2, 3].map((i) => (
@@ -190,12 +218,12 @@ export default function Home() {
       {/* BRANDS */}
       <section>
         <div className="section-head">
-          <h2>{tr("brands_we_carry", locale)}</h2>
+          <h2>{tr("brands_we_carry", locale)}<span className="underline"></span></h2>
         </div>
         <div className="brand-strip">
           {brands.map((b) => (
             <span key={b.id} className="brand-chip">
-              <span>{b.logo}</span>
+              <span className="flag">{b.logo}</span>
               <span>{b.name}</span>
             </span>
           ))}
@@ -205,7 +233,7 @@ export default function Home() {
       {/* TESTIMONIALS */}
       <section>
         <div className="section-head">
-          <h2>{tr("testimonials_title", locale)}</h2>
+          <h2>{tr("testimonials_title", locale)}<span className="underline"></span></h2>
         </div>
         <div className="testi-grid">
           {[

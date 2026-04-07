@@ -562,6 +562,45 @@ export const kits: Kit[] = [
 ];
 
 // ============================================================
+// IMAGE HELPERS — real auto-parts photos via loremflickr (Flickr CC)
+// ============================================================
+const CATEGORY_IMG_TAGS: Record<number, string> = {
+  1: "brake,rotor,car",       // Brakes
+  2: "engine,filter,car",     // Filters
+  3: "engine,car,mechanic",   // Engine
+  4: "shock,absorber,suspension", // Suspension
+  5: "alternator,car,battery", // Electrical
+  6: "headlight,car,bulb",    // Lighting
+  7: "radiator,car",          // Cooling
+  8: "motor,oil,bottle",      // Oils & Fluids
+  9: "transmission,gearbox",  // Transmission
+  10: "exhaust,muffler",      // Exhaust
+  11: "car,body,panel",       // Body
+  12: "tire,wheel",           // Tires & Wheels
+};
+
+export function partImageUrl(part: Part): string {
+  const tags = CATEGORY_IMG_TAGS[part.categoryId] ?? "car,part";
+  return `https://loremflickr.com/600/600/${tags}?lock=${part.id * 17}`;
+}
+export function categoryImageUrl(categoryId: number): string {
+  const tags = CATEGORY_IMG_TAGS[categoryId] ?? "car,part";
+  return `https://loremflickr.com/400/400/${tags}?lock=${categoryId * 31}`;
+}
+export function kitImageUrl(kit: Kit): string {
+  const map: Record<string, string> = {
+    "major-service": "car,service,mechanic,garage",
+    "brake-service": "brake,rotor,disc",
+    "oil-change": "engine,oil,bottle",
+  };
+  const tags = map[kit.kitType] ?? "car,parts";
+  return `https://loremflickr.com/800/500/${tags}?lock=${kit.id * 53}`;
+}
+export function vehicleImageUrl(vehicle: Vehicle): string {
+  return `https://loremflickr.com/400/300/${vehicle.makeSlug},${vehicle.modelSlug}?lock=${vehicle.id * 71}`;
+}
+
+// ============================================================
 // HELPERS
 // ============================================================
 export function getVehicle(id: number) {
