@@ -4,11 +4,11 @@ export const DEFAULT_LOCALE: Locale = "he";
 export const isRTL = (l: Locale) => l === "he" || l === "ar";
 
 export const t = {
-  brand: { he: "אבו אמין חלפים", ar: "أبو أمين لقطع الغيار", en: "Abu Amin Spare Parts" },
+  brand: { he: "אבו אמין מאהר מלאק", ar: "أبو أمين ماهر ملاك", en: "Abu Amin Maher Malak" },
   tagline: {
-    he: "כל חלק לכל רכב — מתאים בדיוק",
-    ar: "كل قطعة لكل سيارة — مطابقة تماماً",
-    en: "Every Part for Every Car — Exact Fit",
+    he: "חלפים ואביזרים לרכב",
+    ar: "قطع غيار وإكسسوارات للسيارات",
+    en: "Spare Parts & Car Accessories",
   },
   hero_title: {
     he: "מצא את החלק המדויק לרכב שלך",

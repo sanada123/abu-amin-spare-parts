@@ -1,16 +1,17 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useActiveVehicleId, useCart, useLocale, setLocale } from "@/lib/cart";
-import { getVehicle, vehicles } from "@/lib/data";
-import { tr, t, type Locale, isRTL } from "@/lib/i18n";
+import { getVehicle } from "@/lib/data";
+import { tr, type Locale } from "@/lib/i18n";
 
 export default function Nav() {
   const locale = useLocale();
   const cart = useCart();
   const vehicleId = useActiveVehicleId();
   const router = useRouter();
+  const pathname = usePathname();
   const [q, setQ] = useState("");
   const cartCount = cart.reduce((s, c) => s + c.qty, 0);
   const vehicle = vehicleId ? getVehicle(vehicleId) : null;
@@ -20,7 +21,14 @@ export default function Nav() {
     if (q.trim()) router.push(`/search?q=${encodeURIComponent(q.trim())}`);
   };
 
-  const switchLocale = (l: Locale) => setLocale(l);
+  const cycleLocale = () => {
+    const order: Locale[] = ["he", "ar", "en"];
+    const next = order[(order.indexOf(locale) + 1) % order.length];
+    setLocale(next);
+  };
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname?.startsWith(href);
 
   return (
     <>
@@ -35,14 +43,17 @@ export default function Nav() {
       <nav className="nav">
         <div className="nav-inner">
           <Link href="/" className="brand">
-            <span className="brand-icon">🔧</span>
+            <span className="brand-logo">
+              <img src="/brand/logo.jpg" alt="Abu Amin Maher Malak" />
+            </span>
             <div className="brand-text">
               <span className="name">{tr("brand", locale)}</span>
               <span className="sub">{tr("tagline", locale)}</span>
             </div>
           </Link>
+          {/* Desktop inline search */}
           <form className="nav-search" onSubmit={submitSearch}>
-            <span style={{ color: "var(--text-3)", fontSize: "1.1rem" }}>🔍</span>
+            <span style={{ fontSize: "1rem" }}>🔍</span>
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
@@ -52,17 +63,31 @@ export default function Nav() {
           <div className="nav-actions">
             <div className="locale-switch">
               {(["he", "ar", "en"] as Locale[]).map((l) => (
-                <button key={l} className={l === locale ? "active" : ""} onClick={() => switchLocale(l)}>
+                <button key={l} className={l === locale ? "active" : ""} onClick={() => setLocale(l)}>
                   {l === "he" ? "עב" : l === "ar" ? "عر" : "EN"}
                 </button>
               ))}
             </div>
-            <Link href="/cart" className="cart-btn">
+            <button className="locale-mobile" onClick={cycleLocale} aria-label="Change language">
+              {locale === "he" ? "עב" : locale === "ar" ? "عر" : "EN"}
+            </button>
+            <Link href="/cart" className="cart-btn" aria-label={tr("cart", locale)}>
               <span>🛒</span>
-              <span>{tr("cart", locale)}</span>
+              <span className="label">{tr("cart", locale)}</span>
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </Link>
           </div>
+        </div>
+        {/* Mobile search row */}
+        <div className="nav-search-row">
+          <form className="nav-search" onSubmit={submitSearch}>
+            <span style={{ fontSize: "1rem" }}>🔍</span>
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={tr("search_placeholder", locale)}
+            />
+          </form>
         </div>
       </nav>
       {vehicle ? (
@@ -70,13 +95,13 @@ export default function Nav() {
           <div className="vehicle-banner-inner">
             <span className="car-emoji">🚗</span>
             <span>
-              {locale === "en" ? "Showing parts for: " : locale === "ar" ? "عرض القطع لـ: " : "מציג חלקים עבור: "}
+              {locale === "en" ? "For: " : locale === "ar" ? "لـ: " : "עבור: "}
               <strong>
-                {vehicle.year} {vehicle.makeName[locale]} {vehicle.modelName[locale]} {vehicle.engine}
+                {vehicle.year} {vehicle.makeName[locale]} {vehicle.modelName[locale]}
               </strong>
             </span>
             <Link href="/vehicle" className="change-link">
-              {tr("change_vehicle", locale)}
+              {locale === "en" ? "Change" : locale === "ar" ? "تغيير" : "שנה"}
             </Link>
           </div>
         </div>
@@ -84,13 +109,43 @@ export default function Nav() {
         <div className="vehicle-banner warning">
           <div className="vehicle-banner-inner">
             <span className="car-emoji">⚠️</span>
-            <strong>{tr("no_vehicle_warning", locale)}</strong>
+            <strong style={{ fontSize: "0.82rem" }}>{tr("no_vehicle_warning", locale)}</strong>
             <Link href="/vehicle" className="change-link">
-              {tr("cta_select_vehicle", locale)} →
+              {locale === "en" ? "Select" : locale === "ar" ? "اختر" : "בחר"}
             </Link>
           </div>
         </div>
       )}
+
+      {/* BOTTOM NAV - mobile only */}
+      <nav className="bottom-nav">
+        <Link href="/" className={isActive("/") && !pathname?.startsWith("/catalog") ? "active" : ""}>
+          <span className="icon">🏠</span>
+          <span>{locale === "en" ? "Home" : locale === "ar" ? "الرئيسية" : "בית"}</span>
+        </Link>
+        <Link href="/catalog" className={isActive("/catalog") ? "active" : ""}>
+          <span className="icon">🔧</span>
+          <span>{locale === "en" ? "Parts" : locale === "ar" ? "قطع" : "חלפים"}</span>
+        </Link>
+        <Link href="/vehicle" className={isActive("/vehicle") ? "active" : ""}>
+          <span className="icon">🚗</span>
+          <span>{locale === "en" ? "Vehicle" : locale === "ar" ? "سيارة" : "רכב"}</span>
+        </Link>
+        <Link href="/cart" className={isActive("/cart") ? "active" : ""} style={{ position: "relative" }}>
+          <span className="icon">🛒</span>
+          <span>{locale === "en" ? "Cart" : locale === "ar" ? "السلة" : "עגלה"}</span>
+          {cartCount > 0 && (
+            <span style={{
+              position: "absolute", top: 6, insetInlineEnd: "25%",
+              background: "var(--red)", color: "white",
+              fontSize: "0.62rem", fontWeight: 900,
+              minWidth: 18, height: 18, borderRadius: 9,
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              padding: "0 5px", border: "2px solid var(--black)",
+            }}>{cartCount}</span>
+          )}
+        </Link>
+      </nav>
     </>
   );
 }

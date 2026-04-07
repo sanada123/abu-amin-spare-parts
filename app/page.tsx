@@ -43,7 +43,10 @@ export default function Home() {
     <main>
       {/* HERO */}
       <section className="hero" style={{ padding: 0, margin: 0, maxWidth: "100%" }}>
-        <div className="hero-inner" style={{ padding: "64px 24px 36px" }}>
+        <div className="hero-inner">
+          <div className="hero-logo">
+            <img src="/brand/logo.jpg" alt="Abu Amin Maher Malak" />
+          </div>
           <span className="hero-tag">
             ★ {locale === "en" ? "TRUSTED BY 10,000+ DRIVERS" : locale === "ar" ? "موثوق من قبل أكثر من 10,000 سائق" : "מעל 10,000 לקוחות מרוצים"}
           </span>
@@ -55,7 +58,7 @@ export default function Home() {
           <p>{tr("hero_sub", locale)}</p>
         </div>
 
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 64px" }}>
+        <div className="selector-wrap">
           <div className="selector-card">
             <div className="selector-title">
               <span className="pulse"></span>
