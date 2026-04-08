@@ -105,17 +105,7 @@ export default function Nav() {
             </Link>
           </div>
         </div>
-      ) : (
-        <div className="vehicle-banner warning">
-          <div className="vehicle-banner-inner">
-            <span className="car-emoji">⚠️</span>
-            <strong style={{ fontSize: "0.82rem" }}>{tr("no_vehicle_warning", locale)}</strong>
-            <Link href="/vehicle" className="change-link">
-              {locale === "en" ? "Select" : locale === "ar" ? "اختر" : "בחר"}
-            </Link>
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* BOTTOM NAV - mobile only */}
       <nav className="bottom-nav">

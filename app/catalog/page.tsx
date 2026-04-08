@@ -14,28 +14,36 @@ function CatalogInner() {
   const activeVehicleId = useActiveVehicleId();
   const sp = useSearchParams();
   const catSlug = sp.get("cat");
+  const makeSlug = sp.get("make");
   const cat = catSlug ? getCategoryBySlug(catSlug) : null;
 
-  // Always show all parts — filter by vehicle only when one is selected
-  let visible = cat ? parts.filter((p) => p.categoryId === cat.id) : parts;
+  // Show all parts by default, filter progressively
+  let visible = parts;
+  if (cat) visible = visible.filter((p) => p.categoryId === cat.id);
+  // Make filter: show parts that have SKUs from brands matching make, or all parts for that make
+  // For now: show all parts (make filter = UX hint, not hard filter on mock data)
+  // Vehicle filter overrides when selected
   if (activeVehicleId) {
     visible = partsForVehicle(activeVehicleId, cat?.id);
   }
 
   const vehicle = activeVehicleId ? getVehicle(activeVehicleId) : null;
+  const makeLabel = makeSlug ? makeSlug.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()) : null;
 
   return (
     <main>
-      {/* Vehicle filter bar */}
-      {vehicle && (
+      {/* Filter bar */}
+      {(vehicle || makeLabel) && (
         <div style={{ background: "#fff8dc", borderBottom: "2px solid #FFD700", padding: "10px 16px", display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
           <span style={{ fontSize: "1rem" }}>🚗</span>
           <span style={{ fontWeight: 700, fontSize: 14 }}>
             {locale === "he" ? "מסונן לפי:" : locale === "ar" ? "فلترة حسب:" : "Filtered for:"}{" "}
-            {vehicle.year} {vehicle.makeName[locale]} {vehicle.modelName[locale]}
+            {vehicle
+              ? `${vehicle.year} ${vehicle.makeName[locale]} ${vehicle.modelName[locale]}`
+              : makeLabel}
           </span>
           <button
-            onClick={() => setActiveVehicleId(null)}
+            onClick={() => { setActiveVehicleId(null); window.location.href = "/catalog"; }}
             style={{ background: "white", border: "1.5px solid #cc0000", color: "#cc0000", borderRadius: 8, padding: "5px 12px", cursor: "pointer", fontWeight: 700, fontSize: 13, marginInlineStart: "auto" }}
           >
             {locale === "he" ? "✕ הסר סינון" : locale === "ar" ? "✕ إزالة الفلتر" : "✕ Clear filter"}

@@ -122,7 +122,11 @@ export default function Home() {
               </select>
             </div>
             <div style={{ display: "flex", gap: "12px", width: "100%" }}>
-              <button className="selector-cta" disabled={!vehicleId} onClick={submit} style={{ flex: 1 }}>
+              <button className="selector-cta" onClick={() => {
+                if (vehicleId) { submit(); }
+                else if (make) { router.push(`/catalog?make=${make}`); }
+                else { router.push("/catalog"); }
+              }} style={{ flex: 1 }}>
                 {tr("view_parts", locale)} →
               </button>
               {(make || year || model || vehicleId) && (
@@ -186,9 +190,7 @@ export default function Home() {
               key={m.slug}
               className="make-card"
               onClick={() => {
-                setMake(m.slug);
-                setYear(""); setModel(""); setVehicleId("");
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                router.push(`/catalog?make=${m.slug}`);
               }}
             >
               <img
