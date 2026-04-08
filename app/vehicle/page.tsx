@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
-import { allMakes, yearsForMake, modelsForYearMake, enginesForYearMakeModel } from "@/lib/data";
+import { uniqueMakes, yearsForMakeSelector, modelsForMakeYear, enginesForMakeYearModel } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import { useLocale, setActiveVehicleId } from "@/lib/cart";
 
@@ -13,11 +13,11 @@ export default function VehiclePage() {
   const [model, setModel] = useState("");
   const [vehicleId, setVehicleId] = useState<number | "">("");
 
-  const makes = useMemo(() => allMakes(), []);
-  const years = useMemo(() => (make ? yearsForMake(make) : []), [make]);
-  const models = useMemo(() => (make && year ? modelsForYearMake(year as number, make) : []), [make, year]);
+  const makes = useMemo(() => uniqueMakes(), []);
+  const years = useMemo(() => (make ? yearsForMakeSelector(make) : []), [make]);
+  const models = useMemo(() => (make && year ? modelsForMakeYear(make, year as number) : []), [make, year]);
   const engines = useMemo(
-    () => (make && year && model ? enginesForYearMakeModel(year as number, make, model) : []),
+    () => (make && year && model ? enginesForMakeYearModel(make, year as number, model) : []),
     [make, year, model]
   );
 

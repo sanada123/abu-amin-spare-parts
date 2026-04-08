@@ -659,25 +659,45 @@ export function allMakes() {
 export function yearsForMake(makeSlug: string) {
   return getYearsForMake(makeSlug);
 }
+// ── Selector functions — delegated to israelMakes (data.gov.il) ──────────────
+
+// All unique makes (for make-first selector)
+export function uniqueMakes() {
+  return getMakesFromVehicles().map(m => ({
+    slug: m.slug,
+    name: m.name,
+    logoUrl: m.logoUrl,
+  }));
+}
+// Years for a specific make
+export function yearsForMakeSelector(makeSlug: string): number[] {
+  return getYearsForMake(makeSlug);
+}
+// Models for make+year
+export function modelsForMakeYear(makeSlug: string, year: number) {
+  return getModelsForMakeYear(makeSlug, year).map(m => ({ slug: m.slug, name: m.name }));
+}
+// Engines (vehicle IDs) for make+year+model
+export function enginesForMakeYearModel(makeSlug: string, year: number, modelSlug: string) {
+  return getEnginesForMakeYearModel(makeSlug, year, modelSlug).map(v => ({ id: v.id, engine: v.engine }));
+}
+
+// Legacy — kept for backward compat but now uses real data
 export function uniqueYears() {
-  return Array.from(new Set(vehicles.map((v) => v.year))).sort((a, b) => b - a);
+  const allV = getAllVehicles();
+  return Array.from(new Set(allV.map(v => v.year))).sort((a, b) => b - a);
 }
 export function makesForYear(year: number) {
-  const seen = new Map<string, LocalizedString>();
-  vehicles.filter((v) => v.year === year).forEach((v) => seen.set(v.makeSlug, v.makeName));
+  const allV = getAllVehicles();
+  const seen = new Map<string, {he:string;ar:string;en:string}>();
+  allV.filter(v => v.year === year).forEach(v => seen.set(v.makeSlug, v.makeName));
   return Array.from(seen.entries()).map(([slug, name]) => ({ slug, name }));
 }
 export function modelsForYearMake(year: number, makeSlug: string) {
-  const seen = new Map<string, LocalizedString>();
-  vehicles
-    .filter((v) => v.year === year && v.makeSlug === makeSlug)
-    .forEach((v) => seen.set(v.modelSlug, v.modelName));
-  return Array.from(seen.entries()).map(([slug, name]) => ({ slug, name }));
+  return getModelsForMakeYear(makeSlug, year).map(m => ({ slug: m.slug, name: m.name }));
 }
 export function enginesForYearMakeModel(year: number, makeSlug: string, modelSlug: string) {
-  return vehicles
-    .filter((v) => v.year === year && v.makeSlug === makeSlug && v.modelSlug === modelSlug)
-    .map((v) => ({ id: v.id, engine: v.engine }));
+  return getEnginesForMakeYearModel(makeSlug, year, modelSlug).map(v => ({ id: v.id, engine: v.engine }));
 }
 
 export function minPriceForPart(p: Part): number {

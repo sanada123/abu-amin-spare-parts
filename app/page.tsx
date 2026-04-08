@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
 import {
   categories, brands, kits, parts,
-  uniqueYears, makesForYear, modelsForYearMake, enginesForYearMakeModel,
+  uniqueMakes, yearsForMakeSelector, modelsForMakeYear, enginesForMakeYearModel,
   getCategory, minPriceForPart, getBrand,
   partImageUrl, kitImageUrl,
 } from "@/lib/data";
@@ -16,17 +16,18 @@ export default function Home() {
   const router = useRouter();
   const activeVehicleId = useActiveVehicleId();
 
-  const [year, setYear] = useState<number | "">("");
   const [make, setMake] = useState<string>("");
+  const [year, setYear] = useState<number | "">("");
   const [model, setModel] = useState<string>("");
   const [vehicleId, setVehicleId] = useState<number | "">("");
 
-  const years = useMemo(() => uniqueYears(), []);
-  const makes = useMemo(() => (year ? makesForYear(year) : []), [year]);
-  const models = useMemo(() => (year && make ? modelsForYearMake(year, make) : []), [year, make]);
+  // Make-first flow: make → years → models → engines
+  const allMakes = useMemo(() => uniqueMakes(), []);
+  const years = useMemo(() => make ? yearsForMakeSelector(make) : [], [make]);
+  const models = useMemo(() => (make && year) ? modelsForMakeYear(make, year as number) : [], [make, year]);
   const engines = useMemo(
-    () => (year && make && model ? enginesForYearMakeModel(year, make, model) : []),
-    [year, make, model]
+    () => (make && year && model) ? enginesForMakeYearModel(make, year as number, model) : [],
+    [make, year, model]
   );
 
   const submit = () => {
@@ -73,7 +74,7 @@ export default function Home() {
                 }}
               >
                 <option value="">{tr("step_make", locale)}</option>
-                {makes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
+                {allMakes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
               </select>
               <select
                 value={year}
