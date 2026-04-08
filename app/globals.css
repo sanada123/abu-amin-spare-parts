@@ -495,6 +495,38 @@ section {
   padding: 6px 0;
 }
 
+/* ── TOP MAKES STRIP ─────────────────────────────── */
+.makes-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 0 14px;
+}
+@media (min-width: 640px) { .makes-strip { grid-template-columns: repeat(6, 1fr); } }
+@media (min-width: 900px) { .makes-strip { grid-template-columns: repeat(12, 1fr); gap: 14px; } }
+.make-card {
+  background: white;
+  border: 1.5px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 12px 8px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.make-card img { height: 36px; width: auto; max-width: 60px; object-fit: contain; }
+@media (hover: hover) {
+  .make-card:hover { border-color: #FFD700; box-shadow: 0 4px 16px rgba(255,215,0,0.25); transform: translateY(-3px); }
+}
+.make-card:active { transform: translateY(0); }
+
 /* ============ CATEGORY GRID ============ */
 .cat-grid {
   display: grid;

@@ -8,6 +8,7 @@ import {
   getCategory, minPriceForPart, getBrand,
   partImageUrl, kitImageUrl,
 } from "@/lib/data";
+import { getLogoUrl } from "@/lib/vehicles-israel";
 import { tr } from "@/lib/i18n";
 import { useLocale, useActiveVehicleId, setActiveVehicleId } from "@/lib/cart";
 
@@ -39,6 +40,22 @@ export default function Home() {
 
   const featuredParts = parts.slice(0, 8);
   const featuredKits = kits;
+
+  // Top makes for quick-select grid
+  const TOP_MAKES = [
+    { slug: "toyota", nameHe: "טויוטה", nameEn: "Toyota" },
+    { slug: "hyundai", nameHe: "יונדאי", nameEn: "Hyundai" },
+    { slug: "kia", nameHe: "קיה", nameEn: "Kia" },
+    { slug: "mazda", nameHe: "מזדה", nameEn: "Mazda" },
+    { slug: "nissan", nameHe: "ניסאן", nameEn: "Nissan" },
+    { slug: "volkswagen", nameHe: "פולקסווגן", nameEn: "VW" },
+    { slug: "bmw", nameHe: "BMW", nameEn: "BMW" },
+    { slug: "mercedes-benz", nameHe: "מרצדס-בנץ", nameEn: "Mercedes" },
+    { slug: "skoda", nameHe: "סקודה", nameEn: "Skoda" },
+    { slug: "renault", nameHe: "רנו", nameEn: "Renault" },
+    { slug: "subaru", nameHe: "סובארו", nameEn: "Subaru" },
+    { slug: "audi", nameHe: "אאודי", nameEn: "Audi" },
+  ];
 
   return (
     <main>
@@ -157,6 +174,33 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* TOP MAKES GRID */}
+      <section>
+        <div className="section-head">
+          <h2>{locale === "he" ? "בחר לפי יצרן" : locale === "ar" ? "اختر حسب الماركة" : "Shop by Make"}<span className="underline"></span></h2>
+        </div>
+        <div className="makes-strip">
+          {TOP_MAKES.map((m) => (
+            <button
+              key={m.slug}
+              className="make-card"
+              onClick={() => {
+                setMake(m.slug);
+                setYear(""); setModel(""); setVehicleId("");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <img
+                src={getLogoUrl(m.slug)}
+                alt={m.nameEn}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+              />
+              <span>{locale === "en" ? m.nameEn : m.nameHe}</span>
+            </button>
+          ))}
+        </div>
+      </section>
 
       {/* CATEGORIES */}
       <section>
