@@ -6,6 +6,7 @@ import { Search, ShoppingCart, Home, Settings, Car, LayoutGrid } from "lucide-re
 import { useActiveVehicleId, useCart, useLocale, setLocale } from "@/lib/cart";
 import { getVehicle } from "@/lib/data";
 import { tr, type Locale } from "@/lib/i18n";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Nav() {
   const locale = useLocale();
@@ -110,6 +111,9 @@ export default function Nav() {
             >
               {locale === "he" ? "עב" : locale === "ar" ? "عر" : "EN"}
             </button>
+
+            {/* Theme toggle */}
+            <ThemeToggle />
 
             {/* Cart */}
             <Link

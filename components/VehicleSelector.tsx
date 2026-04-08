@@ -284,7 +284,7 @@ export default function VehicleSelector() {
               background: "var(--accent)",
               border: "none",
               borderRadius: "var(--radius-sm)",
-              color: "#000",
+              color: "var(--accent-fg)",
               fontSize: 13,
               fontWeight: 700,
               cursor: "pointer",

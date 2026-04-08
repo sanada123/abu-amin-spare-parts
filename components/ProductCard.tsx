@@ -210,7 +210,7 @@ export default function ProductCard({
             background: "var(--accent)",
             border: "none",
             borderRadius: "var(--radius-sm)",
-            color: "#000",
+            color: "var(--accent-fg)",
             fontSize: "0.75rem",
             fontWeight: 700,
             cursor: "pointer",
