@@ -104,9 +104,34 @@ export default function Home() {
                 {engines.map((e) => <option key={e.id} value={e.id}>{e.engine}</option>)}
               </select>
             </div>
-            <button className="selector-cta" disabled={!vehicleId} onClick={submit}>
-              {tr("view_parts", locale)} →
-            </button>
+            <div style={{ display: "flex", gap: "12px", width: "100%" }}>
+              <button className="selector-cta" disabled={!vehicleId} onClick={submit} style={{ flex: 1 }}>
+                {tr("view_parts", locale)} →
+              </button>
+              {(make || year || model || vehicleId) && (
+                <button 
+                  onClick={() => {
+                    setMake("");
+                    setYear("");
+                    setModel("");
+                    setVehicleId("");
+                  }}
+                  style={{
+                    background: "white",
+                    border: "2px solid #1a1a1a",
+                    borderRadius: "10px",
+                    padding: "12px 16px",
+                    cursor: "pointer",
+                    fontWeight: 700,
+                    color: "#1a1a1a",
+                    fontSize: "14px",
+                    flex: 0.5,
+                  }}
+                >
+                  {locale === "he" ? "אפס" : locale === "ar" ? "إعادة تعيين" : "Reset"}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </section>
