@@ -1,0 +1,739 @@
+{
+  "categories": [
+    {
+      "slug": "brakes",
+      "name": {
+        "he": "בלמים",
+        "en": "Brakes",
+        "ar": "المكابح"
+      },
+      "icon": "🛑"
+    },
+    {
+      "slug": "engine",
+      "name": {
+        "he": "מנוע",
+        "en": "Engine",
+        "ar": "المحرك"
+      },
+      "icon": "⚙️"
+    },
+    {
+      "slug": "filters",
+      "name": {
+        "he": "מסננים",
+        "en": "Filters",
+        "ar": "المرشحات"
+      },
+      "icon": "🧽"
+    },
+    {
+      "slug": "suspension",
+      "name": {
+        "he": "מתלים",
+        "en": "Suspension",
+        "ar": "نظام التعليق"
+      },
+      "icon": "🔧"
+    },
+    {
+      "slug": "electrical",
+      "name": {
+        "he": "חשמל",
+        "en": "Electrical",
+        "ar": "الكهرباء"
+      },
+      "icon": "⚡"
+    },
+    {
+      "slug": "cooling",
+      "name": {
+        "he": "קירור",
+        "en": "Cooling",
+        "ar": "التبريد"
+      },
+      "icon": "❄️"
+    },
+    {
+      "slug": "transmission",
+      "name": {
+        "he": "גיר",
+        "en": "Transmission",
+        "ar": "ناقل الحركة"
+      },
+      "icon": "🔩"
+    },
+    {
+      "slug": "exhaust",
+      "name": {
+        "he": "פליטה",
+        "en": "Exhaust",
+        "ar": "العادم"
+      },
+      "icon": "💨"
+    },
+    {
+      "slug": "lighting",
+      "name": {
+        "he": "תאורה",
+        "en": "Lighting",
+        "ar": "الإضاءة"
+      },
+      "icon": "💡"
+    },
+    {
+      "slug": "oils-fluids",
+      "name": {
+        "he": "שמנים ונוזלים",
+        "en": "Oils & Fluids",
+        "ar": "الزيوت والسوائل"
+      },
+      "icon": "🛢️"
+    },
+    {
+      "slug": "tires-wheels",
+      "name": {
+        "he": "צמיגים וגלגלים",
+        "en": "Tires & Wheels",
+        "ar": "الإطارات والعجلات"
+      },
+      "icon": "🛞"
+    },
+    {
+      "slug": "body",
+      "name": {
+        "he": "מרכב",
+        "en": "Body",
+        "ar": "الهيكل"
+      },
+      "icon": "🚗"
+    }
+  ],
+  "parts": [
+    {
+      "id": 1,
+      "slug": "brake-pad",
+      "categorySlug": "brakes",
+      "name": {
+        "he": "רפידות בלם",
+        "en": "Brake pad",
+        "ar": "وسادات المكابح"
+      },
+      "description": "Brake pads are a component of disc brakes used in automotive and other applications. Brake pads are composed of steel backing plates with friction material bound to the surface that faces the disc brake rotor\n.",
+      "image": "/parts/brake-pad.jpg",
+      "source": "https://en.wikipedia.org/wiki/Brake_pad"
+    },
+    {
+      "id": 2,
+      "slug": "disc-brake",
+      "categorySlug": "brakes",
+      "name": {
+        "he": "דיסק בלם",
+        "en": "Disc brake",
+        "ar": "قرص المكبح"
+      },
+      "description": "A disc brake is a type of brake that uses the calipers to squeeze pairs of pads against a disc (sometimes called a [brake] rotor) to create friction. There are two basic types of brake pad friction mechanisms: abrasive friction and adherent friction.  This action slows the rotation of a shaft, such ",
+      "image": "/parts/disc-brake.jpg",
+      "source": "https://en.wikipedia.org/wiki/Disc_brake"
+    },
+    {
+      "id": 3,
+      "slug": "brake-caliper",
+      "categorySlug": "brakes",
+      "name": {
+        "he": "קליפר בלם",
+        "en": "Disc brake",
+        "ar": "ملاقط المكابح"
+      },
+      "description": "A disc brake is a type of brake that uses the calipers to squeeze pairs of pads against a disc (sometimes called a [brake] rotor) to create friction. There are two basic types of brake pad friction mechanisms: abrasive friction and adherent friction.  This action slows the rotation of a shaft, such ",
+      "image": "/parts/brake-caliper.jpg",
+      "source": "https://en.wikipedia.org/wiki/Disc_brake"
+    },
+    {
+      "id": 4,
+      "slug": "brake-fluid",
+      "categorySlug": "brakes",
+      "name": {
+        "he": "נוזל בלמים",
+        "en": "Brake fluid",
+        "ar": "سائل المكابح"
+      },
+      "description": "Brake fluid is a type of hydraulic fluid used in hydraulic brake and hydraulic clutch applications in automobiles, motorcycles, light trucks, and some bicycles. It is used to transfer force into pressure, and to amplify braking force. It works because liquids are not appreciably compressible.",
+      "image": "/parts/brake-fluid.jpg",
+      "source": "https://en.wikipedia.org/wiki/Brake_fluid"
+    },
+    {
+      "id": 5,
+      "slug": "brake-shoe",
+      "categorySlug": "brakes",
+      "name": {
+        "he": "נעל בלם",
+        "en": "Brake shoe",
+        "ar": "حذاء المكبح"
+      },
+      "description": "A brake shoe is the part of a braking system which carries the brake lining in the drum brakes used on automobiles, or the brake block in train brakes and bicycle brakes.",
+      "image": "/parts/brake-shoe.jpg",
+      "source": "https://en.wikipedia.org/wiki/Brake_shoe"
+    },
+    {
+      "id": 6,
+      "slug": "spark-plug",
+      "categorySlug": "engine",
+      "name": {
+        "he": "מצת",
+        "en": "Spark plug",
+        "ar": "شمعة الإشعال"
+      },
+      "description": "A spark plug (sometimes, in British English, a sparking plug, and, colloquially, a plug) is a device for delivering electric current from an ignition system to the combustion chamber of a spark-ignition engine to ignite the compressed fuel/air mixture by an electric spark, while containing combustio",
+      "image": "/parts/spark-plug.jpg",
+      "source": "https://en.wikipedia.org/wiki/Spark_plug"
+    },
+    {
+      "id": 7,
+      "slug": "timing-belt",
+      "categorySlug": "engine",
+      "name": {
+        "he": "רצועת תזמון",
+        "en": "Timing belt (camshaft)",
+        "ar": "حزام التوقيت"
+      },
+      "description": "In a piston engine, a timing belt (also called a cambelt) is a toothed belt that synchronizes the rotation of the crankshaft and the camshaft. This synchronisation ensures that the engine's valves open and close at the correct times in relation to the position of the pistons. A timing belt is a semi",
+      "image": "/parts/timing-belt.jpg",
+      "source": "https://en.wikipedia.org/wiki/Timing_belt_(camshaft)"
+    },
+    {
+      "id": 8,
+      "slug": "piston",
+      "categorySlug": "engine",
+      "name": {
+        "he": "בוכנה",
+        "en": "Piston",
+        "ar": "مكبس"
+      },
+      "description": "A piston is a component of reciprocating engines, reciprocating pumps, gas compressors, hydraulic cylinders and pneumatic cylinders, among other similar mechanisms. It is the moving component that is contained by a cylinder and is made gas-tight by piston rings. In an engine, its purpose is to trans",
+      "image": "/parts/piston.jpg",
+      "source": "https://en.wikipedia.org/wiki/Piston"
+    },
+    {
+      "id": 9,
+      "slug": "camshaft",
+      "categorySlug": "engine",
+      "name": {
+        "he": "גל זיזים",
+        "en": "Camshaft",
+        "ar": "عمود الكامات"
+      },
+      "description": "A camshaft is a shaft that contains a row of pointed cams in order to convert rotational motion to reciprocating motion. Camshafts are used in piston engines (to operate the intake and exhaust valves), mechanically controlled ignition systems and early electric motor speed controllers.\nCamshafts in ",
+      "image": "/parts/camshaft.jpg",
+      "source": "https://en.wikipedia.org/wiki/Camshaft"
+    },
+    {
+      "id": 10,
+      "slug": "cylinder-head",
+      "categorySlug": "engine",
+      "name": {
+        "he": "ראש מנוע",
+        "en": "Cylinder head",
+        "ar": "رأس الاسطوانة"
+      },
+      "description": "In a piston engine, the cylinder head sits above the cylinders, forming the roof of the combustion chamber. In sidevalve engines the head is a simple plate of metal containing the spark plugs and possibly heat dissipation fins. In more modern overhead valve and overhead camshaft engines, the head is",
+      "image": "/parts/cylinder-head.jpg",
+      "source": "https://en.wikipedia.org/wiki/Cylinder_head"
+    },
+    {
+      "id": 11,
+      "slug": "turbocharger",
+      "categorySlug": "engine",
+      "name": {
+        "he": "טורבו",
+        "en": "Turbocharger",
+        "ar": "شاحن توربيني"
+      },
+      "description": "In an internal combustion engine, a turbocharger (also known as a turbo or a turbosupercharger) is a forced induction device that compresses the intake air, forcing more air into the engine in order to produce more power for a given displacement.\nTurbochargers are distinguished from superchargers in",
+      "image": "/parts/turbocharger.jpg",
+      "source": "https://en.wikipedia.org/wiki/Turbocharger"
+    },
+    {
+      "id": 12,
+      "slug": "oil-filter",
+      "categorySlug": "filters",
+      "name": {
+        "he": "מסנן שמן",
+        "en": "Oil filter",
+        "ar": "مرشح الزيت"
+      },
+      "description": "An oil filter is a filter designed to remove contaminants from engine oil, transmission oil, lubricating oil, or hydraulic oil. Their chief use is in internal-combustion engines for motor vehicles (both on- and off-road ),  powered aircraft, railway locomotives, ships and boats, and static engines s",
+      "image": "/parts/oil-filter.jpg",
+      "source": "https://en.wikipedia.org/wiki/Oil_filter"
+    },
+    {
+      "id": 13,
+      "slug": "air-filter",
+      "categorySlug": "filters",
+      "name": {
+        "he": "מסנן אוויר",
+        "en": "Air filter",
+        "ar": "مرشح الهواء"
+      },
+      "description": "A particulate air filter is a device composed of fibrous or porous materials which removes particulates such as smoke, dust, pollen, mold, viruses, and bacteria from the air. Filters containing an adsorbent or catalyst such as charcoal (carbon) may also remove odors and gaseous pollutants, such as v",
+      "image": "/parts/air-filter.png",
+      "source": "https://en.wikipedia.org/wiki/Air_filter"
+    },
+    {
+      "id": 14,
+      "slug": "fuel-filter",
+      "categorySlug": "filters",
+      "name": {
+        "he": "מסנן דלק",
+        "en": "Fuel filter",
+        "ar": "مرشح الوقود"
+      },
+      "description": "A fuel filter is a filter used to screen out foreign particles or liquids from the fuel. Most internal combustion engines use a fuel filter, in order to protect the components in the fuel system.",
+      "image": "/parts/fuel-filter.jpg",
+      "source": "https://en.wikipedia.org/wiki/Fuel_filter"
+    },
+    {
+      "id": 15,
+      "slug": "cabin-filter",
+      "categorySlug": "filters",
+      "name": {
+        "he": "מסנן מזגן",
+        "en": "Cabin air filter",
+        "ar": "مرشح المقصورة"
+      },
+      "description": "",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Cabin_air_filter"
+    },
+    {
+      "id": 16,
+      "slug": "shock-absorber",
+      "categorySlug": "suspension",
+      "name": {
+        "he": "בולם זעזועים",
+        "en": "Shock absorber",
+        "ar": "ماص الصدمات"
+      },
+      "description": "A shock absorber or damper is a mechanical or hydraulic device designed to absorb and damp shock impulses. It does this by converting the kinetic energy of the shock into another form of energy (typically heat) which is then dissipated. Most shock absorbers are a form of dashpot (a damper which resi",
+      "image": "/parts/shock-absorber.jpg",
+      "source": "https://en.wikipedia.org/wiki/Shock_absorber"
+    },
+    {
+      "id": 17,
+      "slug": "coil-spring",
+      "categorySlug": "suspension",
+      "name": {
+        "he": "קפיץ סלילי",
+        "en": "Coil spring",
+        "ar": "نابض لولبي"
+      },
+      "description": "A coil spring is a mechanical device that typically is used to store energy and subsequently release it, to absorb shock, or to maintain a force between contacting surfaces. It is made of an elastic material formed into the shape of a helix that returns to its natural length when unloaded.\nUnder ten",
+      "image": "/parts/coil-spring.jpg",
+      "source": "https://en.wikipedia.org/wiki/Coil_spring"
+    },
+    {
+      "id": 18,
+      "slug": "strut",
+      "categorySlug": "suspension",
+      "name": {
+        "he": "מוט תמיכה",
+        "en": "Strut",
+        "ar": "دعامة"
+      },
+      "description": "A strut is a structural component commonly found in engineering, aeronautics, architecture and anatomy. Struts generally work by resisting longitudinal compression, but they may also serve in tension.\nA stay is sometimes used as a synonym for strut, but some sources distinguish that struts are brace",
+      "image": "/parts/strut.jpg",
+      "source": "https://en.wikipedia.org/wiki/Strut"
+    },
+    {
+      "id": 19,
+      "slug": "control-arm",
+      "categorySlug": "suspension",
+      "name": {
+        "he": "זרוע בקרה",
+        "en": "Control arm",
+        "ar": "ذراع التحكم"
+      },
+      "description": "In automotive suspension, a control arm, also known as an A-arm, is a hinged suspension link between the chassis and the suspension upright or hub that carries the wheel. In simple terms, it governs a wheel's vertical travel, allowing it to move up or down when driving over bumps, into potholes, or ",
+      "image": "/parts/control-arm.jpg",
+      "source": "https://en.wikipedia.org/wiki/Control_arm"
+    },
+    {
+      "id": 20,
+      "slug": "ball-joint",
+      "categorySlug": "suspension",
+      "name": {
+        "he": "מפרק כדורי",
+        "en": "Ball joint",
+        "ar": "مفصل كروي"
+      },
+      "description": "In an automobile, ball joints are spherical bearings that connect the control arms to the steering knuckles, and are used on virtually every automobile made.  They bionically resemble the ball-and-socket joints found in most tetrapod animals.\nA ball joint consists of a bearing stud and socket enclos",
+      "image": "/parts/ball-joint.jpg",
+      "source": "https://en.wikipedia.org/wiki/Ball_joint"
+    },
+    {
+      "id": 21,
+      "slug": "alternator",
+      "categorySlug": "electrical",
+      "name": {
+        "he": "אלטרנטור",
+        "en": "Alternator",
+        "ar": "مولد التيار المتردد"
+      },
+      "description": "An alternator (or synchronous generator) is an electrical generator that converts mechanical energy to electrical energy in the form of alternating current. For reasons of cost and simplicity, most alternators use a rotating magnetic field with a stationary armature. Occasionally, a linear alternato",
+      "image": "/parts/alternator.jpg",
+      "source": "https://en.wikipedia.org/wiki/Alternator"
+    },
+    {
+      "id": 22,
+      "slug": "starter",
+      "categorySlug": "electrical",
+      "name": {
+        "he": "מתנע",
+        "en": "Starter (engine)",
+        "ar": "بادئ التشغيل"
+      },
+      "description": "A starter (also self-starter, cranking motor, or starter motor) is an apparatus installed in motor vehicles to rotate the crankshaft of an internal combustion engine so as to initiate the engine's combustion cycle. Starters can be electric, pneumatic, or hydraulic. The starter can also be another in",
+      "image": "/parts/starter.jpg",
+      "source": "https://en.wikipedia.org/wiki/Starter_(engine)"
+    },
+    {
+      "id": 23,
+      "slug": "battery",
+      "categorySlug": "electrical",
+      "name": {
+        "he": "מצבר",
+        "en": "Automotive battery",
+        "ar": "البطارية"
+      },
+      "description": "An automotive battery, or car battery, is a rechargeable battery that is used to start a motor vehicle, and to power lights, screen wiper etc. while the engine is off.\nIts main purpose is to provide an electric current to the electric-powered starting motor, which in turn starts the chemically-power",
+      "image": "/parts/battery.jpg",
+      "source": "https://en.wikipedia.org/wiki/Automotive_battery"
+    },
+    {
+      "id": 24,
+      "slug": "ignition-coil",
+      "categorySlug": "electrical",
+      "name": {
+        "he": "סליל הצתה",
+        "en": "Ignition coil",
+        "ar": "ملف الإشعال"
+      },
+      "description": "An ignition coil is used in the ignition system of a spark-ignition engine to transform the battery voltage to the much higher voltages required to operate the spark plug(s). The spark plugs then use this burst of high-voltage electricity to ignite the air-fuel mixture.\nThe ignition coil is construc",
+      "image": "/parts/ignition-coil.jpg",
+      "source": "https://en.wikipedia.org/wiki/Ignition_coil"
+    },
+    {
+      "id": 25,
+      "slug": "radiator",
+      "categorySlug": "cooling",
+      "name": {
+        "he": "רדיאטור",
+        "en": "Radiator (engine cooling)",
+        "ar": "الرادياتير"
+      },
+      "description": "Radiators are heat exchangers used for cooling internal combustion engines, mainly in automobiles but also in piston-engined aircraft, railway locomotives, motorcycles, stationary generating plants or any similar use of such an engine.\nInternal combustion engines are often cooled by circulating a li",
+      "image": "/parts/radiator.jpg",
+      "source": "https://en.wikipedia.org/wiki/Radiator_(engine_cooling)"
+    },
+    {
+      "id": 26,
+      "slug": "thermostat",
+      "categorySlug": "cooling",
+      "name": {
+        "he": "תרמוסטט",
+        "en": "Thermostat",
+        "ar": "الترموستات"
+      },
+      "description": "A thermostat is a regulating device component which senses the temperature of a physical system and performs actions so that the system's temperature is maintained near a desired  setpoint.\nThermostats are used in any device or system that heats or cools to a setpoint temperature. Examples include b",
+      "image": "/parts/thermostat.png",
+      "source": "https://en.wikipedia.org/wiki/Thermostat"
+    },
+    {
+      "id": 27,
+      "slug": "water-pump",
+      "categorySlug": "cooling",
+      "name": {
+        "he": "משאבת מים",
+        "en": "Pump#Centrifugal pumps",
+        "ar": "مضخة الماء"
+      },
+      "description": "",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Pump#Centrifugal_pumps"
+    },
+    {
+      "id": 28,
+      "slug": "coolant",
+      "categorySlug": "cooling",
+      "name": {
+        "he": "מי צינון",
+        "en": "Antifreeze",
+        "ar": "سائل التبريد"
+      },
+      "description": "An antifreeze is an additive which lowers the freezing point of a water-based liquid. An antifreeze mixture is used to achieve freezing-point depression for cold environments. Common antifreezes also increase the boiling point of the liquid, allowing higher coolant temperature.",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Antifreeze"
+    },
+    {
+      "id": 29,
+      "slug": "clutch",
+      "categorySlug": "transmission",
+      "name": {
+        "he": "קלאץ'",
+        "en": "Clutch",
+        "ar": "القابض"
+      },
+      "description": "A clutch is a mechanical device that allows an output shaft to be disconnected from a rotating input shaft. The clutch's input shaft is typically attached to a motor, while the clutch's output shaft is connected to the mechanism that does the work.\nIn a motor vehicle, the clutch acts as a mechanical",
+      "image": "/parts/clutch.jpg",
+      "source": "https://en.wikipedia.org/wiki/Clutch"
+    },
+    {
+      "id": 30,
+      "slug": "cv-joint",
+      "categorySlug": "transmission",
+      "name": {
+        "he": "מפרק CV",
+        "en": "Constant-velocity joint",
+        "ar": "مفصل سرعة ثابتة"
+      },
+      "description": "A constant-velocity joint (also called a CV joint and homokinetic joint) is a mechanical connection between two rotating shafts, that keeps them rotating at the same speed, while allowing the shafts to be at an angle to each other as they rotate. This joint operates without an appreciable increase i",
+      "image": "/parts/cv-joint.jpg",
+      "source": "https://en.wikipedia.org/wiki/Constant-velocity_joint"
+    },
+    {
+      "id": 31,
+      "slug": "drive-shaft",
+      "categorySlug": "transmission",
+      "name": {
+        "he": "גל הנעה",
+        "en": "Drive shaft",
+        "ar": "عمود الدوران"
+      },
+      "description": "A drive shaft, driveshaft, driving shaft, tailshaft (Australian English), propeller shaft (prop shaft), or Cardan shaft (after Girolamo Cardano) is a component for transmitting mechanical power, torque, and rotation, usually used to connect other components of a drivetrain that cannot be connected d",
+      "image": "/parts/drive-shaft.jpg",
+      "source": "https://en.wikipedia.org/wiki/Drive_shaft"
+    },
+    {
+      "id": 32,
+      "slug": "gearbox",
+      "categorySlug": "transmission",
+      "name": {
+        "he": "תיבת הילוכים",
+        "en": "Transmission (mechanics)",
+        "ar": "صندوق التروس"
+      },
+      "description": "",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Transmission_(mechanics)"
+    },
+    {
+      "id": 33,
+      "slug": "muffler",
+      "categorySlug": "exhaust",
+      "name": {
+        "he": "מופלר",
+        "en": "Muffler",
+        "ar": "كاتم الصوت"
+      },
+      "description": "A muffler (North American and Australian English) or silencer (British English) is a device for reducing the noise emitted by the exhaust of an internal combustion engine—especially a noise-deadening device forming part of the exhaust system of an automobile.",
+      "image": "/parts/muffler.jpg",
+      "source": "https://en.wikipedia.org/wiki/Muffler"
+    },
+    {
+      "id": 34,
+      "slug": "catalytic-converter",
+      "categorySlug": "exhaust",
+      "name": {
+        "he": "ממיר קטליטי",
+        "en": "Catalytic converter",
+        "ar": "المحول الحفاز"
+      },
+      "description": "A catalytic converter is an exhaust emission control device which converts toxic gases and pollutants in exhaust gas from an internal combustion engine into less-toxic pollutants by catalyzing a redox reaction. Catalytic converters are usually used with internal combustion engines fueled by gasoline",
+      "image": "/parts/catalytic-converter.jpg",
+      "source": "https://en.wikipedia.org/wiki/Catalytic_converter"
+    },
+    {
+      "id": 35,
+      "slug": "oxygen-sensor",
+      "categorySlug": "exhaust",
+      "name": {
+        "he": "חיישן חמצן",
+        "en": "Oxygen sensor",
+        "ar": "حساس الأكسجين"
+      },
+      "description": "An oxygen sensor is an electronic component that detects the concentration of oxygen molecules in the air or a gas matrix such as in a combustion engine exhaust gas. \nFor automotive applications, an oxygen sensor is referred to as a lambda sensor, where lambda refers to the air–fuel equivalence rati",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Oxygen_sensor"
+    },
+    {
+      "id": 36,
+      "slug": "headlight",
+      "categorySlug": "lighting",
+      "name": {
+        "he": "פנס קדמי",
+        "en": "Headlamp",
+        "ar": "المصباح الأمامي"
+      },
+      "description": "A headlamp is a lamp attached to the front of a vehicle to illuminate the road ahead. Headlamps are also often called headlights, but in the most precise usage, headlamp is the term for the device itself and headlight is the term for the beam of light produced and distributed by the device.\nHeadlamp",
+      "image": "/parts/headlight.jpg",
+      "source": "https://en.wikipedia.org/wiki/Headlamp"
+    },
+    {
+      "id": 37,
+      "slug": "tail-light",
+      "categorySlug": "lighting",
+      "name": {
+        "he": "פנס אחורי",
+        "en": "Automotive lighting",
+        "ar": "المصباح الخلفي"
+      },
+      "description": "Automotive lighting is functional exterior lighting in vehicles. A motor vehicle has lighting and signaling devices mounted to or integrated into its front, rear, sides, and, in some cases, top. Various devices have the dual function of illuminating the road ahead for the driver, and making the vehi",
+      "image": "/parts/tail-light.jpg",
+      "source": "https://en.wikipedia.org/wiki/Automotive_lighting"
+    },
+    {
+      "id": 38,
+      "slug": "led-bulb",
+      "categorySlug": "lighting",
+      "name": {
+        "he": "נורת LED",
+        "en": "LED lamp",
+        "ar": "مصباح LED"
+      },
+      "description": "An LED lamp or LED light is an electric light that produces light using light-emitting diodes (LEDs). LED lamps are significantly more energy-efficient than equivalent incandescent lamps and fluorescent lamps. The most efficient commercially available LED lamps have efficiencies exceeding 200 lumens",
+      "image": "/parts/led-bulb.jpg",
+      "source": "https://en.wikipedia.org/wiki/LED_lamp"
+    },
+    {
+      "id": 39,
+      "slug": "motor-oil",
+      "categorySlug": "oils-fluids",
+      "name": {
+        "he": "שמן מנוע",
+        "en": "Motor oil",
+        "ar": "زيت المحرك"
+      },
+      "description": "Motor oil, engine oil, or engine lubricant is any one of various substances used for the lubrication of internal combustion engines. Motor oils typically consist of base oils enhanced with various additives, particularly antiwear additives, detergents, dispersants, and, for multi-grade oils, viscosi",
+      "image": "/parts/motor-oil.jpg",
+      "source": "https://en.wikipedia.org/wiki/Motor_oil"
+    },
+    {
+      "id": 40,
+      "slug": "transmission-fluid",
+      "categorySlug": "oils-fluids",
+      "name": {
+        "he": "שמן גיר",
+        "en": "Automatic transmission fluid",
+        "ar": "سائل ناقل الحركة"
+      },
+      "description": "Automatic transmission fluid (ATF) is a hydraulic fluid that is essential for the proper functioning of vehicles equipped with automatic transmissions. Usually, it is coloured red or green to differentiate it from motor oil and other fluids in the vehicle.\nThis fluid is designed to meet the unique d",
+      "image": "/parts/transmission-fluid.jpg",
+      "source": "https://en.wikipedia.org/wiki/Automatic_transmission_fluid"
+    },
+    {
+      "id": 41,
+      "slug": "power-steering-fluid",
+      "categorySlug": "oils-fluids",
+      "name": {
+        "he": "שמן הגה כוח",
+        "en": "Power steering",
+        "ar": "سائل التوجيه"
+      },
+      "description": "Power steering is a system for reducing a driver's effort to turn a steering wheel of a motor vehicle, by using a power source to assist steering.\nHydraulic or electric actuators add controlled energy to the steering mechanism, so the driver can provide less effort to turn the steering wheel when dr",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Power_steering"
+    },
+    {
+      "id": 42,
+      "slug": "tire",
+      "categorySlug": "tires-wheels",
+      "name": {
+        "he": "צמיג",
+        "en": "Tire",
+        "ar": "الإطار"
+      },
+      "description": "A tire (North American English) or tyre (Commonwealth English) is a ring-shaped component that surrounds a wheel's rim to transfer a vehicle's load from the axle through the wheel to the ground and to provide traction on the surface over which the wheel travels. Most tires, such as those for automob",
+      "image": "/parts/tire.jpg",
+      "source": "https://en.wikipedia.org/wiki/Tire"
+    },
+    {
+      "id": 43,
+      "slug": "wheel",
+      "categorySlug": "tires-wheels",
+      "name": {
+        "he": "חישוק",
+        "en": "Alloy wheel",
+        "ar": "العجلة"
+      },
+      "description": "In the automotive industry, alloy wheels  are wheels (rims) that are made from an alloy of aluminium or magnesium. Alloys are mixtures of a metal and other elements. They generally provide greater strength over pure metals, which are usually much softer and more ductile.",
+      "image": "/parts/wheel.jpg",
+      "source": "https://en.wikipedia.org/wiki/Alloy_wheel"
+    },
+    {
+      "id": 44,
+      "slug": "wheel-bearing",
+      "categorySlug": "tires-wheels",
+      "name": {
+        "he": "מיסב גלגל",
+        "en": "Wheel hub assembly",
+        "ar": "محمل العجلة"
+      },
+      "description": "A wheel hub assembly (WHA), also referred to as a hub assembly, wheel hub unit, or wheel hub bearing, is an automotive part used in most cars, passenger vehicles, and light and heavy trucks.",
+      "image": "/parts/wheel-bearing.jpg",
+      "source": "https://en.wikipedia.org/wiki/Wheel_hub_assembly"
+    },
+    {
+      "id": 45,
+      "slug": "bumper",
+      "categorySlug": "body",
+      "name": {
+        "he": "פגוש",
+        "en": "Bumper (car)",
+        "ar": "المصد"
+      },
+      "description": "A bumper is a structure attached to or integrated with the front and rear ends of a motor vehicle, to absorb impact in a minor collision, ideally minimizing repair costs. Stiff metal bumpers appeared on automobiles as early as 1904 that had a mainly ornamental function. Numerous developments, improv",
+      "image": "/parts/bumper.jpg",
+      "source": "https://en.wikipedia.org/wiki/Bumper_(car)"
+    },
+    {
+      "id": 46,
+      "slug": "side-mirror",
+      "categorySlug": "body",
+      "name": {
+        "he": "מראת צד",
+        "en": "Wing mirror",
+        "ar": "مرآة جانبية"
+      },
+      "description": "",
+      "image": "/parts/placeholder.jpg",
+      "source": "https://en.wikipedia.org/wiki/Wing_mirror"
+    },
+    {
+      "id": 47,
+      "slug": "windshield",
+      "categorySlug": "body",
+      "name": {
+        "he": "שמשה קדמית",
+        "en": "Windshield",
+        "ar": "الزجاج الأمامي"
+      },
+      "description": "The windshield (American English and Canadian English) or windscreen (Commonwealth English) of an aircraft, car, bus, motorbike, truck, train, boat or streetcar is the front window, which provides visibility while protecting occupants from the elements. Modern windshields are generally made of lamin",
+      "image": "/parts/windshield.jpg",
+      "source": "https://en.wikipedia.org/wiki/Windshield"
+    },
+    {
+      "id": 48,
+      "slug": "wiper-blade",
+      "categorySlug": "body",
+      "name": {
+        "he": "להב מגב",
+        "en": "Windscreen wiper",
+        "ar": "شفرة الممسحة"
+      },
+      "description": "A windscreen wiper (Commonwealth English) or windshield wiper (American English) is a device used to remove rain, snow, ice, washer fluid, water, or other debris from a vehicle's front window. Almost all motor vehicles, including cars, trucks, buses, train locomotives, and watercraft with a cabin—an",
+      "image": "/parts/wiper-blade.jpg",
+      "source": "https://en.wikipedia.org/wiki/Windscreen_wiper"
+    }
+  ],
+  "scraped_at": 1775638524
+}
