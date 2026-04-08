@@ -7,7 +7,7 @@ import {
   minPriceForPart, partsForVehicle, getVehicle, partImageUrl,
 } from "@/lib/data";
 import { tr } from "@/lib/i18n";
-import { useLocale, useActiveVehicleId } from "@/lib/cart";
+import { useLocale, useActiveVehicleId, setActiveVehicleId } from "@/lib/cart";
 
 function CatalogInner() {
   const locale = useLocale();
@@ -16,27 +16,38 @@ function CatalogInner() {
   const catSlug = sp.get("cat");
   const cat = catSlug ? getCategoryBySlug(catSlug) : null;
 
-  let visible = parts;
+  // Always show all parts — filter by vehicle only when one is selected
+  let visible = cat ? parts.filter((p) => p.categoryId === cat.id) : parts;
   if (activeVehicleId) {
     visible = partsForVehicle(activeVehicleId, cat?.id);
-  } else if (cat) {
-    visible = parts.filter((p) => p.categoryId === cat.id);
   }
 
   const vehicle = activeVehicleId ? getVehicle(activeVehicleId) : null;
 
   return (
     <main>
+      {/* Vehicle filter bar */}
+      {vehicle && (
+        <div style={{ background: "#fff8dc", borderBottom: "2px solid #FFD700", padding: "10px 16px", display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+          <span style={{ fontSize: "1rem" }}>🚗</span>
+          <span style={{ fontWeight: 700, fontSize: 14 }}>
+            {locale === "he" ? "מסונן לפי:" : locale === "ar" ? "فلترة حسب:" : "Filtered for:"}{" "}
+            {vehicle.year} {vehicle.makeName[locale]} {vehicle.modelName[locale]}
+          </span>
+          <button
+            onClick={() => setActiveVehicleId(null)}
+            style={{ background: "white", border: "1.5px solid #cc0000", color: "#cc0000", borderRadius: 8, padding: "5px 12px", cursor: "pointer", fontWeight: 700, fontSize: 13, marginInlineStart: "auto" }}
+          >
+            {locale === "he" ? "✕ הסר סינון" : locale === "ar" ? "✕ إزالة الفلتر" : "✕ Clear filter"}
+          </button>
+        </div>
+      )}
+
       <section>
         <div className="section-head">
           <div>
             <h2>
               {cat ? cat.name[locale] : tr("popular_categories", locale)}
-              {vehicle && (
-                <span style={{ fontSize: "0.55em", color: "var(--text-2)", fontWeight: 600, marginInlineStart: 12 }}>
-                  · {vehicle.year} {vehicle.makeName[locale]} {vehicle.modelName[locale]}
-                </span>
-              )}
               <span className="underline"></span>
             </h2>
           </div>
