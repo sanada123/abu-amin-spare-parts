@@ -563,42 +563,42 @@ export const kits: Kit[] = [
 ];
 
 // ============================================================
-// IMAGE HELPERS — real auto-parts photos via loremflickr (Flickr CC)
+// IMAGE HELPERS — Unsplash auto-parts photos (free, no key needed)
 // ============================================================
-const CATEGORY_IMG_TAGS: Record<number, string> = {
-  1: "brake,rotor,car",       // Brakes
-  2: "engine,filter,car",     // Filters
-  3: "engine,car,mechanic",   // Engine
-  4: "shock,absorber,suspension", // Suspension
-  5: "alternator,car,battery", // Electrical
-  6: "headlight,car,bulb",    // Lighting
-  7: "radiator,car",          // Cooling
-  8: "motor,oil,bottle",      // Oils & Fluids
-  9: "transmission,gearbox",  // Transmission
-  10: "exhaust,muffler",      // Exhaust
-  11: "car,body,panel",       // Body
-  12: "tire,wheel",           // Tires & Wheels
+const UNSPLASH_PART_IDS: Record<number, string> = {
+  1:  "1486262715619-67b85e0b08d3", // Brakes — brake disc
+  2:  "1558618666-fcd25c85cd64",    // Filters — oil filter
+  3:  "1504222114713-b37e9f814f8b", // Engine — engine bay
+  4:  "1580273916550-22b45def5553", // Suspension — coilover
+  5:  "1635070041078-e363dbe005cb", // Electrical — car battery
+  6:  "1558618666-fcd25c85cd64",    // Lighting — (reuse filter)
+  7:  "1504222114713-b37e9f814f8b", // Cooling — (reuse engine)
+  8:  "1504222114713-b37e9f814f8b", // Oils — engine close-up
+  9:  "1597852074816-d8c7d14c3b9e", // Transmission — gearbox
+  10: "1486262715619-67b85e0b08d3", // Exhaust — (reuse brake)
+  11: "1486262715619-67b85e0b08d3", // Body
+  12: "1580273916550-22b45def5553", // Tires & Wheels
 };
 
 export function partImageUrl(part: Part): string {
-  const tags = CATEGORY_IMG_TAGS[part.categoryId] ?? "car,part";
-  return `https://loremflickr.com/600/600/${tags}?lock=${part.id * 17}`;
+  const id = UNSPLASH_PART_IDS[part.categoryId] ?? "1486262715619-67b85e0b08d3";
+  return `https://images.unsplash.com/photo-${id}?w=600&h=600&fit=crop&auto=format`;
 }
 export function categoryImageUrl(categoryId: number): string {
-  const tags = CATEGORY_IMG_TAGS[categoryId] ?? "car,part";
-  return `https://loremflickr.com/400/400/${tags}?lock=${categoryId * 31}`;
+  const id = UNSPLASH_PART_IDS[categoryId] ?? "1486262715619-67b85e0b08d3";
+  return `https://images.unsplash.com/photo-${id}?w=400&h=400&fit=crop&auto=format`;
 }
 export function kitImageUrl(kit: Kit): string {
   const map: Record<string, string> = {
-    "major-service": "car,service,mechanic,garage",
-    "brake-service": "brake,rotor,disc",
-    "oil-change": "engine,oil,bottle",
+    "major-service": "1486262715619-67b85e0b08d3",
+    "brake-service": "1558618666-fcd25c85cd64",
+    "oil-change":    "1504222114713-b37e9f814f8b",
   };
-  const tags = map[kit.kitType] ?? "car,parts";
-  return `https://loremflickr.com/800/500/${tags}?lock=${kit.id * 53}`;
+  const id = map[kit.kitType] ?? "1486262715619-67b85e0b08d3";
+  return `https://images.unsplash.com/photo-${id}?w=800&h=500&fit=crop&auto=format`;
 }
 export function vehicleImageUrl(vehicle: Vehicle): string {
-  return `https://loremflickr.com/400/300/${vehicle.makeSlug},${vehicle.modelSlug}?lock=${vehicle.id * 71}`;
+  return `https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop&auto=format`;
 }
 
 // ============================================================
