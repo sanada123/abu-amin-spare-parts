@@ -105,14 +105,14 @@ input, select, textarea { font-family: inherit; font-size: 16px; /* prevent iOS 
   min-height: var(--touch);
 }
 .brand-logo {
-  width: 46px; height: 46px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: white;
-  border: 2px solid var(--black);
+  height: 44px;
+  width: auto;
+  max-width: 140px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
-.brand-logo img { max-height: 48px; width: auto; object-fit: contain; display: block; }
+.brand-logo img { height: 44px; width: auto; max-width: 140px; object-fit: contain; display: block; }
 .brand-text { display: none; line-height: 1.05; }
 @media (min-width: 640px) {
   .brand-text { display: flex; flex-direction: column; }
