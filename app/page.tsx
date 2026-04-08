@@ -1,233 +1,166 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, useMemo } from "react";
+import { Shield, Truck, Clock, Award } from "lucide-react";
 import {
-  categories, brands, kits, parts,
-  uniqueMakes, yearsForMakeSelector, modelsForMakeYear, enginesForMakeYearModel,
-  getCategory, minPriceForPart, getBrand,
-  partImageUrl, kitImageUrl,
+  categories,
+  brands,
+  kits,
+  parts,
+  getBrand,
+  minPriceForPart,
+  kitImageUrl,
+  partImageUrl,
 } from "@/lib/data";
-import { getLogoUrl } from "@/lib/vehicles-israel";
 import { tr } from "@/lib/i18n";
-import { useLocale, useActiveVehicleId, setActiveVehicleId } from "@/lib/cart";
+import { useLocale, useActiveVehicleId } from "@/lib/cart";
+import VehicleSelector from "@/components/VehicleSelector";
+import TopMakes from "@/components/TopMakes";
+import CategoryStrip from "@/components/CategoryStrip";
+import ProductCard from "@/components/ProductCard";
+
+const TRUST_ITEMS = [
+  { icon: Shield, keyLabel: "trust_oem" as const },
+  { icon: Award, keyLabel: "trust_fitment" as const },
+  { icon: Truck, keyLabel: "trust_shipping" as const },
+  { icon: Clock, keyLabel: "trust_returns" as const },
+];
 
 export default function Home() {
   const locale = useLocale();
-  const router = useRouter();
   const activeVehicleId = useActiveVehicleId();
-
-  const [make, setMake] = useState<string>("");
-  const [year, setYear] = useState<number | "">("");
-  const [model, setModel] = useState<string>("");
-  const [vehicleId, setVehicleId] = useState<number | "">("");
-
-  // Make-first flow: make → years → models → engines
-  const allMakes = useMemo(() => uniqueMakes(), []);
-  const years = useMemo(() => make ? yearsForMakeSelector(make) : [], [make]);
-  const models = useMemo(() => (make && year) ? modelsForMakeYear(make, year as number) : [], [make, year]);
-  const engines = useMemo(
-    () => (make && year && model) ? enginesForMakeYearModel(make, year as number, model) : [],
-    [make, year, model]
-  );
-
-  const submit = () => {
-    if (vehicleId) {
-      setActiveVehicleId(vehicleId as number);
-      router.push("/catalog");
-    }
-  };
 
   const featuredParts = parts.slice(0, 8);
   const featuredKits = kits;
 
-  // Top makes for quick-select grid
-  const TOP_MAKES = [
-    { slug: "toyota", nameHe: "טויוטה", nameEn: "Toyota" },
-    { slug: "hyundai", nameHe: "יונדאי", nameEn: "Hyundai" },
-    { slug: "kia", nameHe: "קיה", nameEn: "Kia" },
-    { slug: "mazda", nameHe: "מזדה", nameEn: "Mazda" },
-    { slug: "nissan", nameHe: "ניסאן", nameEn: "Nissan" },
-    { slug: "volkswagen", nameHe: "פולקסווגן", nameEn: "VW" },
-    { slug: "bmw", nameHe: "BMW", nameEn: "BMW" },
-    { slug: "mercedes-benz", nameHe: "מרצדס-בנץ", nameEn: "Mercedes" },
-    { slug: "skoda", nameHe: "סקודה", nameEn: "Skoda" },
-    { slug: "renault", nameHe: "רנו", nameEn: "Renault" },
-    { slug: "subaru", nameHe: "סובארו", nameEn: "Subaru" },
-    { slug: "audi", nameHe: "אאודי", nameEn: "Audi" },
-  ];
-
   return (
     <main>
-      {/* HERO */}
-      <section className="hero" style={{ padding: 0, margin: 0, maxWidth: "100%" }}>
-        <div className="hero-inner">
-          <div className="hero-logo">
-            <img src="/brand/logo.jpg" alt="Abu Amin Maher Malak" />
-          </div>
-          <span className="hero-tag">
-            ★ {locale === "en" ? "TRUSTED BY 10,000+ DRIVERS" : locale === "ar" ? "موثوق من قبل أكثر من 10,000 سائق" : "מעל 10,000 לקוחות מרוצים"}
-          </span>
-          <h1>
-            {locale === "en" ? <>Find the <span className="accent">Exact Part</span> for Your Vehicle</> :
-             locale === "ar" ? <>ابحث عن <span className="accent">القطعة المناسبة</span> لسيارتك</> :
-             <>מצא את <span className="accent">החלק המדויק</span> לרכב שלך</>}
-          </h1>
-          <p>{tr("hero_sub", locale)}</p>
-        </div>
+      {/* 1. Vehicle Selector — sticky */}
+      <VehicleSelector />
 
-        <div className="selector-wrap">
-          <div className="selector-card">
-            <div className="selector-title">
-              <span className="pulse"></span>
-              {tr("cta_select_vehicle", locale)}
-            </div>
-            <div className="selector-grid">
-              <select
-                value={make}
-                onChange={(e) => {
-                  setMake(e.target.value);
-                  setYear(""); setModel(""); setVehicleId("");
-                }}
-              >
-                <option value="">{tr("step_make", locale)}</option>
-                {allMakes.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
-              </select>
-              <select
-                value={year}
-                disabled={!make}
-                onChange={(e) => {
-                  setYear(parseInt(e.target.value) || "");
-                  setModel(""); setVehicleId("");
-                }}
-              >
-                <option value="">{tr("step_year", locale)}</option>
-                {years.map((y) => <option key={y} value={y}>{y}</option>)}
-              </select>
-              <select
-                value={model}
-                disabled={!year}
-                onChange={(e) => { setModel(e.target.value); setVehicleId(""); }}
-              >
-                <option value="">{tr("step_model", locale)}</option>
-                {models.map((m) => <option key={m.slug} value={m.slug}>{m.name[locale]}</option>)}
-              </select>
-              <select
-                value={vehicleId}
-                disabled={!model}
-                onChange={(e) => setVehicleId(parseInt(e.target.value) || "")}
-              >
-                <option value="">{tr("step_engine", locale)}</option>
-                {engines.map((e) => <option key={e.id} value={e.id}>{e.engine}</option>)}
-              </select>
-            </div>
-            <div style={{ display: "flex", gap: "12px", width: "100%" }}>
-              <button className="selector-cta" onClick={() => {
-                if (vehicleId) { submit(); }
-                else if (make) { router.push(`/catalog?make=${make}`); }
-                else { router.push("/catalog"); }
-              }} style={{ flex: 1 }}>
-                {tr("view_parts", locale)} →
-              </button>
-              {(make || year || model || vehicleId) && (
-                <button 
-                  onClick={() => {
-                    setMake("");
-                    setYear("");
-                    setModel("");
-                    setVehicleId("");
-                  }}
-                  style={{
-                    background: "white",
-                    border: "2px solid #1a1a1a",
-                    borderRadius: "10px",
-                    padding: "12px 16px",
-                    cursor: "pointer",
-                    fontWeight: 700,
-                    color: "#1a1a1a",
-                    fontSize: "14px",
-                    flex: 0.5,
-                  }}
-                >
-                  {locale === "he" ? "אפס" : locale === "ar" ? "إعادة تعيين" : "Reset"}
-                </button>
-              )}
-            </div>
-          </div>
+      {/* 2. Category strip */}
+      <CategoryStrip />
+
+      {/* 3. Hero — compact */}
+      <section
+        className="hero"
+        style={{ padding: 0, margin: 0, maxWidth: "100%" }}
+      >
+        <div className="hero-inner">
+          <h1>
+            {locale === "en" ? (
+              <>
+                Find the{" "}
+                <span className="accent">Exact Part</span> for Your Vehicle
+              </>
+            ) : locale === "ar" ? (
+              <>
+                ابحث عن{" "}
+                <span className="accent">القطعة المناسبة</span> لسيارتك
+              </>
+            ) : (
+              <>
+                מצא את{" "}
+                <span className="accent">החלק המדויק</span> לרכב שלך
+              </>
+            )}
+          </h1>
+          <p
+            style={{
+              fontSize: "clamp(0.82rem, 2vw, 0.96rem)",
+              color: "var(--text-dim)",
+              margin: "0 auto",
+              maxWidth: 560,
+            }}
+          >
+            {locale === "he"
+              ? "4.1 מיליון רכבים במאגר · משלוח מהיר · אחריות יצרן"
+              : locale === "ar"
+              ? "4.1 مليون سيارة في قاعدة البيانات · شحن سريع · ضمان المصنع"
+              : "4.1M vehicles in database · Fast shipping · Manufacturer warranty"}
+          </p>
         </div>
       </section>
 
-      {/* TRUST BAR */}
+      {/* 4. Trust bar */}
       <div className="trust-bar">
         <div className="trust-inner">
-          <div className="trust-item">
-            <div className="icon">✓</div>
-            <div className="text">{tr("trust_oem", locale).replace("✓ ", "")}</div>
-          </div>
-          <div className="trust-item">
-            <div className="icon">🛡️</div>
-            <div className="text">{tr("trust_fitment", locale).replace("✓ ", "")}</div>
-          </div>
-          <div className="trust-item">
-            <div className="icon">🚚</div>
-            <div className="text">{tr("trust_shipping", locale).replace("✓ ", "")}</div>
-          </div>
-          <div className="trust-item">
-            <div className="icon">↩️</div>
-            <div className="text">{tr("trust_returns", locale).replace("✓ ", "")}</div>
-          </div>
+          {TRUST_ITEMS.map(({ icon: Icon, keyLabel }) => (
+            <div key={keyLabel} className="trust-item">
+              <div className="icon">
+                <Icon size={14} aria-hidden="true" />
+              </div>
+              <div className="text">
+                {tr(keyLabel, locale).replace(/^[✓🛡️🚚↩️]\s*/, "")}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* TOP MAKES GRID */}
+      {/* 5. Top Makes */}
       <section>
         <div className="section-head">
-          <h2>{locale === "he" ? "בחר לפי יצרן" : locale === "ar" ? "اختر حسب الماركة" : "Shop by Make"}<span className="underline"></span></h2>
+          <h2>
+            {locale === "he"
+              ? "בחר לפי יצרן"
+              : locale === "ar"
+              ? "اختر حسب الماركة"
+              : "Shop by Make"}
+            <span className="underline" />
+          </h2>
         </div>
-        <div className="makes-strip">
-          {TOP_MAKES.map((m) => (
-            <button
-              key={m.slug}
-              className="make-card"
-              onClick={() => {
-                router.push(`/catalog?make=${m.slug}`);
-              }}
-            >
-              <img
-                src={getLogoUrl(m.slug)}
-                alt={m.nameEn}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-              />
-              <span>{locale === "en" ? m.nameEn : m.nameHe}</span>
-            </button>
-          ))}
-        </div>
+        <TopMakes />
       </section>
 
-      {/* CATEGORIES */}
+      {/* 6. Featured Parts */}
       <section>
         <div className="section-head">
-          <h2>{tr("popular_categories", locale)}<span className="underline"></span></h2>
+          <h2>
+            {locale === "en"
+              ? "Popular Parts"
+              : locale === "ar"
+              ? "القطع الأكثر طلباً"
+              : "חלפים מבוקשים"}
+            <span className="underline" />
+          </h2>
           <Link href="/catalog">{tr("view_all", locale)} →</Link>
         </div>
-        <div className="cat-grid">
-          {categories.map((c) => (
-            <Link key={c.id} href={`/catalog?cat=${c.slug}`} className="cat-card">
-              <span className="cat-icon">{c.icon}</span>
-              <span className="cat-name">{c.name[locale]}</span>
-            </Link>
-          ))}
+        <div className="parts-grid">
+          {featuredParts.map((p) => {
+            const minP = minPriceForPart(p);
+            const fitsActive =
+              activeVehicleId != null && p.fitsVehicleIds.includes(activeVehicleId);
+            const brandNames = p.skus
+              .slice(0, 4)
+              .map((s) => getBrand(s.brandId)?.name)
+              .filter((n): n is string => Boolean(n));
+            return (
+              <ProductCard
+                key={p.id}
+                slug={p.slug}
+                name={p.name[locale]}
+                imageSrc={partImageUrl(p)}
+                price={minP}
+                brands={brandNames}
+                inStock={true}
+                fitsActiveCar={fitsActive}
+              />
+            );
+          })}
         </div>
       </section>
 
-      {/* SERVICE KITS */}
+      {/* 7. Service Kits */}
       <section>
         <div className="section-head">
-          <h2>{tr("service_kits", locale)}<span className="underline"></span></h2>
+          <h2>
+            {tr("service_kits", locale)}
+            <span className="underline" />
+          </h2>
         </div>
         <div className="kits-grid">
           {featuredKits.map((k) => (
-            <Link key={k.id} href={`/catalog`} className="kit-card">
+            <Link key={k.id} href="/catalog" className="kit-card">
               <span className="badge">−{k.discountPct}%</span>
               <div className="kit-img-wrap">
                 <img src={kitImageUrl(k)} alt={k.name[locale]} loading="lazy" />
@@ -245,58 +178,113 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURED PARTS */}
+      {/* 8. Categories */}
       <section>
         <div className="section-head">
-          <h2>{locale === "en" ? "Popular Parts" : locale === "ar" ? "القطع الأكثر طلباً" : "חלפים מבוקשים"}<span className="underline"></span></h2>
+          <h2>
+            {tr("popular_categories", locale)}
+            <span className="underline" />
+          </h2>
           <Link href="/catalog">{tr("view_all", locale)} →</Link>
         </div>
-        <div className="parts-grid">
-          {featuredParts.map((p) => {
-            const minP = minPriceForPart(p);
-            const fitsActive = activeVehicleId && p.fitsVehicleIds.includes(activeVehicleId);
-            return (
-              <Link key={p.id} href={`/part/${p.slug}`} className="part-card">
-                <div className="part-img">
-                  <img src={partImageUrl(p)} alt={p.name[locale]} loading="lazy" />
-                </div>
-                <div className="part-body">
-                  {fitsActive && <span className="part-fitment">✓ {tr("fits_your_car", locale)}</span>}
-                  <div className="part-name">{p.name[locale]}</div>
-                  <div className="part-brands">
-                    {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
-                    {p.skus.length > 3 ? ` +${p.skus.length - 3}` : ""}
-                  </div>
-                  <div className="part-meta">
-                    <div className="part-price">₪{minP} <small>{tr("from_price", locale)}</small></div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+        <div className="cat-grid">
+          {categories.map((c) => (
+            <Link key={c.id} href={`/catalog?cat=${c.slug}`} className="cat-card">
+              <span className="cat-icon">{c.icon}</span>
+              <span className="cat-name">{c.name[locale]}</span>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* WHY US */}
+      {/* 9. Stats / trust row */}
       <section>
-        <div className="section-head">
-          <h2>{tr("why_us", locale)}<span className="underline"></span></h2>
-        </div>
-        <div className="why-grid">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="why-card">
-              <div className="num">{i}</div>
-              <h3>{tr(`why_${i}_t` as keyof typeof import("@/lib/i18n").t, locale)}</h3>
-              <p>{tr(`why_${i}_d` as keyof typeof import("@/lib/i18n").t, locale)}</p>
+        <div
+          style={{
+            background: "var(--surface)",
+            border: "1px solid var(--border-strong)",
+            borderRadius: "var(--radius-md)",
+            padding: "32px 24px",
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 24,
+          }}
+        >
+          {[
+            {
+              num: "30+",
+              label:
+                locale === "he"
+                  ? "שנות ניסיון"
+                  : locale === "ar"
+                  ? "سنة خبرة"
+                  : "Years Experience",
+            },
+            {
+              num: "48K+",
+              label:
+                locale === "he"
+                  ? "חלקים במלאי"
+                  : locale === "ar"
+                  ? "قطعة في المخزون"
+                  : "Parts in Stock",
+            },
+            {
+              num: "10K+",
+              label:
+                locale === "he"
+                  ? "לקוחות מרוצים"
+                  : locale === "ar"
+                  ? "عميل راضٍ"
+                  : "Happy Customers",
+            },
+            {
+              num: "2yr",
+              label:
+                locale === "he"
+                  ? "אחריות יצרן"
+                  : locale === "ar"
+                  ? "ضمان المصنع"
+                  : "Manufacturer Warranty",
+            },
+          ].map(({ num, label }) => (
+            <div
+              key={label}
+              style={{ textAlign: "center" }}
+            >
+              <div
+                style={{
+                  fontSize: "clamp(1.6rem, 5vw, 2.4rem)",
+                  fontWeight: 800,
+                  color: "var(--accent)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {num}
+              </div>
+              <div
+                style={{
+                  fontSize: "0.76rem",
+                  color: "var(--text-muted)",
+                  marginTop: 4,
+                  fontWeight: 500,
+                }}
+              >
+                {label}
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* BRANDS */}
+      {/* 10. Brands */}
       <section>
         <div className="section-head">
-          <h2>{tr("brands_we_carry", locale)}<span className="underline"></span></h2>
+          <h2>
+            {tr("brands_we_carry", locale)}
+            <span className="underline" />
+          </h2>
         </div>
         <div className="brand-strip">
           {brands.map((b) => (
@@ -308,10 +296,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* 11. Testimonials */}
       <section>
         <div className="section-head">
-          <h2>{tr("testimonials_title", locale)}<span className="underline"></span></h2>
+          <h2>
+            {tr("testimonials_title", locale)}
+            <span className="underline" />
+          </h2>
         </div>
         <div className="testi-grid">
           {[
