@@ -93,11 +93,15 @@ input, select, textarea { font-family: inherit; font-size: 16px; /* prevent iOS 
 .nav-inner {
   max-width: 1280px; margin: 0 auto;
   padding: 10px 14px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  flex-direction: row;
   gap: 10px;
   align-items: center;
+  direction: rtl;
 }
+.nav-inner .brand { flex-shrink: 0; }
+.nav-inner .nav-search { flex: 1; min-width: 0; }
+.nav-inner .nav-actions { flex-shrink: 0; margin-inline-start: auto; }
 .brand {
   display: flex; align-items: center; gap: 10px;
   color: var(--black);
@@ -286,17 +290,22 @@ input, select, textarea { font-family: inherit; font-size: 16px; /* prevent iOS 
 @media (min-width: 900px) { .hero-inner { padding: 64px 24px 48px; } }
 
 .hero-logo {
-  width: 96px; height: 96px;
+  width: auto;
+  max-width: 240px;
+  height: auto;
   margin: 0 auto 18px;
   border-radius: 16px;
   overflow: hidden;
   border: 3px solid var(--yellow);
   box-shadow: 0 10px 30px rgba(252,209,22,0.3);
   background: white;
+  padding: 8px 12px;
+  display: flex; align-items: center; justify-content: center;
 }
-.hero-logo img { width: 100%; height: 100%; object-fit: cover; }
+.hero-logo img { width: 100%; height: auto; max-height: 80px; object-fit: contain; display: block; }
 @media (min-width: 900px) {
-  .hero-logo { width: 128px; height: 128px; margin-bottom: 24px; }
+  .hero-logo { max-width: 300px; }
+  .hero-logo img { max-height: 100px; }
 }
 
 .hero-tag {
