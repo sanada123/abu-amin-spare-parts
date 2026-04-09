@@ -808,6 +808,20 @@ section {
   transition: background 0.12s;
 }
 .vehicle-banner .change-link:hover { background: var(--accent-dim); }
+.vehicle-banner .clear-vehicle-btn {
+  margin-inline-start: 6px;
+  background: transparent;
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.vehicle-banner .clear-vehicle-btn:hover { color: #ff6b6b; border-color: #ff6b6b; background: rgba(255,107,107,0.08); }
 
 /* ============ KITS GRID ============ */
 .kits-grid {

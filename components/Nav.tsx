@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Search, ShoppingCart, Home, Car, LayoutGrid } from "lucide-react";
-import { useActiveVehicleId, useCart, useLocale, setLocale } from "@/lib/cart";
+import { useActiveVehicleId, useCart, useLocale, setLocale, setActiveVehicleId } from "@/lib/cart";
 import { getVehicle, getPart } from "@/lib/data";
 import { tr, type Locale } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
@@ -165,6 +165,15 @@ export default function Nav() {
             <Link href="/vehicle" className="change-link">
               {locale === "en" ? "Change" : locale === "ar" ? "تغيير" : "שנה"}
             </Link>
+            <button
+              type="button"
+              className="change-link clear-vehicle-btn"
+              onClick={() => setActiveVehicleId(null)}
+              aria-label={locale === "en" ? "Clear vehicle" : locale === "ar" ? "إزالة السيارة" : "איפוס רכב"}
+              title={locale === "en" ? "Clear vehicle" : locale === "ar" ? "إزالة" : "איפוס"}
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
