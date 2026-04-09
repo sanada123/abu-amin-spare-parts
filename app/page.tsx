@@ -74,87 +74,45 @@ export default async function Home() {
 
   return (
     <main>
-      {/* ── Two-tier navigation ── */}
-      <section style={{ padding: "16px var(--page-px, 16px) 0" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 12,
-          maxWidth: 480,
-        }}>
-          <Link href="/vehicle" style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            background: "var(--accent)",
-            color: "#000",
-            fontWeight: 800,
-            fontSize: "1rem",
-            padding: "18px 12px",
-            borderRadius: "var(--radius-md)",
-            textDecoration: "none",
-            textAlign: "center",
-          }}>
-            <Car size={26} aria-hidden="true" />
-            <span>רכב</span>
-            <span style={{ fontSize: "0.72rem", fontWeight: 500, opacity: 0.75 }}>
-              חלפים לפי דגם
-            </span>
-          </Link>
-          <Link href="/catalog?group=tools" style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            background: "var(--surface)",
-            border: "1px solid var(--border-strong)",
-            color: "var(--text)",
-            fontWeight: 800,
-            fontSize: "1rem",
-            padding: "18px 12px",
-            borderRadius: "var(--radius-md)",
-            textDecoration: "none",
-            textAlign: "center",
-          }}>
-            <Wrench size={26} aria-hidden="true" />
-            <span>כלים ובית</span>
-            <span style={{ fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)" }}>
-              ללא בחירת רכב
-            </span>
-          </Link>
+      {/* ── Hero — Clean, modern ── */}
+      <section style={{ padding: 0, margin: 0, maxWidth: "100%", background: "linear-gradient(135deg, var(--surface) 0%, var(--bg) 100%)" }}>
+        <div style={{ textAlign: "center", padding: "48px 20px 36px", maxWidth: 640, margin: "0 auto" }}>
+          <h1 style={{ fontSize: "clamp(1.4rem, 4vw, 2rem)", margin: "0 0 8px", fontWeight: 900, color: "var(--text)", lineHeight: 1.3 }}>
+            חלקי חילוף לכל סוגי הרכב
+          </h1>
+          <p style={{ fontSize: "0.95rem", color: "var(--text-muted)", margin: "0 0 28px", lineHeight: 1.6 }}>
+            חנות חלפים ותיקה בלב הכרמל · עוספיה · 30+ שנות ניסיון
+          </p>
+          <HeroSearch />
+          <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 20 }}>
+            <Link href="/vehicle" style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "var(--accent)", color: "var(--accent-fg)",
+              fontWeight: 700, fontSize: "0.9rem", padding: "12px 24px",
+              borderRadius: "var(--radius-md)", textDecoration: "none",
+            }}>
+              <Car size={18} aria-hidden="true" />
+              חלפים לפי רכב
+            </Link>
+            <Link href="/catalog?group=tools" style={{
+              display: "inline-flex", alignItems: "center", gap: 8,
+              background: "var(--surface-2)", color: "var(--text)",
+              fontWeight: 700, fontSize: "0.9rem", padding: "12px 24px",
+              borderRadius: "var(--radius-md)", textDecoration: "none",
+              border: "1px solid var(--border)",
+            }}>
+              <Wrench size={18} aria-hidden="true" />
+              כלים ובית
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* 1. Vehicle Selector — sticky client component */}
+      {/* Vehicle Selector */}
       <VehicleSelector />
 
-      {/* 2. Category strip — client component (uses useLocale) */}
+      {/* Category strip */}
       <CategoryStrip />
-
-      {/* 3. Hero — Search-centric */}
-      <section
-        className="hero"
-        style={{ padding: 0, margin: 0, maxWidth: "100%" }}
-      >
-        <div className="hero-inner" style={{ textAlign: "center", padding: "40px 20px 32px" }}>
-          <img
-            src="/brand/logo-horizontal.png"
-            alt="אבו אמין חלפים"
-            style={{ height: 80, width: "auto", margin: "0 auto 16px", display: "block" }}
-          />
-          <h1 style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)", margin: "0 0 6px" }}>
-            <span className="accent">חלקים מקוריים וחליפיים לכל סוגי הרכב</span>
-          </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--text-dim)", margin: "0 0 24px" }}>
-            מס׳ 1 בכרמל · עוספיה
-          </p>
-          {/* Hero search bar — needs client interactivity */}
-          <HeroSearch />
-        </div>
-      </section>
 
       {/* 4. Trust bar */}
       <div className="trust-bar">

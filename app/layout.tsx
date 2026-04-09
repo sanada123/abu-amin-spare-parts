@@ -34,12 +34,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="he" dir="rtl" data-theme="dark">
+    <html lang="he" dir="rtl" data-theme="light">
       <head>
         {/* Prevent flash of unstyled theme — runs before React hydration */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t)t='dark';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t)t='light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
           }}
         />
         {/* Heebo — Hebrew-first font, 3 weights */}
