@@ -3,8 +3,8 @@
 
 import { getAllVehicles, getUniqueMakes as getMakesFromVehicles, getYearsForMake, getModelsForMakeYear, getEnginesForMakeYearModel, getVehicleById } from "./vehicles";
 
-// LocalizedString allows optional 'en' so existing seed data with en keys compiles
-export type LocalizedString = { he: string; ar: string; en?: string };
+// LocalizedString — 'ar' is optional (HE-only UI), 'en' is also optional
+export type LocalizedString = { he: string; ar?: string; en?: string };
 
 export interface Vehicle {
   id: number;
@@ -32,6 +32,8 @@ export interface Category {
   name: LocalizedString;
   icon: string; // emoji
   parentId?: number;
+  /** Top-level product group: auto parts, tools/machines, garden */
+  group?: "auto" | "tools" | "garden";
 }
 
 export interface Sku {
@@ -115,6 +117,21 @@ export const categories: Category[] = [
   { id: 15, slug: "shocks-suspension", name: { he: "בולמי זעזועים ומתלים", ar: "الممتصات والتعليق" }, icon: "🔩" },
   { id: 16, slug: "ac-system", name: { he: "מערכת מיזוג", ar: "نظام التكييف" }, icon: "❄️" },
   { id: 17, slug: "batteries", name: { he: "מצברים", ar: "البطاريات" }, icon: "🔋" },
+
+  // ── כלים ומכונות ──────────────────────────────────────────
+  { id: 18, slug: "tools-machines", name: { he: "כלים ומכונות" }, icon: "🔧", group: "tools" },
+  { id: 19, slug: "pressure-washers", name: { he: "מכונות שטיפה בלחץ" }, icon: "💦", parentId: 18 },
+  { id: 20, slug: "steam-cleaners", name: { he: "קיטורים" }, icon: "♨️", parentId: 18 },
+  { id: 21, slug: "air-compressors", name: { he: "מדחסי אוויר" }, icon: "💨", parentId: 18 },
+  { id: 22, slug: "saws", name: { he: "מסורי עץ" }, icon: "🪚", parentId: 18 },
+  { id: 23, slug: "vacuums", name: { he: "שואבי אבק" }, icon: "🌀", parentId: 18 },
+  { id: 24, slug: "hand-tools", name: { he: "כלי עבודה" }, icon: "🔨", parentId: 18 },
+
+  // ── גינה ──────────────────────────────────────────────────
+  { id: 25, slug: "garden", name: { he: "גינה" }, icon: "🌿", group: "garden" },
+  { id: 26, slug: "brush-cutters", name: { he: "חרמשים משולבים" }, icon: "🌾", parentId: 25 },
+  { id: 27, slug: "garden-tools", name: { he: "כלי גינון" }, icon: "🌱", parentId: 25 },
+  { id: 28, slug: "lawn-mowers", name: { he: "מכסחות דשא" }, icon: "🏡", parentId: 25 },
 ];
 
 // ============================================================
@@ -225,8 +242,8 @@ function makePart(
   catId: number,
   slug: string,
   nameHe: string,
-  nameAr: string,
-  nameEn: string,
+  nameAr: string | undefined,
+  nameEn: string | undefined,
   oems: string[],
   fits: number[],
   skuConfigs: { brandId: number; pn: string; price: number; stock: number; warranty: number }[],
@@ -240,9 +257,9 @@ function makePart(
     slug,
     name: { he: nameHe, ar: nameAr, en: nameEn },
     description: {
-      he: `${nameHe} איכותי מהיצרנים המובילים בעולם, עם אחריות מלאה והתאמה מדויקת לרכב שלך.`,
-      ar: `${nameAr} عالي الجودة من أفضل الشركات المصنعة في العالم، مع ضمان كامل ومطابقة دقيقة لسيارتك.`,
-      en: `Premium ${nameEn} from the world's leading manufacturers, with full warranty and exact fit for your vehicle.`,
+      he: `${nameHe} איכותי מהיצרנים המובילים בעולם, עם אחריות מלאה.`,
+      ar: nameAr ? `${nameAr} عالي الجودة من أفضل الشركات المصنعة في العالم، مع ضمان كامل.` : undefined,
+      en: nameEn ? `Premium ${nameEn} from the world's leading manufacturers, with full warranty.` : undefined,
     },
     oemNumbers: oems,
     position,
@@ -500,6 +517,225 @@ export const parts: Part[] = [
     TOY_COROLLA,
     [
       { brandId: 7, pn: "740120", price: 545, stock: 7, warranty: 24 },
+    ]
+  ),
+
+  // ── כלים ומכונות — PRESSURE WASHERS (cat 19) ────────────
+  makePart(
+    21, 19, "pressure-washer-1500w",
+    "מכונת שטיפה בלחץ 1500W", undefined, "Pressure Washer 1500W",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "PW-1500-EU", price: 590, stock: 8, warranty: 12 },
+      { brandId: 9, pn: "HE-PW150", price: 650, stock: 5, warranty: 12 },
+    ]
+  ),
+  makePart(
+    22, 19, "pressure-washer-2200w",
+    "מכונת שטיפה בלחץ 2200W מקצועית", undefined, "Pressure Washer 2200W Pro",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "PW-2200-PRO", price: 980, stock: 4, warranty: 24 },
+    ]
+  ),
+  makePart(
+    23, 19, "pressure-washer-foam-lance",
+    "צינור קצף למכונת שטיפה", undefined, "Foam Lance for Pressure Washer",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "FL-15MM", price: 89, stock: 22, warranty: 6 },
+      { brandId: 9, pn: "HE-FL01", price: 110, stock: 14, warranty: 6 },
+    ]
+  ),
+
+  // ── AIR COMPRESSORS (cat 21) ────────────────────────────
+  makePart(
+    24, 21, "air-compressor-24l",
+    "מדחס אוויר 24 ליטר 2HP", undefined, "Air Compressor 24L 2HP",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "AC-24L-2HP", price: 750, stock: 6, warranty: 12 },
+    ]
+  ),
+  makePart(
+    25, 21, "air-compressor-50l",
+    "מדחס אוויר 50 ליטר 3HP", undefined, "Air Compressor 50L 3HP",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "AC-50L-3HP", price: 1150, stock: 3, warranty: 12 },
+      { brandId: 1, pn: "BS-AC50", price: 1290, stock: 2, warranty: 24 },
+    ]
+  ),
+  makePart(
+    26, 21, "tire-inflator-kit",
+    "ערכת ניפוח צמיגים + מד לחץ", undefined, "Tire Inflator Kit",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "TI-SET-01", price: 145, stock: 18, warranty: 12 },
+    ]
+  ),
+
+  // ── SAWS (cat 22) ───────────────────────────────────────
+  makePart(
+    27, 22, "circular-saw-1200w",
+    "מסור עגול חשמלי 1200W", undefined, "Circular Saw 1200W",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "CS-1200-185", price: 420, stock: 7, warranty: 24 },
+    ]
+  ),
+  makePart(
+    28, 22, "chainsaw-petrol-40cc",
+    "מסור שרשרת בנזין 40cc", undefined, "Petrol Chainsaw 40cc",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "CHS-40CC", price: 890, stock: 4, warranty: 12 },
+    ]
+  ),
+  makePart(
+    29, 22, "jigsaw-650w",
+    "מסור חרב חשמלי 650W", undefined, "Jigsaw 650W",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "JS-650-65", price: 285, stock: 9, warranty: 24 },
+      { brandId: 9, pn: "HE-JS65", price: 310, stock: 6, warranty: 12 },
+    ]
+  ),
+
+  // ── VACUUMS (cat 23) ────────────────────────────────────
+  makePart(
+    30, 23, "wet-dry-vacuum-20l",
+    "שואב אבק רטוב/יבש 20 ליטר", undefined, "Wet/Dry Vacuum 20L",
+    [],
+    [],
+    [
+      { brandId: 9, pn: "HE-WDV20", price: 320, stock: 11, warranty: 12 },
+    ]
+  ),
+  makePart(
+    31, 23, "industrial-vacuum-30l",
+    "שואב אבק תעשייתי 30 ליטר", undefined, "Industrial Vacuum 30L",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "BS-IV30", price: 480, stock: 5, warranty: 24 },
+    ]
+  ),
+
+  // ── HAND TOOLS (cat 24) ─────────────────────────────────
+  makePart(
+    32, 24, "socket-set-108pc",
+    "סט שקעים 108 חלקים", undefined, "Socket Set 108 pcs",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "SS-108-PRO", price: 195, stock: 14, warranty: 24 },
+    ]
+  ),
+  makePart(
+    33, 24, "cordless-drill-18v",
+    "מקדחה אלחוטית 18V", undefined, "Cordless Drill 18V",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "CD-18V-2AH", price: 390, stock: 8, warranty: 24 },
+    ]
+  ),
+  makePart(
+    34, 24, "angle-grinder-125mm",
+    "גריינדר זווית 125mm 1000W", undefined, "Angle Grinder 125mm",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "AG-125-1000", price: 179, stock: 16, warranty: 12 },
+      { brandId: 9, pn: "HE-AG125", price: 155, stock: 10, warranty: 12 },
+    ]
+  ),
+
+  // ── גינה — BRUSH CUTTERS (cat 26) ──────────────────────
+  makePart(
+    35, 26, "brush-cutter-45cc",
+    "חרמש משולב בנזין 45cc", undefined, "Brush Cutter 45cc Petrol",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "BC-45CC-TAP", price: 780, stock: 5, warranty: 12 },
+    ]
+  ),
+  makePart(
+    36, 26, "brush-cutter-electric-1200w",
+    "חרמש חשמלי 1200W", undefined, "Electric Brush Cutter 1200W",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "BC-E1200", price: 340, stock: 7, warranty: 24 },
+    ]
+  ),
+  makePart(
+    37, 26, "cutting-line-3mm",
+    "חוט חיתוך לחרמש 3mm × 15m", undefined, "Cutting Line 3mm x 15m",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "CL-3MM-15M", price: 32, stock: 45, warranty: 0 },
+    ]
+  ),
+
+  // ── GARDEN TOOLS (cat 27) ────────────────────────────────
+  makePart(
+    38, 27, "garden-tool-set-5pc",
+    "סט כלי גינון 5 חלקים", undefined, "Garden Tool Set 5 pcs",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "GT-SET-5", price: 89, stock: 18, warranty: 12 },
+    ]
+  ),
+  makePart(
+    39, 27, "wheelbarrow-65l",
+    "עגלת גינה 65 ליטר", undefined, "Wheelbarrow 65L",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "WB-65L-ST", price: 210, stock: 6, warranty: 12 },
+    ]
+  ),
+  makePart(
+    40, 27, "hose-reel-20m",
+    "סליל צינור 20 מטר", undefined, "Hose Reel 20m",
+    [],
+    [],
+    [
+      { brandId: 9, pn: "HR-20M-AUTO", price: 120, stock: 12, warranty: 12 },
+    ]
+  ),
+
+  // ── LAWN MOWERS (cat 28) ─────────────────────────────────
+  makePart(
+    41, 28, "lawn-mower-petrol-46cm",
+    "מכסחת דשא בנזין 46cm", undefined, "Petrol Lawn Mower 46cm",
+    [],
+    [],
+    [
+      { brandId: 4, pn: "LM-46-P140", price: 1450, stock: 3, warranty: 24 },
+    ]
+  ),
+  makePart(
+    42, 28, "lawn-mower-electric-32cm",
+    "מכסחת דשא חשמלית 32cm", undefined, "Electric Lawn Mower 32cm",
+    [],
+    [],
+    [
+      { brandId: 1, pn: "LM-32-E1200", price: 520, stock: 5, warranty: 24 },
     ]
   ),
 ];

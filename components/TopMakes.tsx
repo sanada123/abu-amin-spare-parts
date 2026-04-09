@@ -25,7 +25,7 @@ export default function TopMakes() {
   return (
     <div className="makes-strip">
       {TOP_MAKES.map((m) => {
-        const label = locale === "ar" ? m.nameAr : m.nameHe;
+        const label = m.nameHe;
 
         return (
           <button

@@ -134,7 +134,7 @@ function CatalogInner() {
           }}
         >
           <SlidersHorizontal size={13} aria-hidden="true" />
-          {locale === "he" ? "סינון" : locale === "ar" ? "تصفية" : "Filters"}
+          {"סינון"}
           {activeFilterCount > 0 && (
             <span
               style={{
@@ -166,11 +166,7 @@ function CatalogInner() {
             }}
           >
             <X size={11} />
-            {locale === "he"
-              ? "נקה הכל"
-              : locale === "ar"
-              ? "مسح الكل"
-              : "Clear all"}
+            {"נקה הכל"}
           </button>
         )}
       </div>
@@ -236,7 +232,7 @@ function CatalogInner() {
           }}
           aria-expanded={catsExpanded}
         >
-          {locale === "he" ? "קטגוריה" : locale === "ar" ? "الفئة" : "Category"}
+          {"קטגוריה"}
           {catsExpanded ? (
             <ChevronUp size={13} color="var(--text-dim)" />
           ) : (
@@ -294,7 +290,7 @@ function CatalogInner() {
           }}
           aria-expanded={brandsExpanded}
         >
-          {locale === "he" ? "מותג" : locale === "ar" ? "العلامة التجارية" : "Brand"}
+          {"מותג"}
           {brandsExpanded ? (
             <ChevronUp size={13} color="var(--text-dim)" />
           ) : (
@@ -352,11 +348,7 @@ function CatalogInner() {
             onChange={() => setInStockOnly((v) => !v)}
             style={{ accentColor: "var(--accent)", width: 13, height: 13 }}
           />
-          {locale === "he"
-            ? "במלאי בלבד"
-            : locale === "ar"
-            ? "المتوفر فقط"
-            : "In Stock Only"}
+          {"במלאי בלבד"}
         </label>
       </div>
     </div>
@@ -481,7 +473,7 @@ function CatalogInner() {
             className="catalog-filter-btn"
           >
             <SlidersHorizontal size={13} />
-            {locale === "he" ? "סינון" : locale === "ar" ? "تصفية" : "Filters"}
+            {"סינון"}
             {activeFilterCount > 0 && (
               <span
                 style={{
@@ -507,11 +499,7 @@ function CatalogInner() {
             }}
           >
             {visible.length}{" "}
-            {locale === "he"
-              ? "חלקים"
-              : locale === "ar"
-              ? "قطعة"
-              : "parts"}
+            {"חלקים"}
           </span>
 
           {/* Sort */}
@@ -608,7 +596,7 @@ function CatalogInner() {
         )}
 
         {/* Category chip strip — always visible, compact */}
-        <div className="cat-chip-strip" role="group" aria-label={locale === "he" ? "קטגוריות" : locale === "ar" ? "الفئات" : "Categories"}>
+        <div className="cat-chip-strip" role="group" aria-label={"קטגוריות"}>
           {categories.map((c) => (
             <button
               key={c.id}
@@ -626,21 +614,17 @@ function CatalogInner() {
           <div className="empty">
             <div className="emoji">🔍</div>
             <h3>
-              {locale === "ar" ? "لم يتم العثور على قطع" : "לא נמצאו חלקים"}
+              {"לא נמצאו חלקים"}
             </h3>
             <p>
-              {locale === "ar" ? "جرب تغيير السيارة أو الفلاتر" : "נסה לשנות את הרכב או הסינון"}
+              {"נסה לשנות את הרכב או הסינון"}
             </p>
             <button
               onClick={clearAll}
               className="cta"
               style={{ cursor: "pointer" }}
             >
-              {locale === "he"
-                ? "נקה סינון"
-                : locale === "ar"
-                ? "مسح الفلاتر"
-                : "Clear Filters"}
+              {"נקה סינון"}
             </button>
           </div>
         ) : (

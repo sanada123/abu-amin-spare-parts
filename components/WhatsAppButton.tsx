@@ -1,20 +1,14 @@
 "use client";
 import { MessageCircle } from "lucide-react";
-import { useLocale } from "@/lib/cart";
 
 interface WhatsAppButtonProps {
-  /** Optional context text to pre-fill in the WhatsApp message */
   context?: string;
 }
 
+const WA_NUMBER = "972523158796";
+
 export default function WhatsAppButton({ context }: WhatsAppButtonProps) {
-  const locale = useLocale();
-  const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "972500000000";
-
-  const defaultText = locale === "ar"
-    ? "שלום، أنا مهتم بقطع غيار لسيارتي"
-    : "שלום, אני מעוניין בחלפים לרכב שלי";
-
+  const defaultText = "שלום, אני מעוניין בחלפים / כלים";
   const text = context ? `${defaultText} — ${context}` : defaultText;
   const href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 

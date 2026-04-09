@@ -2,14 +2,16 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Search, ShoppingCart, Home, Car, LayoutGrid } from "lucide-react";
-import { useActiveVehicleId, useCart, useLocale, setLocale, setActiveVehicleId } from "@/lib/cart";
+import { Search, ShoppingCart, Home, Car, LayoutGrid, Wrench } from "lucide-react";
+import { useActiveVehicleId, useCart, setActiveVehicleId } from "@/lib/cart";
 import { getVehicle, getPart } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
 
+const PHONE_LANDLINE = "04-8599333";
+const PHONE_MOBILE = "052-3158796";
+
 export default function Nav() {
-  const locale = useLocale();
   const cart = useCart();
   const vehicleId = useActiveVehicleId();
   const router = useRouter();
@@ -28,10 +30,6 @@ export default function Nav() {
     if (q.trim()) router.push(`/search?q=${encodeURIComponent(q.trim())}`);
   };
 
-  const toggleLocale = () => {
-    setLocale(locale === "he" ? "ar" : "he");
-  };
-
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname?.startsWith(href);
 
@@ -40,17 +38,17 @@ export default function Nav() {
       {/* Top info strip — desktop only */}
       <div className="top-strip">
         <div className="top-strip-inner">
-          <span>
-            <strong>{process.env.NEXT_PUBLIC_PHONE_NUMBER || "050-XXXXXXX"}</strong>
-          </span>
-          <span>
-            {locale === "ar" ? "شحن مجاني فوق 300₪" : "משלוח חינם מעל ₪300"}
-          </span>
-          <span>
-            {locale === "ar" ? "ضمان سنة" : "אחריות שנה"}
-          </span>
+          <a href={`tel:+972${PHONE_LANDLINE.replace(/-/g, "").replace(/^0/, "")}`}
+             style={{ color: "inherit", textDecoration: "none" }}>
+            <strong>📞 {PHONE_LANDLINE}</strong>
+          </a>
+          <a href={`tel:+972${PHONE_MOBILE.replace(/-/g, "").replace(/^0/, "")}`}
+             style={{ color: "inherit", textDecoration: "none" }}>
+            📱 {PHONE_MOBILE}
+          </a>
+          <span>משלוח חינם מעל ₪300</span>
           <span style={{ marginInlineStart: "auto", color: "var(--text-dim)" }}>
-            {locale === "ar" ? "الأحد–الخميس 8:00–18:00" : "א׳–ה׳ 08:00–18:00"}
+            א׳–ה׳ 08:00–18:00 · ו׳ 08:00–13:00
           </span>
         </div>
       </div>
@@ -60,11 +58,11 @@ export default function Nav() {
         <div className="nav-inner">
           <Link href="/" className="brand">
             <span className="brand-logo">
-              <img src="/brand/logo.jpg" alt="Abu Amin Maher Malak" />
+              <img src="/brand/logo.jpg" alt="אבו אמין חלפים" />
             </span>
             <div className="brand-text">
-              <span className="name">{tr("brand", locale)}</span>
-              <span className="sub">{tr("tagline", locale)}</span>
+              <span className="name">{tr("brand")}</span>
+              <span className="sub">{tr("tagline")}</span>
             </div>
           </Link>
 
@@ -74,35 +72,12 @@ export default function Nav() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={tr("search_placeholder", locale)}
-              aria-label={tr("search_placeholder", locale)}
+              placeholder={tr("search_placeholder")}
+              aria-label={tr("search_placeholder")}
             />
           </form>
 
           <div className="nav-actions">
-            {/* Language switcher desktop — HE ↔ AR only */}
-            <div className="locale-switch">
-              {(["he", "ar"] as const).map((l) => (
-                <button
-                  key={l}
-                  className={l === locale ? "active" : ""}
-                  onClick={() => setLocale(l)}
-                  aria-pressed={l === locale}
-                >
-                  {l === "he" ? "עב" : "عر"}
-                </button>
-              ))}
-            </div>
-
-            {/* Language switcher mobile — tap to toggle */}
-            <button
-              className="locale-mobile"
-              onClick={toggleLocale}
-              aria-label={locale === "he" ? "עבור לערבית" : "التبديل إلى العبرية"}
-            >
-              {locale === "he" ? "عر" : "עב"}
-            </button>
-
             {/* Theme toggle */}
             <ThemeToggle />
 
@@ -110,10 +85,10 @@ export default function Nav() {
             <Link
               href="/cart"
               className="cart-btn"
-              aria-label={`${tr("cart", locale)}${cartCount > 0 ? ` (${cartCount})` : ""}`}
+              aria-label={`${tr("cart")}${cartCount > 0 ? ` (${cartCount})` : ""}`}
             >
               <ShoppingCart size={17} aria-hidden="true" />
-              <span className="label">{tr("cart", locale)}</span>
+              <span className="label">{tr("cart")}</span>
               {cartCount > 0 && (
                 <span className="cart-badge" aria-hidden="true">
                   {cartCount}
@@ -130,8 +105,8 @@ export default function Nav() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={tr("search_placeholder", locale)}
-              aria-label={tr("search_placeholder", locale)}
+              placeholder={tr("search_placeholder")}
+              aria-label={tr("search_placeholder")}
             />
           </form>
         </div>
@@ -143,20 +118,20 @@ export default function Nav() {
           <div className="vehicle-banner-inner">
             <Car size={15} color="var(--accent)" aria-hidden="true" />
             <span>
-              {locale === "ar" ? "لـ: " : "עבור: "}
+              עבור:{" "}
               <strong>
-                {vehicle.year} {vehicle.makeName[locale]} {vehicle.modelName[locale]}
+                {vehicle.year} {vehicle.makeName.he} {vehicle.modelName.he}
               </strong>
             </span>
             <Link href="/vehicle" className="change-link">
-              {locale === "ar" ? "تغيير" : "שנה"}
+              שנה
             </Link>
             <button
               type="button"
               className="change-link clear-vehicle-btn"
               onClick={() => setActiveVehicleId(null)}
-              aria-label={locale === "ar" ? "إزالة السيارة" : "איפוס רכב"}
-              title={locale === "ar" ? "إزالة" : "איפוס"}
+              aria-label="איפוס רכב"
+              title="איפוס"
             >
               ✕
             </button>
@@ -172,13 +147,11 @@ export default function Nav() {
               {cartCount}
             </span>
             <span className="cart-label">
-              {cartTotal > 0 ? `₪${cartTotal.toLocaleString()}` : (
-                locale === "ar" ? "الطلب" : "הזמנה"
-              )}
+              {cartTotal > 0 ? `₪${cartTotal.toLocaleString()}` : "הזמנה"}
             </span>
           </div>
-          <Link href="/cart" className="cart-cta" aria-label={locale === "ar" ? "إتمام الطلب" : "לשליחת הזמנה"}>
-            {locale === "ar" ? "إتمام الطلب ←" : "לשליחת הזמנה →"}
+          <Link href="/cart" className="cart-cta" aria-label="לשליחת הזמנה">
+            לשליחת הזמנה →
           </Link>
         </div>
       )}
@@ -188,35 +161,43 @@ export default function Nav() {
         <Link
           href="/"
           className={isActive("/") && !pathname?.startsWith("/catalog") ? "active" : ""}
-          aria-label={locale === "ar" ? "الرئيسية" : "בית"}
+          aria-label="בית"
         >
           <Home size={20} className="icon" aria-hidden="true" />
-          <span>{locale === "ar" ? "الرئيسية" : "בית"}</span>
+          <span>בית</span>
         </Link>
         <Link
           href="/catalog"
           className={isActive("/catalog") ? "active" : ""}
-          aria-label={locale === "ar" ? "قطع" : "חלפים"}
+          aria-label="חלפים"
         >
           <LayoutGrid size={20} className="icon" aria-hidden="true" />
-          <span>{locale === "ar" ? "قطع" : "חלפים"}</span>
+          <span>חלפים</span>
+        </Link>
+        <Link
+          href="/catalog?group=tools"
+          className={isActive("/catalog") && pathname?.includes("group=tools") ? "active" : ""}
+          aria-label="כלים"
+        >
+          <Wrench size={20} className="icon" aria-hidden="true" />
+          <span>כלים</span>
         </Link>
         <Link
           href="/vehicle"
           className={isActive("/vehicle") ? "active" : ""}
-          aria-label={locale === "ar" ? "سيارة" : "רכב"}
+          aria-label="רכב"
         >
           <Car size={20} className="icon" aria-hidden="true" />
-          <span>{locale === "ar" ? "سيارة" : "רכב"}</span>
+          <span>רכב</span>
         </Link>
         <Link
           href="/cart"
           className={isActive("/cart") ? "active" : ""}
-          aria-label={`${locale === "ar" ? "الطلب" : "הזמנה"}${cartCount > 0 ? ` (${cartCount})` : ""}`}
+          aria-label={`הזמנה${cartCount > 0 ? ` (${cartCount})` : ""}`}
           style={{ position: "relative" }}
         >
           <ShoppingCart size={20} className="icon" aria-hidden="true" />
-          <span>{locale === "ar" ? "الطلب" : "הזמנה"}</span>
+          <span>הזמנה</span>
           {cartCount > 0 && (
             <span
               aria-hidden="true"

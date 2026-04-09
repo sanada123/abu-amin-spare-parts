@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import { useLocale, useActiveVehicleId, clearCart } from "@/lib/cart";
-import { getVehicle, getPart } from "@/lib/data";
+import { useActiveVehicleId, clearCart } from "@/lib/cart";
+import { getVehicle, getPart, categories } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import type { CartItem } from "@/lib/cart";
 
@@ -10,10 +10,31 @@ interface Props {
   subtotal: number;
 }
 
+const TOOLS_GARDEN_GROUPS = new Set(["tools", "garden"]);
+
+function isToolsGardenCategory(catId: number): boolean {
+  const cat = categories.find((c) => c.id === catId);
+  if (!cat) return false;
+  if (cat.group && TOOLS_GARDEN_GROUPS.has(cat.group)) return true;
+  if (cat.parentId) {
+    const parent = categories.find((c) => c.id === cat.parentId);
+    return !!(parent?.group && TOOLS_GARDEN_GROUPS.has(parent.group));
+  }
+  return false;
+}
+
 export default function OrderSubmitForm({ items, subtotal }: Props) {
-  const locale = useLocale();
   const vehicleId = useActiveVehicleId();
   const vehicle = vehicleId ? getVehicle(vehicleId) : null;
+
+  // Vehicle is optional when all cart items are tools/garden
+  const allToolsGarden =
+    items.length > 0 &&
+    items.every((item) => {
+      const part = getPart(item.partId);
+      return part ? isToolsGardenCategory(part.categoryId) : false;
+    });
+  const vehicleRequired = !allToolsGarden;
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -24,14 +45,14 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
   const [error, setError] = useState("");
 
   const vehicleLabel = vehicle
-    ? `${vehicle.year} ${vehicle.makeName[locale]} ${vehicle.modelName[locale]} ${vehicle.engine}`
-    : tr("no_vehicle_set", locale);
+    ? `${vehicle.year} ${vehicle.makeName.he} ${vehicle.modelName.he} ${vehicle.engine}`
+    : tr("no_vehicle_set");
 
   const partsPayload = items.map((c) => {
     const part = getPart(c.partId);
     const sku = part?.skus.find((s) => s.id === c.skuId);
     return {
-      name: part?.name[locale] ?? "?",
+      name: part?.name.he ?? "?",
       partNumber: sku?.partNumber ?? "",
       priceIls: sku?.priceIls ?? 0,
       qty: c.qty,
@@ -55,14 +76,14 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           vehicle: vehicleLabel,
           parts: partsPayload,
           subtotal,
-          locale,
+          locale: "he",
         }),
       });
       if (!res.ok) throw new Error("Server error");
       setSuccess(true);
       clearCart();
     } catch {
-      setError(tr("order_error", locale));
+      setError(tr("order_error"));
     } finally {
       setLoading(false);
     }
@@ -78,8 +99,8 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
         textAlign: "center",
       }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-        <h2 style={{ color: "var(--success)", marginBottom: 8 }}>{tr("order_success", locale)}</h2>
-        <p style={{ color: "var(--text-dim)" }}>{tr("order_success_sub", locale)}</p>
+        <h2 style={{ color: "var(--success)", marginBottom: 8 }}>{tr("order_success")}</h2>
+        <p style={{ color: "var(--text-dim)" }}>{tr("order_success_sub")}</p>
       </div>
     );
   }
@@ -110,7 +131,7 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       <div>
         <label style={labelStyle} htmlFor="order-name">
-          {tr("order_name", locale)} <span style={{ color: "var(--danger)" }}>*</span>
+          {tr("order_name")} <span style={{ color: "var(--danger)" }}>*</span>
         </label>
         <input
           id="order-name"
@@ -118,7 +139,7 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           style={inputStyle}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder={locale === "ar" ? "محمد سعيد" : "ישראל ישראלי"}
+          placeholder="ישראל ישראלי"
           required
           autoComplete="name"
         />
@@ -126,7 +147,7 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
 
       <div>
         <label style={labelStyle} htmlFor="order-phone">
-          {tr("order_phone", locale)} <span style={{ color: "var(--danger)" }}>*</span>
+          {tr("order_phone")} <span style={{ color: "var(--danger)" }}>*</span>
         </label>
         <input
           id="order-phone"
@@ -143,7 +164,7 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
 
       <div>
         <label style={labelStyle} htmlFor="order-city">
-          {tr("order_city", locale)} <span style={{ color: "var(--danger)" }}>*</span>
+          {tr("order_city")} <span style={{ color: "var(--danger)" }}>*</span>
         </label>
         <input
           id="order-city"
@@ -151,15 +172,16 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           style={inputStyle}
           value={city}
           onChange={(e) => setCity(e.target.value)}
-          placeholder={locale === "ar" ? "حيفا، شارع الاستقلال 12" : "חיפה, רח׳ הרצל 12"}
+          placeholder="חיפה, רח׳ הרצל 12"
           required
           autoComplete="address-level2"
         />
       </div>
 
+      {/* Vehicle field — shown but optional for tools/garden orders */}
       <div>
         <label style={labelStyle} htmlFor="order-vehicle">
-          {tr("order_vehicle", locale)}
+          {vehicleRequired ? tr("order_vehicle") : "רכב (אופציונלי — הזמנת כלים/גינה)"}
         </label>
         <input
           id="order-vehicle"
@@ -168,18 +190,23 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           value={vehicleLabel}
           readOnly
         />
+        {!vehicleRequired && !vehicle && (
+          <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: 4 }}>
+            הזמנה זו אינה דורשת בחירת רכב
+          </p>
+        )}
       </div>
 
       <div>
         <label style={labelStyle} htmlFor="order-notes">
-          {tr("order_notes", locale)}
+          {tr("order_notes")}
         </label>
         <textarea
           id="order-notes"
           style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder={locale === "ar" ? "أي ملاحظة إضافية..." : "הערה נוספת, זמן נוח לאיסוף..."}
+          placeholder="הערה נוספת, זמן נוח לאיסוף..."
         />
       </div>
 
@@ -206,9 +233,7 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           letterSpacing: "-0.01em",
         }}
       >
-        {loading
-          ? (locale === "ar" ? "جارٍ الإرسال..." : "שולח...")
-          : `${tr("order_submit", locale)} →`}
+        {loading ? "שולח..." : `${tr("order_submit")} →`}
       </button>
     </form>
   );

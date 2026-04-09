@@ -87,7 +87,7 @@ export default function CartPage() {
               alignItems: "center",
             }}>
               <span style={{ fontWeight: 700, color: "var(--text-dim)", fontSize: "0.9rem" }}>
-                {tr("subtotal", locale)} ({items.length} {locale === "ar" ? "قطعة" : "פריטים"})
+                {tr("subtotal", locale)} ({items.length} {"פריטים"})
               </span>
               <span style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--accent)" }}>
                 ₪{subtotal}
@@ -101,7 +101,7 @@ export default function CartPage() {
           {/* Order submit form */}
           <div className="cart-summary" style={{ display: "flex", flexDirection: "column", gap: 0 }}>
             <h3 style={{ marginBottom: 20 }}>
-              {locale === "ar" ? "تفاصيل الطلب" : "פרטי הזמנה"}
+              {"פרטי הזמנה"}
             </h3>
             <OrderSubmitForm items={cart} subtotal={subtotal} />
           </div>

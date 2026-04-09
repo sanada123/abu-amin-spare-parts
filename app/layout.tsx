@@ -13,9 +13,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "אבו אמין חלפים | أبو أمين لقطع الغيار",
+  title: "אבו אמין חלפים | חלפי רכב · כלים · גינה — עוספיה",
   description:
-    "חנות חלפים לרכב באזור עוספיא / דלית אל כרמל. בחר רכב, בחר חלפים, ושלח הזמנה — נחזור אליך תוך שעות.",
+    "חנות חלפים ותיקה בלב הכרמל. חלקי חילוף לרכב, שמנים, מצברים, כלי עבודה, מכונות שטיפה וציוד גינה. עוספיה, הכרמל.",
 };
 
 export default function RootLayout({
@@ -33,7 +33,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body style={{ fontFamily: "var(--font-inter), 'Heebo', 'Cairo', system-ui, sans-serif" }}>
+      <body style={{ fontFamily: "var(--font-inter), 'Heebo', system-ui, sans-serif" }}>
         <ThemeProvider>
           <Nav />
           {children}

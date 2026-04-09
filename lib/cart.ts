@@ -90,32 +90,26 @@ export function useActiveVehicleId() {
   return id;
 }
 
-// Locale persistence — Hebrew + Arabic only
-export function getLocale(): "he" | "ar" {
+// Locale — Hebrew only
+export function getLocale(): "he" {
   if (typeof window === "undefined") return "he";
-  const l = localStorage.getItem(LOCALE_KEY) as "he" | "ar" | null;
-  if (l === "he" || l === "ar") return l;
+  // Migrate any stored "ar" back to "he"
+  const l = localStorage.getItem(LOCALE_KEY);
+  if (l !== "he") localStorage.setItem(LOCALE_KEY, "he");
   return "he";
 }
-export function setLocale(l: "he" | "ar") {
+export function setLocale(_l: "he") {
   if (typeof window === "undefined") return;
-  localStorage.setItem(LOCALE_KEY, l);
-  document.documentElement.lang = l;
+  localStorage.setItem(LOCALE_KEY, "he");
+  document.documentElement.lang = "he";
   document.documentElement.dir = "rtl";
   emit();
 }
-export function useLocale(): "he" | "ar" {
-  const [l, setL] = useState<"he" | "ar">("he");
+export function useLocale(): "he" {
   useEffect(() => {
-    const cur = getLocale();
-    setL(cur);
-    document.documentElement.lang = cur;
+    getLocale(); // migrate stored ar → he
+    document.documentElement.lang = "he";
     document.documentElement.dir = "rtl";
-    const lis = () => setL(getLocale());
-    listeners.add(lis);
-    return () => {
-      listeners.delete(lis);
-    };
   }, []);
-  return l;
+  return "he";
 }

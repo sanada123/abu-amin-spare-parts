@@ -18,7 +18,7 @@ function SearchInner() {
       <section>
         <div className="section-head">
           <h2>
-            {locale === "ar" ? "نتائج البحث" : "תוצאות חיפוש"}
+            {"תוצאות חיפוש"}
             <span style={{ color: "var(--text-3)", fontWeight: 600, marginInlineStart: 10 }}>
               "{q}" — {results.length}
             </span>
@@ -27,8 +27,8 @@ function SearchInner() {
         {results.length === 0 ? (
           <div className="empty">
             <div className="emoji">🔍</div>
-            <h3>{locale === "ar" ? "لا توجد نتائج" : "אין תוצאות"}</h3>
-            <p>{locale === "ar" ? "جرب كلمة بحث أخرى أو رقم OEM" : "נסה מילת חיפוש אחרת או מספר OEM"}</p>
+            <h3>{"אין תוצאות"}</h3>
+            <p>{"נסה מילת חיפוש אחרת או מספר OEM"}</p>
           </div>
         ) : (
           <div className="parts-grid">

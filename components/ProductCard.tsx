@@ -214,7 +214,7 @@ export default function ProductCard({
                 flexShrink: 0,
               }}
             />
-            {inStock ? tr("in_stock", locale) : locale === "he" ? "אזל" : locale === "ar" ? "نفد" : "Out"}
+            {inStock ? tr("in_stock") : "אזל"}
           </span>
         </div>
 

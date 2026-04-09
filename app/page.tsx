@@ -1,15 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Shield, Truck, Clock, Award, Disc, Filter, Settings, Sliders, Zap, Sun } from "lucide-react";
-
-const CAT_ICONS: Record<string, React.ComponentType<{size?: number; "aria-hidden"?: boolean | "true" | "false"}>> = {
-  brakes: Disc,
-  filters: Filter,
-  engine: Settings,
-  suspension: Sliders,
-  electrical: Zap,
-  lighting: Sun,
-};
+import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
 import {
   categories,
   brands,
@@ -21,7 +12,7 @@ import {
   partImageUrl,
 } from "@/lib/data";
 import { tr } from "@/lib/i18n";
-import { useLocale, useActiveVehicleId } from "@/lib/cart";
+import { useActiveVehicleId } from "@/lib/cart";
 import VehicleSelector from "@/components/VehicleSelector";
 import TopMakes from "@/components/TopMakes";
 import CategoryStrip from "@/components/CategoryStrip";
@@ -34,15 +25,80 @@ const TRUST_ITEMS = [
   { icon: Clock, keyLabel: "trust_returns" as const },
 ];
 
+// Homepage primary 6 categories per PIVOT-V3
+const PRIMARY_CAT_SLUGS = [
+  "engine",          // חלפי מנוע
+  "brakes",          // בלמים
+  "lighting-signals", // פנסים ואיתותים
+  "batteries",       // מצברים
+  "tools-machines",  // כלים ומכונות (new)
+];
+
 export default function Home() {
-  const locale = useLocale();
   const activeVehicleId = useActiveVehicleId();
 
   const featuredParts = parts.slice(0, 8);
   const featuredKits = kits;
+  const primaryCats = PRIMARY_CAT_SLUGS.map((slug) =>
+    categories.find((c) => c.slug === slug)
+  ).filter(Boolean) as typeof categories;
 
   return (
     <main>
+      {/* ── Two-tier navigation ── */}
+      <section style={{ padding: "16px var(--page-px, 16px) 0" }}>
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: 12,
+          maxWidth: 480,
+        }}>
+          <Link href="/vehicle" style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            background: "var(--accent)",
+            color: "#000",
+            fontWeight: 800,
+            fontSize: "1rem",
+            padding: "18px 12px",
+            borderRadius: "var(--radius-md)",
+            textDecoration: "none",
+            textAlign: "center",
+          }}>
+            <Car size={26} aria-hidden="true" />
+            <span>רכב</span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 500, opacity: 0.75 }}>
+              חלפים לפי דגם
+            </span>
+          </Link>
+          <Link href="/catalog?group=tools" style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            background: "var(--surface)",
+            border: "1px solid var(--border-strong)",
+            color: "var(--text)",
+            fontWeight: 800,
+            fontSize: "1rem",
+            padding: "18px 12px",
+            borderRadius: "var(--radius-md)",
+            textDecoration: "none",
+            textAlign: "center",
+          }}>
+            <Wrench size={26} aria-hidden="true" />
+            <span>כלים ובית</span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 500, color: "var(--text-muted)" }}>
+              ללא בחירת רכב
+            </span>
+          </Link>
+        </div>
+      </section>
+
       {/* 1. Vehicle Selector — sticky */}
       <VehicleSelector />
 
@@ -56,19 +112,13 @@ export default function Home() {
       >
         <div className="hero-inner">
           <h1>
-            {locale === "ar" ? (
-              <>
-                اختر سيارتك،{" "}
-                <span className="accent">اختر القطع</span>، وأرسل طلبك.
-              </>
-            ) : (
-              <>
-                בחר את הרכב שלך,{" "}
-                <span className="accent">בחר חלפים</span>
-                , ושלח הזמנה.
-              </>
-            )}
+            <strong>אבו אמין חלפים</strong>
+            <br />
+            <span className="accent">חלפי רכב · כלי עבודה · ציוד גינה</span>
           </h1>
+          <p style={{ fontSize: "clamp(0.9rem, 2vw, 1.05rem)", fontWeight: 700, color: "var(--text)", margin: "8px auto 4px" }}>
+            הכל במקום אחד, בלב הכרמל.
+          </p>
           <p
             style={{
               fontSize: "clamp(0.82rem, 2vw, 0.96rem)",
@@ -77,7 +127,7 @@ export default function Home() {
               maxWidth: 560,
             }}
           >
-            {tr("hero_sub", locale)}
+            {tr("hero_sub")}
           </p>
         </div>
       </section>
@@ -91,7 +141,7 @@ export default function Home() {
                 <Icon size={14} aria-hidden="true" />
               </div>
               <div className="text">
-                {tr(keyLabel, locale).replace(/^[✓🛡️🚚↩️]\s*/, "")}
+                {tr(keyLabel).replace(/^[✓🛡️🚚↩️]\s*/, "")}
               </div>
             </div>
           ))}
@@ -102,7 +152,7 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {locale === "ar" ? "اختر حسب الماركة" : "בחר לפי יצרן"}
+            בחר לפי יצרן
             <span className="underline" />
           </h2>
         </div>
@@ -113,10 +163,10 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {locale === "ar" ? "القطع الأكثر طلباً" : "חלפים מבוקשים"}
+            חלפים מבוקשים
             <span className="underline" />
           </h2>
-          <Link href="/catalog">{tr("view_all", locale)} →</Link>
+          <Link href="/catalog">{tr("view_all")} →</Link>
         </div>
         <div className="parts-grid">
           {featuredParts.map((p) => {
@@ -131,7 +181,7 @@ export default function Home() {
               <ProductCard
                 key={p.id}
                 slug={p.slug}
-                name={p.name[locale]}
+                name={p.name.he}
                 imageSrc={partImageUrl(p)}
                 price={minP}
                 brands={brandNames}
@@ -147,7 +197,7 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {tr("service_kits", locale)}
+            {tr("service_kits")}
             <span className="underline" />
           </h2>
         </div>
@@ -156,14 +206,14 @@ export default function Home() {
             <Link key={k.id} href="/catalog" className="kit-card">
               <span className="badge">−{k.discountPct}%</span>
               <div className="kit-img-wrap">
-                <img src={kitImageUrl(k)} alt={k.name[locale] ?? k.name.he} loading="lazy" />
+                <img src={kitImageUrl(k)} alt={k.name.he} loading="lazy" />
               </div>
               <div className="kit-body">
-                <h3>{k.name[locale] ?? k.name.he}</h3>
-                <p>{k.description[locale] ?? k.description.he}</p>
+                <h3>{k.name.he}</h3>
+                <p>{k.description.he}</p>
                 <div className="price">
                   ₪{k.totalPriceIls}
-                  <small>{tr("vat_inc", locale)}</small>
+                  <small>{tr("vat_inc")}</small>
                 </div>
               </div>
             </Link>
@@ -171,27 +221,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Categories */}
+      {/* 8. Categories — primary 6 */}
       <section>
         <div className="section-head">
           <h2>
-            {tr("popular_categories", locale)}
+            {tr("popular_categories")}
             <span className="underline" />
           </h2>
-          <Link href="/catalog">{tr("view_all", locale)} →</Link>
+          <Link href="/catalog">{tr("view_all")} →</Link>
         </div>
         <div className="cat-grid">
-          {categories.slice(0, 6).map((c) => {
-            const Icon = CAT_ICONS[c.slug];
-            return (
-              <Link key={c.id} href={`/catalog?cat=${c.slug}`} className="cat-card">
-                <span className="cat-icon">
-                  {Icon ? <Icon size={24} aria-hidden="true" /> : c.icon}
-                </span>
-                <span className="cat-name">{c.name[locale] ?? c.name.he}</span>
-              </Link>
-            );
-          })}
+          {primaryCats.map((c) => (
+            <Link
+              key={c.id}
+              href={c.group === "tools" ? `/catalog?group=tools` : `/catalog?cat=${c.slug}`}
+              className="cat-card"
+            >
+              <span className="cat-icon">{c.icon}</span>
+              <span className="cat-name">{c.name.he}</span>
+            </Link>
+          ))}
+          {/* 6th tile: all categories */}
+          <Link href="/catalog" className="cat-card">
+            <span className="cat-icon">🔍</span>
+            <span className="cat-name">כל הקטגוריות</span>
+          </Link>
         </div>
       </section>
 
@@ -209,10 +263,10 @@ export default function Home() {
           }}
         >
           {[
-            { num: "30+", label: locale === "ar" ? "سنة خبرة" : "שנות ניסיון" },
-            { num: "48K+", label: locale === "ar" ? "قطعة في المخزون" : "חלקים במלאי" },
-            { num: "10K+", label: locale === "ar" ? "عميل راضٍ" : "לקוחות מרוצים" },
-            { num: "2yr", label: locale === "ar" ? "ضمان المصنع" : "אחריות יצרן" },
+            { num: "30+", label: "שנות ניסיון" },
+            { num: "48K+", label: "פריטים במלאי" },
+            { num: "10K+", label: "לקוחות מרוצים" },
+            { num: "2yr", label: "אחריות יצרן" },
           ].map(({ num, label }) => (
             <div key={label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 800, color: "var(--accent)", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
@@ -230,7 +284,7 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {tr("brands_we_carry", locale)}
+            {tr("brands_we_carry")}
             <span className="underline" />
           </h2>
         </div>
@@ -248,31 +302,28 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {tr("testimonials_title", locale)}
+            {tr("testimonials_title")}
             <span className="underline" />
           </h2>
         </div>
         <div className="testi-grid">
           {[
             {
-              he: "מצאתי בדיוק את הרפידות שחיפשתי לקאמרי 2019. הגיעו תוך יומיים, מחיר טוב, ואחריות שנתיים. ממליץ!",
-              ar: "وجدت بالضبط الفرامل التي أبحث عنها لكامري 2019. وصلت خلال يومين، سعر جيد، وضمان سنتين. أنصح به!",
+              quote: "מצאתי בדיוק את הרפידות שחיפשתי לקאמרי 2019. הגיעו תוך יומיים, מחיר טוב, ואחריות שנתיים. ממליץ!",
               author: "יוסי כ., תל אביב",
             },
             {
-              he: "אתר מצוין, חיפוש לפי מספר OEM עובד מושלם. חוסך לי שעות במוסך.",
-              ar: "موقع ممتاز، البحث برقم OEM يعمل بشكل مثالي. يوفر علي ساعات في الورشة.",
+              quote: "שירות מצוין. אחד כלי העבודה שקניתי עבד כבר מהיום הראשון. המחיר הוגן ומקבלים שירות אישי.",
               author: "מוחמד ס., חיפה",
             },
             {
-              he: "הזמנתי ערכת טיפול גדול לקורולה — הכל הגיע מסודר באריזה אחת. שירות מצוין.",
-              ar: "طلبت طقم صيانة كبير للكورولا — كل شيء وصل في علبة واحدة منظمة. خدمة ممتازة.",
+              quote: "הזמנתי ערכת טיפול גדול לקורולה — הכל הגיע מסודר באריזה אחת. שירות מצוין.",
               author: "שרה מ., נצרת",
             },
           ].map((t, i) => (
             <div key={i} className="testi-card">
               <div className="stars">★★★★★</div>
-              <div className="quote">"{t[locale]}"</div>
+              <div className="quote">&ldquo;{t.quote}&rdquo;</div>
               <div className="author">— {t.author}</div>
             </div>
           ))}
