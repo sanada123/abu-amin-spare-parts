@@ -5,15 +5,46 @@ import { getFeaturedProducts as dbFeatured, getAllCategories as dbCategories, ge
 import { parts as staticParts, categories as staticCategories, brands as staticBrands } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 
-// Graceful DB fallback — use static data if DB is unreachable
+// Graceful DB fallback — adapt static data to Prisma format
+function adaptStaticParts(parts: any[]) {
+  return parts.slice(0, 8).map((p: any) => ({
+    id: p.id || 0,
+    slug: p.slug || '',
+    name: typeof p.name === 'object' ? p.name.he || p.name.ar || '' : p.name,
+    images: p.images || [p.image || '/placeholder.jpg'],
+    category: { name: typeof p.category === 'string' ? p.category : p.category?.he || '' },
+    skus: (p.variants || [{ price: p.price || 0 }]).map((v: any) => ({
+      partNumber: v.sku || v.partNumber || '',
+      priceIls: v.price || p.price || 0,
+      tier: v.tier || 'replacement',
+      brand: { name: v.brand || p.brand || 'כללי', slug: '', country: null },
+      stock: v.stock ?? 1,
+      deliveryDays: v.deliveryDays ?? 3,
+    })),
+    fitments: (p.vehicles || []).map((vid: any) => ({
+      vehicle: { make: '', model: '', year: 0 },
+    })),
+  }));
+}
+
 async function getFeaturedProducts() {
-  try { return await dbFeatured(); } catch { return staticParts.slice(0, 8) as any; }
+  try { return await dbFeatured(); } catch { return adaptStaticParts(staticParts); }
 }
 async function getAllCategories() {
-  try { return await dbCategories(); } catch { return staticCategories as any; }
+  try { return await dbCategories(); } catch {
+    return staticCategories.map((c: any) => ({
+      id: c.id || 0, slug: c.slug || '', name: typeof c.name === 'object' ? c.name.he || '' : c.name,
+      icon: c.icon || null, group: c.group || null, parentId: null, children: [],
+    }));
+  }
 }
 async function getAllBrands() {
-  try { return await dbBrands(); } catch { return staticBrands as any; }
+  try { return await dbBrands(); } catch {
+    return staticBrands.map((b: any) => ({
+      id: b.id || 0, slug: b.slug || '', name: typeof b.name === 'object' ? b.name.he || '' : b.name,
+      country: b.country || null, logoUrl: b.logo || null,
+    }));
+  }
 }
 import VehicleSelector from "@/components/VehicleSelector";
 import TopMakes from "@/components/TopMakes";
