@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import PromoBanner from "@/components/PromoBanner";
 
 export const metadata: Metadata = {
   title: "אבו אמין חלפים | מס׳ 1 בכרמל — חלפי רכב · כלים · גינה",
@@ -51,6 +52,7 @@ export default function RootLayout({
       </head>
       <body style={{ fontFamily: "'Heebo', 'Arial Hebrew', 'David', system-ui, sans-serif" }}>
         <ThemeProvider>
+          <PromoBanner />
           <Nav />
           {children}
           <Footer />

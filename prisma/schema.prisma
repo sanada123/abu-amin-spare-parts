@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  id        Int        @id @default(autoincrement())
+  slug      String     @unique
+  name      String
+  icon      String?
+  parentId  Int?
+  parent    Category?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children  Category[] @relation("CategoryTree")
+  group     String?
+  position  Int        @default(0)
+  isActive  Boolean    @default(true)
+  products  Product[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Brand {
+  id        Int      @id @default(autoincrement())
+  name      String
+  slug      String   @unique
+  logo      String?
+  country   String?
+  isActive  Boolean  @default(true)
+  skus      Sku[]
+  createdAt DateTime @default(now())
+}
+
+model Vehicle {
+  id        Int       @id @default(autoincrement())
+  make      String
+  makeHe    String
+  model     String
+  modelHe   String
+  year      Int
+  engine    String?
+  isActive  Boolean   @default(true)
+  fitments  Fitment[]
+  createdAt DateTime  @default(now())
+
+  @@unique([make, model, year, engine])
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique
+  name        String
+  description String?
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  images      String[]
+  isActive    Boolean   @default(true)
+  isFeatured  Boolean   @default(false)
+  position    Int       @default(0)
+  skus        Sku[]
+  fitments    Fitment[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Sku {
+  id             Int         @id @default(autoincrement())
+  partNumber     String      @unique
+  productId      Int
+  product        Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  brandId        Int
+  brand          Brand       @relation(fields: [brandId], references: [id])
+  tier           String
+  priceIls       Float
+  costIls        Float?
+  stock          Int         @default(0)
+  minStock       Int         @default(5)
+  deliveryDays   Int         @default(3)
+  warrantyMonths Int         @default(12)
+  weight         Float?
+  isActive       Boolean     @default(true)
+  orderItems     OrderItem[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+}
+
+model Fitment {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  vehicleId Int
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@unique([productId, vehicleId])
+}
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  name       String
+  phone      String   @unique
+  type       String
+  garageName String?
+  notes      String?
+  orders     Order[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  orderNumber String      @unique
+  customerId  Int
+  customer    Customer    @relation(fields: [customerId], references: [id])
+  vehicleInfo String?
+  status      String      @default("new")
+  channel     String      @default("whatsapp")
+  subtotal    Float
+  vatRate     Float       @default(17)
+  vatAmount   Float
+  total       Float
+  notes       String?
+  items       OrderItem[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model OrderItem {
+  id        Int   @id @default(autoincrement())
+  orderId   Int
+  order     Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  skuId     Int
+  sku       Sku   @relation(fields: [skuId], references: [id])
+  qty       Int
+  unitPrice Float
+  total     Float
+}
+
+model Promotion {
+  id            Int      @id @default(autoincrement())
+  name          String
+  type          String
+  value         Float
+  buyX          Int?
+  getY          Int?
+  minOrder      Float?
+  code          String?  @unique
+  appliesToAll  Boolean  @default(true)
+  categoryIds   Int[]
+  productIds    Int[]
+  brandIds      Int[]
+  customerTypes String[]
+  startDate     DateTime
+  endDate       DateTime
+  maxUses       Int?
+  usedCount     Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+}
+
+model Setting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
