@@ -1,8 +1,13 @@
 export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/queries";
+import { getProductBySlug as dbGetProduct } from "@/lib/queries";
+import { parts as staticParts } from "@/lib/data";
 import ProductDetailClient from "@/components/ProductDetailClient";
 import type { Metadata } from "next";
+
+async function getProductBySlug(slug: string) {
+  try { return await dbGetProduct(slug); } catch { return staticParts.find(p => p.slug === slug) as any || null; }
+}
 import type { SkuDetail } from "@/lib/queries";
 
 interface Props {

@@ -1,8 +1,16 @@
 export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 import Link from "next/link";
-import { searchProducts } from "@/lib/queries";
+import { searchProducts as dbSearch } from "@/lib/queries";
+import { parts as staticParts } from "@/lib/data";
 import ProductCard from "@/components/ProductCard";
+
+async function searchProducts(q: string, vehicleId?: number) {
+  try { return await dbSearch(q); } catch {
+    const lower = q.toLowerCase();
+    return (staticParts.filter((p: any) => String(p.name).includes(lower) || String(p.category).includes(lower))) as any;
+  }
+}
 
 interface SearchPageProps {
   searchParams: Promise<{ q?: string; vehicleId?: string }>;
@@ -44,12 +52,12 @@ async function SearchResults({ searchParams }: { searchParams: SearchPageProps["
           </div>
         ) : (
           <div className="parts-grid">
-            {results.map((p) => {
+            {results.map((p: any) => {
               const minPrice = p.skus.length > 0
-                ? Math.min(...p.skus.map((s) => s.priceIls))
+                ? Math.min(...p.skus.map((s: any) => s.priceIls))
                 : 0;
-              const brandNames = p.skus.slice(0, 3).map((s) => s.brand.name);
-              const tiers = [...new Set(p.skus.map((s) => s.tier))] as Array<"original" | "replacement">;
+              const brandNames = p.skus.slice(0, 3).map((s: any) => s.brand.name);
+              const tiers = [...new Set(p.skus.map((s: any) => s.tier))] as Array<"original" | "replacement">;
               const imageSrc = p.images[0] ?? `/parts/${p.slug}.svg`;
               return (
                 <ProductCard

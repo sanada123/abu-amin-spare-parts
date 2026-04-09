@@ -1,8 +1,20 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
-import { getFeaturedProducts, getAllCategories, getAllBrands } from "@/lib/queries";
+import { getFeaturedProducts as dbFeatured, getAllCategories as dbCategories, getAllBrands as dbBrands } from "@/lib/queries";
+import { parts as staticParts, categories as staticCategories, brands as staticBrands } from "@/lib/data";
 import { tr } from "@/lib/i18n";
+
+// Graceful DB fallback — use static data if DB is unreachable
+async function getFeaturedProducts() {
+  try { return await dbFeatured(); } catch { return staticParts.slice(0, 8) as any; }
+}
+async function getAllCategories() {
+  try { return await dbCategories(); } catch { return staticCategories as any; }
+}
+async function getAllBrands() {
+  try { return await dbBrands(); } catch { return staticBrands as any; }
+}
 import VehicleSelector from "@/components/VehicleSelector";
 import TopMakes from "@/components/TopMakes";
 import CategoryStrip from "@/components/CategoryStrip";
@@ -26,7 +38,7 @@ export default async function Home() {
   ]);
 
   const primaryCats = categories
-    .filter((c) => !c.parentId && !c.group)
+    .filter((c: any) => !c.parentId && !c.group)
     .slice(0, 5);
 
   return (
@@ -150,12 +162,12 @@ export default async function Home() {
           <Link href="/catalog">{tr("view_all")} →</Link>
         </div>
         <div className="parts-grid">
-          {featuredProducts.map((p) => {
+          {featuredProducts.map((p: any) => {
             const minPrice = p.skus.length > 0
-              ? Math.min(...p.skus.map((s) => s.priceIls))
+              ? Math.min(...p.skus.map((s: any) => s.priceIls))
               : 0;
-            const brandNames = p.skus.slice(0, 4).map((s) => s.brand.name);
-            const tiers = [...new Set(p.skus.map((s) => s.tier))] as Array<"original" | "replacement">;
+            const brandNames = p.skus.slice(0, 4).map((s: any) => s.brand.name);
+            const tiers = [...new Set(p.skus.map((s: any) => s.tier))] as Array<"original" | "replacement">;
             const firstFitment = p.fitments[0];
             const extraCount = p.fitments.length - 1;
             const vehicleLabel = firstFitment
@@ -191,7 +203,7 @@ export default async function Home() {
           <Link href="/catalog">{tr("view_all")} →</Link>
         </div>
         <div className="cat-grid">
-          {primaryCats.map((c) => (
+          {primaryCats.map((c: any) => (
             <Link
               key={c.id}
               href={c.group === "tools" ? `/catalog?group=tools` : `/catalog?cat=${c.slug}`}
@@ -249,7 +261,7 @@ export default async function Home() {
           </h2>
         </div>
         <div className="brand-strip">
-          {brands.map((b) => (
+          {brands.map((b: any) => (
             <span key={b.id} className="brand-chip">
               {b.logo && <span className="flag">{b.logo}</span>}
               <span>{b.name}</span>
