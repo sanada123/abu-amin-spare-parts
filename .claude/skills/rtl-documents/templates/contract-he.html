@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--c-primary:#1B2B4B;--c-accent:#B8962E;--c-text:#1A1A1A;--c-muted:#64748B;--c-border:#E2E8F0;--c-surface:#F8FAFC;--c-white:#FFFFFF;--font:'Heebo','Arial','Tahoma',sans-serif}
+body{font-family:var(--font);font-size:10.5pt;line-height:1.85;color:var(--c-text);direction:rtl;text-align:right;background:var(--c-white);padding:40px 48px;max-width:820px;margin:0 auto;-webkit-font-smoothing:antialiased}
+.doc-header{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;border-bottom:3px solid var(--c-primary);margin-bottom:24px}
+.company-name{font-size:15pt;font-weight:700;color:var(--c-primary);letter-spacing:-0.3px}
+.company-sub{font-size:8.5pt;color:var(--c-muted);margin-top:2px;line-height:1.6}
+.doc-ref{text-align:left;direction:ltr}
+.doc-type-badge{display:inline-block;background:var(--c-primary);color:var(--c-white);font-size:9.5pt;font-weight:600;padding:4px 14px;border-radius:3px;text-align:center;margin-bottom:8px}
+.ref-line{font-size:8.5pt;color:var(--c-muted);line-height:1.8}
+.doc-title{text-align:center;margin:16px 0 4px}
+.doc-title h1{font-size:20pt;font-weight:700;color:var(--c-primary);letter-spacing:-0.5px}
+.doc-number{font-size:9.5pt;color:var(--c-muted);text-align:center;margin-bottom:24px}
+.parties{display:flex;gap:16px;margin:24px 0}
+.party-card{flex:1;background:var(--c-surface);border:1px solid var(--c-border);border-top:3px solid var(--c-primary);border-radius:4px;padding:16px}
+.party-role{font-size:8.5pt;font-weight:700;color:var(--c-muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.party-name{font-size:12pt;font-weight:700;color:var(--c-primary);margin-bottom:8px}
+.party-detail{font-size:9.5pt;color:var(--c-muted);line-height:1.7}
+.section{margin-bottom:24px}
+.section h2{font-size:12pt;font-weight:700;color:var(--c-primary);padding-bottom:8px;border-bottom:2px solid var(--c-border);margin-bottom:12px}
+.section p{margin-bottom:12px}
+.sub{padding-right:24px}
+.clause-num{font-weight:600;color:var(--c-primary);margin-left:8px}
+table{width:100%;border-collapse:collapse;direction:rtl;margin:16px 0;font-size:9.5pt}
+thead th{background:var(--c-primary);color:var(--c-white);padding:10px 16px;text-align:right;font-weight:600;font-size:8.5pt;letter-spacing:.3px;text-transform:uppercase}
+thead th.num,tbody td.num{text-align:left;direction:ltr;font-variant-numeric:tabular-nums;letter-spacing:0}
+tbody td{padding:9px 16px;border-bottom:1px solid var(--c-border)}
+tbody tr:nth-child(even) td{background:var(--c-surface)}
+tfoot td{padding:10px 16px;font-weight:600;border-top:2px solid var(--c-border)}
+tfoot tr.grand-total td{background:var(--c-primary);color:var(--c-white);font-size:10.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.amount{direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;white-space:nowrap}
+.ltr{direction:ltr;display:inline-block;unicode-bidi:isolate}
+.signatures{display:flex;justify-content:space-between;gap:40px;margin-top:48px;padding-top:24px;border-top:2px solid var(--c-border)}
+.sig-party{flex:1}
+.sig-role{font-size:8.5pt;font-weight:700;color:var(--c-muted);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.sig-name{font-size:10.5pt;font-weight:700;color:var(--c-primary);margin-bottom:40px}
+.sig-line{border-top:1px solid var(--c-text);margin-bottom:8px}
+.sig-fields{font-size:8.5pt;color:var(--c-muted);line-height:2}
+.doc-footer{margin-top:32px;padding-top:12px;border-top:1px solid var(--c-border);font-size:8.5pt;color:var(--c-muted);display:flex;justify-content:space-between}
+@media print{@page{size:A4 portrait;margin:20mm 22mm 18mm 18mm}body{padding:0;font-size:10pt;max-width:100%}.parties,.signatures,table,.section{page-break-inside:avoid}thead th,.doc-type-badge{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-brand">
+    <div class="company-name">{{COMPANY_NAME}}</div>
+    <div class="company-sub">ח.פ. {{COMPANY_TAX_ID}}<br>{{COMPANY_ADDRESS}}</div>
+  </div>
+  <div class="doc-ref">
+    <div class="doc-type-badge">הסכם {{CONTRACT_TYPE}}</div>
+    <div class="ref-line">
+      מספר: <strong>{{CONTRACT_NUMBER}}</strong><br>
+      תאריך: <strong>{{DATE}}</strong>
+    </div>
+  </div>
+</div>
+
+<div class="doc-title"><h1>הסכם {{CONTRACT_TYPE}}</h1></div>
+<div class="doc-number">מספר {{CONTRACT_NUMBER}} | {{DATE}}</div>
+
+<div class="parties">
+  <div class="party-card">
+    <div class="party-role">צד א׳ — הספק</div>
+    <div class="party-name">{{PARTY_A_NAME}}</div>
+    <div class="party-detail">
+      ח.פ.: {{PARTY_A_TAX_ID}}<br>
+      {{PARTY_A_ADDRESS}}<br>
+      {{PARTY_A_CONTACT}}
+    </div>
+  </div>
+  <div class="party-card">
+    <div class="party-role">צד ב׳ — הלקוח</div>
+    <div class="party-name">{{PARTY_B_NAME}}</div>
+    <div class="party-detail">
+      ח.פ./ת.ז.: {{PARTY_B_TAX_ID}}<br>
+      {{PARTY_B_ADDRESS}}<br>
+      {{PARTY_B_CONTACT}}
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>סעיף 1 — מבוא ומטרת ההסכם</h2>
+  <p>{{PREAMBLE}}</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 2 — היקף העבודה</h2>
+  <p>{{SCOPE_INTRO}}</p>
+  <p class="sub"><span class="clause-num">2.1</span> {{DELIVERABLE_1}}</p>
+  <p class="sub"><span class="clause-num">2.2</span> {{DELIVERABLE_2}}</p>
+  <p class="sub"><span class="clause-num">2.3</span> {{DELIVERABLE_3}}</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 3 — תמורה ותנאי תשלום</h2>
+  <p><span class="clause-num">3.1</span> בתמורה לביצוע השירותים, ישלם {{PARTY_B_SHORT}} ל-{{PARTY_A_SHORT}} סך כולל של <span class="amount">{{TOTAL_AMOUNT}} ₪</span> ({{TOTAL_AMOUNT_WORDS}}) בתוספת מע״מ כדין.</p>
+  <p><span class="clause-num">3.2</span> התשלומים יבוצעו בהתאם לאבני הדרך הבאות:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>אבן דרך</th>
+        <th>תאריך יעד</th>
+        <th class="num">סכום (₪)</th>
+        <th class="num">% מהכולל</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>מקדמה — חתימת ההסכם</td>
+        <td>{{MILESTONE_1_DATE}}</td>
+        <td class="num">{{MILESTONE_1_AMOUNT}}</td>
+        <td class="num">{{MILESTONE_1_PCT}}%</td>
+      </tr>
+      <tr>
+        <td>{{MILESTONE_2_NAME}}</td>
+        <td>{{MILESTONE_2_DATE}}</td>
+        <td class="num">{{MILESTONE_2_AMOUNT}}</td>
+        <td class="num">{{MILESTONE_2_PCT}}%</td>
+      </tr>
+      <tr>
+        <td>יתרה — אספקה סופית ואישור</td>
+        <td>{{MILESTONE_3_DATE}}</td>
+        <td class="num">{{MILESTONE_3_AMOUNT}}</td>
+        <td class="num">{{MILESTONE_3_PCT}}%</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr class="grand-total">
+        <td colspan="2">סה״כ (לפני מע״מ)</td>
+        <td class="num">{{TOTAL_AMOUNT}}</td>
+        <td class="num">100%</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<div class="section">
+  <h2>סעיף 4 — לוח זמנים</h2>
+  <p><span class="clause-num">4.1</span> ההסכם ייכנס לתוקף ביום <span class="ltr">{{START_DATE}}</span> וייסתיים ביום <span class="ltr">{{END_DATE}}</span>, אלא אם כן הוארך בכתב על ידי שני הצדדים.</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 5 — סודיות</h2>
+  <p><span class="clause-num">5.1</span> כל מידע שיועבר בין הצדדים במסגרת הסכם זה, בין בכתב ובין בעל פה, ייחשב לסודי ולא ייחשף לצד שלישי ללא הסכמה מפורשת ומראש בכתב של הצד המגלה.</p>
+  <p><span class="clause-num">5.2</span> חובת הסודיות תעמוד בתוקפה גם לאחר סיום ההסכם, ללא הגבלת זמן.</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 6 — קניין רוחני</h2>
+  <p><span class="clause-num">6.1</span> {{IP_CLAUSE}}</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 7 — אחריות</h2>
+  <p><span class="clause-num">7.1</span> אחריותו הכוללת של כל צד לא תעלה על סכום התמורה הכולל ששולם בפועל במסגרת הסכם זה.</p>
+  <p><span class="clause-num">7.2</span> שום צד לא יישא בנזקים עקיפים, תוצאתיים, אבדן רווח או נזקים מיוחדים.</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 8 — סיום ההסכם</h2>
+  <p><span class="clause-num">8.1</span> כל צד רשאי לסיים הסכם זה בהודעה מוקדמת של <strong>{{NOTICE_DAYS}} ימי עסקים</strong> בכתב.</p>
+  <p><span class="clause-num">8.2</span> הפרה יסודית מזכה את הצד הנפגע בסיום לאלתר, ללא צורך בהודעה מוקדמת.</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 9 — יישוב סכסוכים</h2>
+  <p><span class="clause-num">9.1</span> הסכם זה יהיה כפוף לדיני מדינת ישראל. כל מחלוקת תובא תחילה לגישור ובהיעדר הסכמה — לבית המשפט המוסמך ב{{JURISDICTION}}.</p>
+</div>
+
+<div class="section">
+  <h2>סעיף 10 — כללי</h2>
+  <p><span class="clause-num">10.1</span> שינויים להסכם זה יהיו בתוקף רק אם נעשו בכתב וחתומים על ידי שני הצדדים.</p>
+  <p><span class="clause-num">10.2</span> הסכם זה מהווה את מלוא ההסכמה בין הצדדים ומחליף כל מסמך קודם בנושא.</p>
+  <p><span class="clause-num">10.3</span> אם ייקבע שסעיף כלשהו אינו אכיף, יישארו שאר הסעיפים בתוקפם.</p>
+</div>
+
+<div class="signatures">
+  <div class="sig-party">
+    <div class="sig-role">צד א׳ — הספק</div>
+    <div class="sig-name">{{PARTY_A_NAME}}</div>
+    <div class="sig-line"></div>
+    <div class="sig-fields">
+      שם ותפקיד: ___________________________<br>
+      תאריך: ___________________________
+    </div>
+  </div>
+  <div class="sig-party">
+    <div class="sig-role">צד ב׳ — הלקוח</div>
+    <div class="sig-name">{{PARTY_B_NAME}}</div>
+    <div class="sig-line"></div>
+    <div class="sig-fields">
+      שם ותפקיד: ___________________________<br>
+      תאריך: ___________________________
+    </div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <span>{{COMPANY_NAME}} | {{CONTRACT_TYPE}} | מספר {{CONTRACT_NUMBER}}</span>
+  <span>{{DATE}}</span>
+</div>
+
+</body>
+</html>

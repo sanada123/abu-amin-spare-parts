@@ -7,6 +7,7 @@ import {
   kits,
   parts,
   getBrand,
+  getVehicle,
   minPriceForPart,
   kitImageUrl,
   partImageUrl,
@@ -177,6 +178,17 @@ export default function Home() {
               .slice(0, 4)
               .map((s) => getBrand(s.brandId)?.name)
               .filter((n): n is string => Boolean(n));
+            const fitVehicles = p.fitsVehicleIds.slice(0, 3).map((id) => getVehicle(id)).filter(Boolean);
+            const primaryVehicle = fitVehicles[0];
+            const extraCount = p.fitsVehicleIds.length - 1;
+            const vehicleLabel = primaryVehicle
+              ? `${primaryVehicle.makeName.he} ${primaryVehicle.modelName.he} ${primaryVehicle.year}${extraCount > 0 ? ` +${extraCount} נוספים` : ""}`
+              : undefined;
+            const tierSet = [...new Set(p.skus.map((s) => (s as any).tier).filter(Boolean))] as ("original" | "replacement")[];
+            const inStockSkus = p.skus.filter((s) => s.stock > 0);
+            const bestDelivery = inStockSkus.length > 0
+              ? Math.min(...inStockSkus.map((s) => (s as any).deliveryDays ?? 3))
+              : undefined;
             return (
               <ProductCard
                 key={p.id}
@@ -185,7 +197,11 @@ export default function Home() {
                 imageSrc={partImageUrl(p)}
                 price={minP}
                 brands={brandNames}
-                inStock={true}
+                vehicleLabel={vehicleLabel}
+                tiers={tierSet}
+                skuCount={p.skus.length}
+                deliveryDays={bestDelivery}
+                inStock={inStockSkus.length > 0}
                 fitsActiveCar={fitsActive}
               />
             );

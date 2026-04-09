@@ -155,15 +155,17 @@ export default function ProductCard({
         {vehicleLabel && (
           <div
             style={{
-              fontSize: "0.58rem",
-              color: "var(--text-dim)",
+              fontSize: "0.75rem",
+              fontWeight: 700,
+              color: "#FFC424",
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
               lineHeight: 1.4,
+              marginTop: 2,
             }}
           >
-            {vehicleLabel}
+            🚗 {vehicleLabel}
           </div>
         )}
 
