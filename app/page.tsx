@@ -1,6 +1,15 @@
 "use client";
 import Link from "next/link";
-import { Shield, Truck, Clock, Award } from "lucide-react";
+import { Shield, Truck, Clock, Award, Disc, Filter, Settings, Sliders, Zap, Sun } from "lucide-react";
+
+const CAT_ICONS: Record<string, React.ComponentType<{size?: number; "aria-hidden"?: boolean | "true" | "false"}>> = {
+  brakes: Disc,
+  filters: Filter,
+  engine: Settings,
+  suspension: Sliders,
+  electrical: Zap,
+  lighting: Sun,
+};
 import {
   categories,
   brands,
@@ -40,7 +49,7 @@ export default function Home() {
       {/* 2. Category strip */}
       <CategoryStrip />
 
-      {/* 3. Hero — compact */}
+      {/* 3. Hero — with gradient depth */}
       <section
         className="hero"
         style={{ padding: 0, margin: 0, maxWidth: "100%" }}
@@ -60,7 +69,8 @@ export default function Home() {
             ) : (
               <>
                 מצא את{" "}
-                <span className="accent">החלק המדויק</span> לרכב שלך
+                <span className="accent">החלק המדויק</span>{" "}
+                לרכב שלך
               </>
             )}
           </h1>
@@ -178,7 +188,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Categories */}
+      {/* 8. Categories — top 6 primaries, rest accessible from catalog */}
       <section>
         <div className="section-head">
           <h2>
@@ -188,12 +198,17 @@ export default function Home() {
           <Link href="/catalog">{tr("view_all", locale)} →</Link>
         </div>
         <div className="cat-grid">
-          {categories.map((c) => (
-            <Link key={c.id} href={`/catalog?cat=${c.slug}`} className="cat-card">
-              <span className="cat-icon">{c.icon}</span>
-              <span className="cat-name">{c.name[locale]}</span>
-            </Link>
-          ))}
+          {categories.slice(0, 6).map((c) => {
+            const Icon = CAT_ICONS[c.slug];
+            return (
+              <Link key={c.id} href={`/catalog?cat=${c.slug}`} className="cat-card">
+                <span className="cat-icon">
+                  {Icon ? <Icon size={24} aria-hidden="true" /> : c.icon}
+                </span>
+                <span className="cat-name">{c.name[locale]}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

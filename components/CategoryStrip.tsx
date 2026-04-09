@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Disc,
   Filter,
@@ -17,7 +18,7 @@ import {
 import { useLocale } from "@/lib/cart";
 import { categories } from "@/lib/data";
 
-const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number; color?: string }>> = {
+const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number; color?: string; aria?: string }>> = {
   brakes: Disc,
   filters: Filter,
   engine: Settings,
@@ -34,6 +35,7 @@ const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number; color?
 
 export default function CategoryStrip() {
   const locale = useLocale();
+  const pathname = usePathname();
 
   return (
     <div
@@ -43,7 +45,9 @@ export default function CategoryStrip() {
         overflowX: "auto",
         scrollbarWidth: "none",
         msOverflowStyle: "none",
+        scrollSnapType: "x mandatory",
       }}
+      className="scrollbar-hide"
     >
       <div
         style={{
@@ -51,13 +55,14 @@ export default function CategoryStrip() {
           margin: "0 auto",
           padding: "0 14px",
           display: "flex",
-          gap: 4,
+          gap: 2,
           alignItems: "stretch",
           minWidth: "max-content",
         }}
       >
         {categories.map((cat) => {
           const Icon = CATEGORY_ICONS[cat.slug] ?? Settings;
+          const isActive = pathname?.includes(`cat=${cat.slug}`);
           return (
             <Link
               key={cat.id}
@@ -67,38 +72,44 @@ export default function CategoryStrip() {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: 5,
-                padding: "10px 14px",
-                minWidth: 72,
-                color: "var(--text-muted)",
+                gap: 6,
+                padding: "10px 16px",
+                minWidth: 80,
+                color: isActive ? "var(--accent)" : "var(--text-muted)",
                 fontSize: "0.62rem",
                 fontWeight: 600,
                 textAlign: "center",
                 textTransform: "uppercase",
                 letterSpacing: "0.04em",
-                borderBottom: "2px solid transparent",
+                borderBottom: `2px solid ${isActive ? "var(--accent)" : "transparent"}`,
                 transition: "color 0.15s, border-color 0.15s",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
+                scrollSnapAlign: "start",
+                minHeight: 70,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.color = "var(--accent)";
-                (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "var(--accent)";
+                if (!isActive) {
+                  (e.currentTarget as HTMLAnchorElement).style.color = "var(--accent)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "var(--accent)";
+                }
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-muted)";
-                (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "transparent";
+                if (!isActive) {
+                  (e.currentTarget as HTMLAnchorElement).style.color = "var(--text-muted)";
+                  (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "transparent";
+                }
               }}
+              aria-label={cat.name[locale]}
             >
-              <Icon size={18} aria-hidden="true" />
+              <div className="cat-strip-icon">
+                <Icon size={22} aria-hidden="true" />
+              </div>
               <span>{cat.name[locale]}</span>
             </Link>
           );
         })}
       </div>
-      <style>{`
-        div:has(> .category-strip-inner)::-webkit-scrollbar { display: none; }
-      `}</style>
     </div>
   );
 }

@@ -607,22 +607,19 @@ function CatalogInner() {
           </div>
         )}
 
-        {/* Category quick links — when no cat filter active */}
-        {selectedCats.length === 0 && !cat && (
-          <div className="cat-grid" style={{ marginBottom: 24 }}>
-            {categories.map((c) => (
-              <button
-                key={c.id}
-                className="cat-card"
-                onClick={() => toggleCat(c.id)}
-                style={{ cursor: "pointer" }}
-              >
-                <span className="cat-icon">{c.icon}</span>
-                <span className="cat-name">{c.name[locale]}</span>
-              </button>
-            ))}
-          </div>
-        )}
+        {/* Category chip strip — always visible, compact */}
+        <div className="cat-chip-strip" role="group" aria-label={locale === "he" ? "קטגוריות" : locale === "ar" ? "الفئات" : "Categories"}>
+          {categories.map((c) => (
+            <button
+              key={c.id}
+              className={`cat-chip${selectedCats.includes(c.id) ? " active" : ""}`}
+              onClick={() => toggleCat(c.id)}
+              aria-pressed={selectedCats.includes(c.id)}
+            >
+              {c.name[locale]}
+            </button>
+          ))}
+        </div>
 
         {/* Parts grid or empty */}
         {visible.length === 0 ? (

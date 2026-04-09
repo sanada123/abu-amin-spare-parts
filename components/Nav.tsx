@@ -2,9 +2,9 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Search, ShoppingCart, Home, Settings, Car, LayoutGrid } from "lucide-react";
+import { Search, ShoppingCart, Home, Car, LayoutGrid } from "lucide-react";
 import { useActiveVehicleId, useCart, useLocale, setLocale } from "@/lib/cart";
-import { getVehicle } from "@/lib/data";
+import { getVehicle, getPart } from "@/lib/data";
 import { tr, type Locale } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
 
@@ -17,6 +17,11 @@ export default function Nav() {
   const [q, setQ] = useState("");
   const cartCount = cart.reduce((s, c) => s + c.qty, 0);
   const vehicle = vehicleId ? getVehicle(vehicleId) : null;
+  const cartTotal = cart.reduce((sum, item) => {
+    const part = getPart(item.partId);
+    const sku = part?.skus.find((s) => s.id === item.skuId);
+    return sum + (sku?.priceIls ?? 0) * item.qty;
+  }, 0);
 
   const submitSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -161,6 +166,25 @@ export default function Nav() {
               {locale === "en" ? "Change" : locale === "ar" ? "تغيير" : "שנה"}
             </Link>
           </div>
+        </div>
+      )}
+
+      {/* Mobile sticky cart bar — shows above bottom-nav when cart has items */}
+      {cartCount > 0 && (
+        <div className="mobile-cart-bar" role="status" aria-live="polite">
+          <div className="cart-info">
+            <span className="cart-count" aria-label={`${cartCount} פריטים בעגלה`}>
+              {cartCount}
+            </span>
+            <span className="cart-label">
+              {cartTotal > 0 ? `₪${cartTotal.toLocaleString()}` : (
+                locale === "he" ? "עגלת קניות" : locale === "ar" ? "سلة التسوق" : "Cart"
+              )}
+            </span>
+          </div>
+          <Link href="/cart" className="cart-cta" aria-label={locale === "he" ? "לתשלום" : locale === "ar" ? "إلى الدفع" : "Checkout"}>
+            {locale === "he" ? "לתשלום →" : locale === "ar" ? "الدفع →" : "Checkout →"}
+          </Link>
         </div>
       )}
 

@@ -61,6 +61,7 @@ export default function ProductCard({
           aspectRatio: "1 / 1",
           overflow: "hidden",
           flexShrink: 0,
+          position: "relative",
         }}
       >
         <img
@@ -68,7 +69,34 @@ export default function ProductCard({
           alt={name}
           loading="lazy"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
+          onError={(e) => {
+            const img = e.currentTarget;
+            img.style.display = "none";
+            const badge = img.nextElementSibling as HTMLElement | null;
+            if (badge) badge.style.display = "flex";
+          }}
         />
+        <div
+          aria-hidden="true"
+          style={{
+            display: "none",
+            position: "absolute",
+            inset: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column",
+            gap: 6,
+            background: "var(--surface-3)",
+            color: "var(--text-dim)",
+            fontSize: "0.6rem",
+            fontWeight: 600,
+            textAlign: "center",
+            padding: 8,
+          }}
+        >
+          <span style={{ fontSize: "1.4rem" }}>🔧</span>
+          <span>תמונה להמחשה</span>
+        </div>
       </div>
 
       {/* Body */}
@@ -153,20 +181,24 @@ export default function ProductCard({
           </div>
         )}
 
-        {/* Stock + price row */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginTop: "auto",
-            gap: 6,
-          }}
-        >
+        {/* Price + stock — vertical stack, price dominant */}
+        <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 2 }}>
           <span
             style={{
-              fontSize: "0.62rem",
-              fontWeight: 700,
+              fontSize: "clamp(1.05rem, 3vw, 1.3rem)",
+              fontWeight: 800,
+              color: "var(--text)",
+              lineHeight: 1.1,
+              direction: "ltr",
+              display: "block",
+            }}
+          >
+            ₪{price}
+          </span>
+          <span
+            style={{
+              fontSize: "0.6rem",
+              fontWeight: 600,
               color: inStock ? "var(--in-stock)" : "var(--out-of-stock)",
               display: "inline-flex",
               alignItems: "center",
@@ -175,25 +207,14 @@ export default function ProductCard({
           >
             <span
               style={{
-                width: 6,
-                height: 6,
+                width: 5,
+                height: 5,
                 borderRadius: "50%",
                 background: inStock ? "var(--in-stock)" : "var(--out-of-stock)",
                 flexShrink: 0,
               }}
             />
             {inStock ? tr("in_stock", locale) : locale === "he" ? "אזל" : locale === "ar" ? "نفد" : "Out"}
-          </span>
-          <span
-            style={{
-              fontSize: "1rem",
-              fontWeight: 700,
-              color: "var(--text)",
-              lineHeight: 1,
-              direction: "ltr",
-            }}
-          >
-            ₪{price}
           </span>
         </div>
 

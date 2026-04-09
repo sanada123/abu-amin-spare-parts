@@ -738,7 +738,7 @@ section {
 
 /* ============ HERO ============ */
 .hero {
-  background: var(--surface);
+  background: linear-gradient(135deg, var(--surface) 0%, var(--bg) 60%, var(--surface) 100%);
   color: var(--text);
   position: relative;
   overflow: hidden;
@@ -748,8 +748,9 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 60L60 0' stroke='%23ffffff' stroke-width='0.3' stroke-opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 60px 60px;
+  background: radial-gradient(circle at 30% 20%, rgba(255,215,0,0.07) 0%, transparent 60%),
+              url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cpath d='M0 60L60 0' stroke='%23ffffff' stroke-width='0.3' stroke-opacity='0.04'/%3E%3C/svg%3E");
+  background-size: auto, 60px 60px;
   pointer-events: none;
 }
 .hero-inner {
@@ -1070,7 +1071,10 @@ footer {
 @media (min-width: 640px) {
   .brand-text { display: flex; flex-direction: column; }
   .brand-text .name { font-size: 0.96rem; font-weight: 700; color: var(--text); }
-  .brand-text .sub { font-size: 0.62rem; color: var(--text-muted); font-weight: 500; }
+  .brand-text .sub { display: none; font-size: 0.62rem; color: var(--text-muted); font-weight: 500; }
+}
+@media (min-width: 900px) {
+  .brand-text .sub { display: block; }
 }
 .nav-search {
   display: flex;
@@ -1122,11 +1126,14 @@ footer {
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text-muted);
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   font-weight: 700;
   font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media (min-width: 900px) { .locale-mobile { display: none; } }
 .cart-btn {
@@ -1135,16 +1142,17 @@ footer {
   justify-content: center;
   background: var(--accent);
   color: var(--accent-fg);
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   font-weight: 700;
   position: relative;
   flex-shrink: 0;
-  transition: background 0.12s;
+  transition: background 0.12s, box-shadow 0.12s;
+  box-shadow: 0 0 16px -4px rgba(255,215,0,0.4);
 }
-.cart-btn:hover { background: var(--accent-hover); }
-@media (min-width: 900px) { .cart-btn { width: auto; padding: 0 16px; gap: 7px; } }
+.cart-btn:hover { background: var(--accent-hover); box-shadow: 0 0 24px -4px rgba(255,215,0,0.6); }
+@media (min-width: 900px) { .cart-btn { min-width: auto; padding: 0 16px; gap: 7px; } }
 .cart-btn span.label { display: none; }
 @media (min-width: 900px) { .cart-btn span.label { display: inline; } }
 .cart-badge {
@@ -1180,8 +1188,8 @@ footer {
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text-muted);
-  width: 40px;
-  height: 40px;
+  min-width: 44px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
@@ -1194,3 +1202,123 @@ footer {
 
 /* Logo images: white in dark mode, dark in light mode */
 [data-theme="light"] .make-card img { filter: brightness(0) opacity(0.75); }
+
+/* ============ CATEGORY CHIP STRIP (catalog quick-filter) ============ */
+.cat-chip-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 16px;
+}
+.cat-chip-strip::-webkit-scrollbar { display: none; }
+.cat-chip {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  min-height: 36px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.cat-chip:hover,
+.cat-chip.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ============ MOBILE STICKY CART BAR ============ */
+.mobile-cart-bar {
+  position: fixed;
+  bottom: 56px; /* sits above bottom-nav */
+  inset-inline: 0;
+  height: 52px;
+  background: var(--surface);
+  border-top: 1px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 39;
+  gap: 12px;
+}
+@media (min-width: 900px) { .mobile-cart-bar { display: none; } }
+.mobile-cart-bar .cart-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+.mobile-cart-bar .cart-count {
+  background: var(--accent);
+  color: #000;
+  font-size: 0.72rem;
+  font-weight: 800;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+.mobile-cart-bar .cart-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mobile-cart-bar .cart-cta {
+  background: var(--accent);
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0 18px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: background 0.12s;
+}
+.mobile-cart-bar .cart-cta:hover { background: var(--accent-hover); }
+
+/* ============ CATEGORY STRIP ICON SIZING ============ */
+.cat-strip-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-dim);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide { scrollbar-width: none; -ms-overflow-style: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
