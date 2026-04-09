@@ -1,290 +1,135 @@
-'use client'
+"use client";
+import { useState } from "react";
 
-import { useEffect, useState, useCallback } from 'react'
+const ADMIN_PASS = "admin2026";
 
-const INPUT = 'bg-[#1a1a1d] border border-[#2a2a2e] text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#FFC424] transition-colors w-full'
+const BTN: React.CSSProperties = {
+  background: "#FFD700",
+  border: "2px solid #1a1a1a",
+  borderRadius: 8,
+  padding: "8px 18px",
+  cursor: "pointer",
+  fontWeight: 700,
+  fontSize: 14,
+};
+const INPUT: React.CSSProperties = {
+  border: "1.5px solid #ccc",
+  borderRadius: 8,
+  padding: "10px 12px",
+  fontSize: 14,
+  width: "100%",
+  boxSizing: "border-box",
+  direction: "rtl",
+};
 
-interface Settings {
-  storeName: string
-  tagline: string
-  phone: string
-  mobile: string
-  whatsapp: string
-  address: string
-  hours: string
-  vatRate: number
-  minOrderAmount: number
-  deliveryPrice: number
-}
+export default function AdminSettingsPage() {
+  const [authed, setAuthed] = useState(false);
+  const [pw, setPw] = useState("");
+  const [msg, setMsg] = useState("");
 
-function SectionBanner({ type, msg }: { type: 'success' | 'error'; msg: string }) {
-  return (
-    <div className={`rounded-lg px-4 py-2.5 text-sm ${type === 'success' ? 'bg-[#FFC424]/10 text-[#FFC424] border border-[#FFC424]/30' : 'bg-red-500/10 text-red-400 border border-red-500/30'}`}>
-      {msg}
-    </div>
-  )
-}
+  // Settings state — these would typically be stored in a DB or env
+  // For now, shown as read-only with instructions to edit .env
+  const settings = [
+    { key: "TELEGRAM_BOT_TOKEN", label: "טוקן בוט טלגרם", desc: "מ-@BotFather", value: process.env.NEXT_PUBLIC_TELEGRAM_SET ? "✅ מוגדר" : "❌ חסר — הגדר ב-.env", editable: false },
+    { key: "TELEGRAM_CHAT_ID", label: "Telegram Chat ID", desc: "ה-ID שלך בטלגרם (כברירת מחדל: 422035227)", value: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_SET ? "✅ מוגדר" : "❌ חסר — הגדר ב-.env", editable: false },
+    { key: "NEXT_PUBLIC_WHATSAPP_NUMBER", label: "מספר וואטסאפ", desc: "פורמט: 972501234567", value: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "❌ חסר", editable: false },
+    { key: "NEXT_PUBLIC_PHONE_NUMBER", label: "מספר טלפון", desc: "מוצג בראש הדף ובפוטר", value: process.env.NEXT_PUBLIC_PHONE_NUMBER || "❌ חסר", editable: false },
+    { key: "NEXT_PUBLIC_BUSINESS_ADDRESS", label: "כתובת העסק", desc: "מוצג בפוטר", value: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS || "עוספיא / דלית אל כרמל", editable: false },
+    { key: "NEXT_PUBLIC_VAT_ID", label: "ח״פ", desc: "מספר חברה — מוצג בפוטר", value: process.env.NEXT_PUBLIC_VAT_ID || "❌ חסר", editable: false },
+  ];
 
-function Skeleton({ className }: { className?: string }) {
-  return <div className={`animate-pulse bg-[#1a1a1d] rounded ${className}`} />
-}
-
-export default function SettingsPage() {
-  const [loading, setLoading] = useState(true)
-  const [storeForm, setStoreForm] = useState<Settings>({
-    storeName: '', tagline: '', phone: '', mobile: '', whatsapp: '', address: '', hours: '',
-    vatRate: 17, minOrderAmount: 0, deliveryPrice: 0,
-  })
-  const [financeForm, setFinanceForm] = useState({ vatRate: '17', minOrderAmount: '0', deliveryPrice: '0' })
-  const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
-
-  const [storeBanner, setStoreBanner] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
-  const [financeBanner, setFinanceBanner] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
-  const [passwordBanner, setPasswordBanner] = useState<{ type: 'success' | 'error'; msg: string } | null>(null)
-
-  const [savingStore, setSavingStore] = useState(false)
-  const [savingFinance, setSavingFinance] = useState(false)
-  const [savingPassword, setSavingPassword] = useState(false)
-
-  function showBanner(
-    setter: React.Dispatch<React.SetStateAction<{ type: 'success' | 'error'; msg: string } | null>>,
-    type: 'success' | 'error',
-    msg: string,
-  ) {
-    setter({ type, msg })
-    if (type === 'success') setTimeout(() => setter(null), 3000)
+  function flash(m: string) {
+    setMsg(m);
+    setTimeout(() => setMsg(""), 3000);
   }
 
-  const load = useCallback(async () => {
-    try {
-      const res = await fetch('/api/admin/settings')
-      const d = await res.json()
-      setStoreForm({
-        storeName: d.storeName ?? '',
-        tagline: d.tagline ?? '',
-        phone: d.phone ?? '',
-        mobile: d.mobile ?? '',
-        whatsapp: d.whatsapp ?? '',
-        address: d.address ?? '',
-        hours: d.hours ?? '',
-        vatRate: d.vatRate ?? 17,
-        minOrderAmount: d.minOrderAmount ?? 0,
-        deliveryPrice: d.deliveryPrice ?? 0,
-      })
-      setFinanceForm({
-        vatRate: String(d.vatRate ?? 17),
-        minOrderAmount: String(d.minOrderAmount ?? 0),
-        deliveryPrice: String(d.deliveryPrice ?? 0),
-      })
-    } catch {
-      showBanner(setStoreBanner, 'error', 'שגיאה בטעינת הגדרות')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => { load() }, [load])
-
-  async function saveStore() {
-    setSavingStore(true)
-    try {
-      const res = await fetch('/api/admin/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          storeName: storeForm.storeName,
-          tagline: storeForm.tagline,
-          phone: storeForm.phone,
-          mobile: storeForm.mobile,
-          whatsapp: storeForm.whatsapp,
-          address: storeForm.address,
-          hours: storeForm.hours,
-        }),
-      })
-      if (!res.ok) throw new Error()
-      showBanner(setStoreBanner, 'success', 'פרטי החנות נשמרו')
-    } catch {
-      showBanner(setStoreBanner, 'error', 'שגיאה בשמירה')
-    } finally {
-      setSavingStore(false)
-    }
-  }
-
-  async function saveFinance() {
-    setSavingFinance(true)
-    try {
-      const res = await fetch('/api/admin/settings', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          vatRate: parseFloat(financeForm.vatRate),
-          minOrderAmount: parseFloat(financeForm.minOrderAmount),
-          deliveryPrice: parseFloat(financeForm.deliveryPrice),
-        }),
-      })
-      if (!res.ok) throw new Error()
-      showBanner(setFinanceBanner, 'success', 'הגדרות כספיות נשמרו')
-    } catch {
-      showBanner(setFinanceBanner, 'error', 'שגיאה בשמירה')
-    } finally {
-      setSavingFinance(false)
-    }
-  }
-
-  async function savePassword() {
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      showBanner(setPasswordBanner, 'error', 'הסיסמאות אינן תואמות')
-      return
-    }
-    if (passwordForm.newPassword.length < 6) {
-      showBanner(setPasswordBanner, 'error', 'סיסמה חייבת להכיל לפחות 6 תווים')
-      return
-    }
-    setSavingPassword(true)
-    try {
-      const res = await fetch('/api/admin/settings/password', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          currentPassword: passwordForm.currentPassword,
-          newPassword: passwordForm.newPassword,
-        }),
-      })
-      if (!res.ok) {
-        const d = await res.json().catch(() => ({}))
-        throw new Error(d.error || 'שגיאה')
-      }
-      showBanner(setPasswordBanner, 'success', 'סיסמה עודכנה בהצלחה')
-      setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'שגיאה בעדכון סיסמה'
-      showBanner(setPasswordBanner, 'error', msg)
-    } finally {
-      setSavingPassword(false)
-    }
-  }
-
-  if (loading) {
+  if (!authed) {
     return (
-      <div className="space-y-6 max-w-2xl">
-        {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-48 rounded-xl" />)}
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#f5f5f5" }}>
+        <div style={{ background: "white", borderRadius: 16, padding: 40, width: 320, boxShadow: "0 4px 24px rgba(0,0,0,0.1)", textAlign: "center" }}>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>⚙️</div>
+          <h2 style={{ marginBottom: 24, fontSize: 20 }}>הגדרות — כניסה</h2>
+          <input
+            type="password"
+            placeholder="סיסמה"
+            value={pw}
+            onChange={(e) => setPw(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && (pw === ADMIN_PASS ? setAuthed(true) : flash("סיסמה שגויה"))}
+            style={{ ...INPUT, marginBottom: 16, textAlign: "center" }}
+          />
+          <button style={{ ...BTN, width: "100%" }} onClick={() => pw === ADMIN_PASS ? setAuthed(true) : flash("סיסמה שגויה")}>כניסה</button>
+          {msg && <p style={{ color: "red", marginTop: 12, fontSize: 14 }}>{msg}</p>}
+        </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
-      <h1 className="text-xl font-bold text-white">הגדרות</h1>
-
-      {/* Store info */}
-      <div className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-white">פרטי החנות</h2>
-        {storeBanner && <SectionBanner type={storeBanner.type} msg={storeBanner.msg} />}
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">שם החנות</label>
-            <input value={storeForm.storeName} onChange={(e) => setStoreForm((f) => ({ ...f, storeName: e.target.value }))} className={INPUT} />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">סיסמת חנות (טאגליין)</label>
-            <input value={storeForm.tagline} onChange={(e) => setStoreForm((f) => ({ ...f, tagline: e.target.value }))} className={INPUT} />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">טלפון קווי</label>
-            <input value={storeForm.phone} onChange={(e) => setStoreForm((f) => ({ ...f, phone: e.target.value }))} className={INPUT} dir="ltr" placeholder="04-8599333" />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">נייד</label>
-            <input value={storeForm.mobile} onChange={(e) => setStoreForm((f) => ({ ...f, mobile: e.target.value }))} className={INPUT} dir="ltr" placeholder="052-3158796" />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">WhatsApp</label>
-            <input value={storeForm.whatsapp} onChange={(e) => setStoreForm((f) => ({ ...f, whatsapp: e.target.value }))} className={INPUT} dir="ltr" placeholder="972523158796" />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">שעות פעילות</label>
-            <input value={storeForm.hours} onChange={(e) => setStoreForm((f) => ({ ...f, hours: e.target.value }))} className={INPUT} placeholder="א׳-ו׳ 8:00-18:00" />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-xs text-gray-400 mb-1">כתובת</label>
-            <input value={storeForm.address} onChange={(e) => setStoreForm((f) => ({ ...f, address: e.target.value }))} className={INPUT} />
-          </div>
+    <div style={{ minHeight: "100vh", background: "#f8f8f8", direction: "rtl", fontFamily: "system-ui, sans-serif" }}>
+      <div style={{ background: "#1a1a1a", color: "white", padding: "14px 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontWeight: 900, fontSize: 18 }}>⚙️ הגדרות — אבו אמין</span>
+        <div style={{ display: "flex", gap: 8 }}>
+          <a href="/admin" style={{ ...BTN, fontSize: 13, padding: "6px 14px", textDecoration: "none", display: "inline-block" }}>← ניהול</a>
+          <button style={{ ...BTN, fontSize: 13, padding: "6px 14px" }} onClick={() => setAuthed(false)}>יציאה</button>
         </div>
-
-        <button onClick={saveStore} disabled={savingStore} className="bg-[#FFC424] text-black font-semibold px-6 py-2 rounded-lg text-sm hover:bg-[#ffcd4a] disabled:opacity-50 transition-colors">
-          {savingStore ? 'שומר...' : 'שמור פרטי חנות'}
-        </button>
       </div>
 
-      {/* Finance */}
-      <div className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-white">הגדרות כספיות</h2>
-        {financeBanner && <SectionBanner type={financeBanner.type} msg={financeBanner.msg} />}
+      {msg && <div style={{ background: "#fff3cd", padding: "10px 24px", textAlign: "center", fontWeight: 700 }}>{msg}</div>}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">מע״מ (%)</label>
-            <input type="number" value={financeForm.vatRate} onChange={(e) => setFinanceForm((f) => ({ ...f, vatRate: e.target.value }))} className={INPUT} step="0.1" />
+      <div style={{ padding: "24px" }}>
+        <div style={{ background: "white", borderRadius: 12, padding: 24, border: "1px solid #e5e5e5", maxWidth: 720 }}>
+          <h2 style={{ margin: "0 0 8px", fontSize: 18 }}>הגדרות מערכת</h2>
+          <p style={{ color: "#888", fontSize: 14, margin: "0 0 24px", lineHeight: 1.6 }}>
+            הגדרות אלו מנוהלות דרך משתני סביבה בקובץ <code style={{ background: "#f0f0f0", padding: "2px 6px", borderRadius: 4 }}>.env.local</code> (בסביבת פיתוח) או הגדרות הפלטפורמה ב-Railway.
+            <br />לאחר שינוי יש לעשות <strong>restart</strong> לשרת.
+          </p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {settings.map((s) => (
+              <div key={s.key} style={{ borderBottom: "1px solid #f0f0f0", paddingBottom: 20 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 6 }}>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 15 }}>{s.label}</div>
+                    <div style={{ color: "#888", fontSize: 12, marginTop: 2 }}>{s.desc}</div>
+                  </div>
+                  <code style={{
+                    background: "#f0f0f0",
+                    color: "#333",
+                    padding: "4px 10px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    fontFamily: "monospace",
+                  }}>
+                    {s.key}
+                  </code>
+                </div>
+                <div style={{
+                  background: s.value.startsWith("✅") ? "#e8f5e9" : s.value.startsWith("❌") ? "#fff3f3" : "#f5f5f5",
+                  color: s.value.startsWith("✅") ? "#2e7d32" : s.value.startsWith("❌") ? "#c62828" : "#333",
+                  padding: "10px 14px",
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: 600,
+                }}>
+                  {s.value}
+                </div>
+              </div>
+            ))}
           </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">הזמנה מינימלית (₪)</label>
-            <input type="number" value={financeForm.minOrderAmount} onChange={(e) => setFinanceForm((f) => ({ ...f, minOrderAmount: e.target.value }))} className={INPUT} />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">מחיר משלוח (₪)</label>
-            <input type="number" value={financeForm.deliveryPrice} onChange={(e) => setFinanceForm((f) => ({ ...f, deliveryPrice: e.target.value }))} className={INPUT} />
+
+          <div style={{ marginTop: 24, background: "#fffbf0", border: "1px solid #ffe082", borderRadius: 10, padding: 16 }}>
+            <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>📋 קובץ .env.local לדוגמה:</h4>
+            <pre style={{ margin: 0, fontSize: 12, lineHeight: 1.8, color: "#333", fontFamily: "monospace", whiteSpace: "pre-wrap" }}>
+{`TELEGRAM_BOT_TOKEN=your_bot_token_here
+TELEGRAM_CHAT_ID=422035227
+NEXT_PUBLIC_WHATSAPP_NUMBER=972501234567
+NEXT_PUBLIC_PHONE_NUMBER=050-1234567
+NEXT_PUBLIC_BUSINESS_ADDRESS=עוספיא / דלית אל כרמל
+NEXT_PUBLIC_VAT_ID=XXXXXXXX`}
+            </pre>
           </div>
         </div>
-
-        <button onClick={saveFinance} disabled={savingFinance} className="bg-[#FFC424] text-black font-semibold px-6 py-2 rounded-lg text-sm hover:bg-[#ffcd4a] disabled:opacity-50 transition-colors">
-          {savingFinance ? 'שומר...' : 'שמור הגדרות כספיות'}
-        </button>
-      </div>
-
-      {/* Password */}
-      <div className="bg-[#161618] border border-[#2a2a2e] rounded-xl p-5 space-y-4">
-        <h2 className="text-sm font-semibold text-white">סיסמת מנהל</h2>
-        {passwordBanner && <SectionBanner type={passwordBanner.type} msg={passwordBanner.msg} />}
-
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">סיסמה נוכחית</label>
-            <input
-              type="password"
-              value={passwordForm.currentPassword}
-              onChange={(e) => setPasswordForm((f) => ({ ...f, currentPassword: e.target.value }))}
-              className={INPUT}
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">סיסמה חדשה</label>
-            <input
-              type="password"
-              value={passwordForm.newPassword}
-              onChange={(e) => setPasswordForm((f) => ({ ...f, newPassword: e.target.value }))}
-              className={INPUT}
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-400 mb-1">אימות סיסמה</label>
-            <input
-              type="password"
-              value={passwordForm.confirmPassword}
-              onChange={(e) => setPasswordForm((f) => ({ ...f, confirmPassword: e.target.value }))}
-              className={INPUT}
-            />
-          </div>
-        </div>
-
-        <button
-          onClick={savePassword}
-          disabled={savingPassword || !passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword}
-          className="bg-[#FFC424] text-black font-semibold px-6 py-2 rounded-lg text-sm hover:bg-[#ffcd4a] disabled:opacity-50 transition-colors"
-        >
-          {savingPassword ? 'מעדכן...' : 'עדכן סיסמה'}
-        </button>
       </div>
     </div>
-  )
+  );
 }

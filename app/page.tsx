@@ -1,12 +1,23 @@
+"use client";
 import Link from "next/link";
-import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
-import { getFeaturedProducts, getAllCategories, getAllBrands } from "@/lib/queries";
+import { Shield, Truck, Clock, Award, Car, Wrench, Search } from "lucide-react";
+import {
+  categories,
+  brands,
+  kits,
+  parts,
+  getBrand,
+  getVehicle,
+  minPriceForPart,
+  kitImageUrl,
+  partImageUrl,
+} from "@/lib/data";
 import { tr } from "@/lib/i18n";
+import { useActiveVehicleId } from "@/lib/cart";
 import VehicleSelector from "@/components/VehicleSelector";
 import TopMakes from "@/components/TopMakes";
 import CategoryStrip from "@/components/CategoryStrip";
 import ProductCard from "@/components/ProductCard";
-import HeroSearch from "@/components/HeroSearch";
 
 const TRUST_ITEMS = [
   { icon: Shield, keyLabel: "trust_oem" as const },
@@ -15,18 +26,23 @@ const TRUST_ITEMS = [
   { icon: Clock, keyLabel: "trust_returns" as const },
 ];
 
-export const revalidate = 300; // ISR: revalidate every 5 minutes
+// Homepage primary 6 categories per PIVOT-V3
+const PRIMARY_CAT_SLUGS = [
+  "engine",          // חלפי מנוע
+  "brakes",          // בלמים
+  "lighting-signals", // פנסים ואיתותים
+  "batteries",       // מצברים
+  "tools-machines",  // כלים ומכונות (new)
+];
 
-export default async function Home() {
-  const [featuredProducts, categories, brands] = await Promise.all([
-    getFeaturedProducts(),
-    getAllCategories(),
-    getAllBrands(),
-  ]);
+export default function Home() {
+  const activeVehicleId = useActiveVehicleId();
 
-  const primaryCats = categories
-    .filter((c) => !c.parentId && !c.group)
-    .slice(0, 5);
+  const featuredParts = parts.slice(0, 8);
+  const featuredKits = kits;
+  const primaryCats = PRIMARY_CAT_SLUGS.map((slug) =>
+    categories.find((c) => c.slug === slug)
+  ).filter(Boolean) as typeof categories;
 
   return (
     <main>
@@ -84,10 +100,10 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 1. Vehicle Selector — sticky client component */}
+      {/* 1. Vehicle Selector — sticky */}
       <VehicleSelector />
 
-      {/* 2. Category strip — client component (uses useLocale) */}
+      {/* 2. Category strip */}
       <CategoryStrip />
 
       {/* 3. Hero — Search-centric */}
@@ -107,8 +123,82 @@ export default async function Home() {
           <p style={{ fontSize: "0.9rem", color: "var(--text-dim)", margin: "0 0 24px" }}>
             מס׳ 1 בכרמל · עוספיה
           </p>
-          {/* Hero search bar — needs client interactivity */}
-          <HeroSearch />
+
+          {/* Hero search bar */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = (e.currentTarget.elements.namedItem("hero-q") as HTMLInputElement)?.value?.trim();
+              if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`;
+            }}
+            style={{
+              display: "flex",
+              maxWidth: 560,
+              margin: "0 auto",
+              background: "var(--surface)",
+              border: "2px solid var(--accent)",
+              borderRadius: "var(--radius-md)",
+              overflow: "hidden",
+            }}
+          >
+            <input
+              name="hero-q"
+              type="search"
+              placeholder="חפש חלק, מק״ט, או דגם רכב..."
+              style={{
+                flex: 1,
+                border: "none",
+                background: "transparent",
+                padding: "14px 18px",
+                fontSize: "1rem",
+                color: "var(--text)",
+                outline: "none",
+                direction: "rtl",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                background: "var(--accent)",
+                border: "none",
+                padding: "14px 24px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontWeight: 800,
+                fontSize: "0.95rem",
+                color: "#000",
+              }}
+            >
+              <Search size={18} />
+              חפש
+            </button>
+          </form>
+
+          {/* Quick links */}
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 16,
+            marginTop: 16,
+            flexWrap: "wrap",
+          }}>
+            {["רפידות בלם", "פילטר שמן", "בולם זעזועים", "פנס קדמי"].map((term) => (
+              <a
+                key={term}
+                href={`/search?q=${encodeURIComponent(term)}`}
+                style={{
+                  fontSize: "0.8rem",
+                  color: "var(--text-dim)",
+                  textDecoration: "underline",
+                  textUnderlineOffset: 3,
+                }}
+              >
+                {term}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -128,7 +218,7 @@ export default async function Home() {
         </div>
       </div>
 
-      {/* 5. Top Makes — client component (uses router) */}
+      {/* 5. Top Makes */}
       <section>
         <div className="section-head">
           <h2>
@@ -139,7 +229,7 @@ export default async function Home() {
         <TopMakes />
       </section>
 
-      {/* 6. Featured Products from DB */}
+      {/* 6. Featured Parts */}
       <section>
         <div className="section-head">
           <h2>
@@ -149,38 +239,74 @@ export default async function Home() {
           <Link href="/catalog">{tr("view_all")} →</Link>
         </div>
         <div className="parts-grid">
-          {featuredProducts.map((p) => {
-            const minPrice = p.skus.length > 0
-              ? Math.min(...p.skus.map((s) => s.priceIls))
-              : 0;
-            const brandNames = p.skus.slice(0, 4).map((s) => s.brand.name);
-            const tiers = [...new Set(p.skus.map((s) => s.tier))] as Array<"original" | "replacement">;
-            const firstFitment = p.fitments[0];
-            const extraCount = p.fitments.length - 1;
-            const vehicleLabel = firstFitment
-              ? `${firstFitment.vehicle.make} ${firstFitment.vehicle.model} ${firstFitment.vehicle.year}${extraCount > 0 ? ` +${extraCount} נוספים` : ""}`
+          {featuredParts.map((p) => {
+            const minP = minPriceForPart(p);
+            const fitsActive =
+              activeVehicleId != null && p.fitsVehicleIds.includes(activeVehicleId);
+            const brandNames = p.skus
+              .slice(0, 4)
+              .map((s) => getBrand(s.brandId)?.name)
+              .filter((n): n is string => Boolean(n));
+            const fitVehicles = p.fitsVehicleIds.slice(0, 3).map((id) => getVehicle(id)).filter(Boolean);
+            const primaryVehicle = fitVehicles[0];
+            const extraCount = p.fitsVehicleIds.length - 1;
+            const vehicleLabel = primaryVehicle
+              ? `${primaryVehicle.makeName.he} ${primaryVehicle.modelName.he} ${primaryVehicle.year}${extraCount > 0 ? ` +${extraCount} נוספים` : ""}`
               : undefined;
-            const imageSrc = p.images[0] ?? `/parts/${p.slug}.svg`;
-
+            const tierSet = [...new Set(p.skus.map((s) => (s as any).tier).filter(Boolean))] as ("original" | "replacement")[];
+            const inStockSkus = p.skus.filter((s) => s.stock > 0);
+            const bestDelivery = inStockSkus.length > 0
+              ? Math.min(...inStockSkus.map((s) => (s as any).deliveryDays ?? 3))
+              : undefined;
             return (
               <ProductCard
                 key={p.id}
                 slug={p.slug}
-                name={p.name}
-                imageSrc={imageSrc}
-                price={minPrice}
+                name={p.name.he}
+                imageSrc={partImageUrl(p)}
+                price={minP}
                 brands={brandNames}
                 vehicleLabel={vehicleLabel}
-                tiers={tiers}
+                tiers={tierSet}
                 skuCount={p.skus.length}
-                inStock={true}
+                deliveryDays={bestDelivery}
+                inStock={inStockSkus.length > 0}
+                fitsActiveCar={fitsActive}
               />
             );
           })}
         </div>
       </section>
 
-      {/* 7. Categories grid from DB */}
+      {/* 7. Service Kits */}
+      <section>
+        <div className="section-head">
+          <h2>
+            {tr("service_kits")}
+            <span className="underline" />
+          </h2>
+        </div>
+        <div className="kits-grid">
+          {featuredKits.map((k) => (
+            <Link key={k.id} href="/catalog" className="kit-card">
+              <span className="badge">−{k.discountPct}%</span>
+              <div className="kit-img-wrap">
+                <img src={kitImageUrl(k)} alt={k.name.he} loading="lazy" />
+              </div>
+              <div className="kit-body">
+                <h3>{k.name.he}</h3>
+                <p>{k.description.he}</p>
+                <div className="price">
+                  ₪{k.totalPriceIls}
+                  <small>{tr("vat_inc")}</small>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* 8. Categories — primary 6 */}
       <section>
         <div className="section-head">
           <h2>
@@ -196,11 +322,11 @@ export default async function Home() {
               href={c.group === "tools" ? `/catalog?group=tools` : `/catalog?cat=${c.slug}`}
               className="cat-card"
             >
-              <span className="cat-icon">{c.icon ?? "🔧"}</span>
-              <span className="cat-name">{c.name}</span>
+              <span className="cat-icon">{c.icon}</span>
+              <span className="cat-name">{c.name.he}</span>
             </Link>
           ))}
-          {/* Last tile: all categories */}
+          {/* 6th tile: all categories */}
           <Link href="/catalog" className="cat-card">
             <span className="cat-icon">🔍</span>
             <span className="cat-name">כל הקטגוריות</span>
@@ -208,7 +334,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 8. Stats */}
+      {/* 9. Stats */}
       <section>
         <div
           style={{
@@ -239,7 +365,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 9. Brands from DB */}
+      {/* 10. Brands */}
       <section>
         <div className="section-head">
           <h2>
@@ -250,14 +376,14 @@ export default async function Home() {
         <div className="brand-strip">
           {brands.map((b) => (
             <span key={b.id} className="brand-chip">
-              {b.logo && <span className="flag">{b.logo}</span>}
+              <span className="flag">{b.logo}</span>
               <span>{b.name}</span>
             </span>
           ))}
         </div>
       </section>
 
-      {/* 10. Testimonials */}
+      {/* 11. Testimonials */}
       <section>
         <div className="section-head">
           <h2>

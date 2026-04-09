@@ -1,67 +1,56 @@
-import { Suspense } from "react";
+"use client";
 import Link from "next/link";
-import { searchProducts } from "@/lib/queries";
-import ProductCard from "@/components/ProductCard";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { searchParts, getBrand, minPriceForPart, partImageUrl } from "@/lib/data";
+import { tr } from "@/lib/i18n";
+import { useLocale, useActiveVehicleId } from "@/lib/cart";
 
-interface SearchPageProps {
-  searchParams: Promise<{ q?: string; vehicleId?: string }>;
-}
-
-async function SearchResults({ searchParams }: { searchParams: SearchPageProps["searchParams"] }) {
-  const sp = await searchParams;
-  const q = (sp.q ?? "").trim();
-  const vehicleId = sp.vehicleId ? parseInt(sp.vehicleId, 10) : undefined;
-
-  const results = q ? await searchProducts(q, vehicleId) : [];
+function SearchInner() {
+  const locale = useLocale();
+  const sp = useSearchParams();
+  const q = sp.get("q") ?? "";
+  const activeVehicleId = useActiveVehicleId();
+  const results = searchParts(q, activeVehicleId ?? undefined);
 
   return (
     <main>
       <section>
         <div className="section-head">
           <h2>
-            תוצאות חיפוש
-            {q && (
-              <span style={{ color: "var(--text-3)", fontWeight: 600, marginInlineStart: 10 }}>
-                &ldquo;{q}&rdquo; — {results.length}
-              </span>
-            )}
+            {"תוצאות חיפוש"}
+            <span style={{ color: "var(--text-3)", fontWeight: 600, marginInlineStart: 10 }}>
+              "{q}" — {results.length}
+            </span>
           </h2>
         </div>
-
-        {!q ? (
+        {results.length === 0 ? (
           <div className="empty">
             <div className="emoji">🔍</div>
-            <h3>הזן מילת חיפוש</h3>
-            <p>חפש לפי שם חלק, מספר מק״ט, או דגם רכב</p>
-          </div>
-        ) : results.length === 0 ? (
-          <div className="empty">
-            <div className="emoji">🔍</div>
-            <h3>אין תוצאות</h3>
-            <p>נסה מילת חיפוש אחרת או מספר OEM</p>
-            <Link href="/catalog" className="cta">עיין בקטלוג →</Link>
+            <h3>{"אין תוצאות"}</h3>
+            <p>{"נסה מילת חיפוש אחרת או מספר OEM"}</p>
           </div>
         ) : (
           <div className="parts-grid">
             {results.map((p) => {
-              const minPrice = p.skus.length > 0
-                ? Math.min(...p.skus.map((s) => s.priceIls))
-                : 0;
-              const brandNames = p.skus.slice(0, 3).map((s) => s.brand.name);
-              const tiers = [...new Set(p.skus.map((s) => s.tier))] as Array<"original" | "replacement">;
-              const imageSrc = p.images[0] ?? `/parts/${p.slug}.svg`;
+              const minP = minPriceForPart(p);
+              const fits = activeVehicleId && p.fitsVehicleIds.includes(activeVehicleId);
               return (
-                <ProductCard
-                  key={p.id}
-                  slug={p.slug}
-                  name={p.name}
-                  imageSrc={imageSrc}
-                  price={minPrice}
-                  brands={brandNames}
-                  tiers={tiers}
-                  skuCount={p.skus.length}
-                  inStock={p.skus.length > 0}
-                />
+                <Link key={p.id} href={`/part/${p.slug}`} className="part-card">
+                  <div className="part-img">
+                    <img src={partImageUrl(p)} alt={p.name[locale]} loading="lazy" />
+                  </div>
+                  <div className="part-body">
+                    {fits && <span className="part-fitment">✓ {tr("fits_your_car", locale)}</span>}
+                    <div className="part-name">{p.name[locale]}</div>
+                    <div className="part-brands">
+                      {p.skus.slice(0, 3).map((s) => getBrand(s.brandId)?.name).filter(Boolean).join(" · ")}
+                    </div>
+                    <div className="part-meta">
+                      <div className="part-price">₪{minP} <small>{tr("from_price", locale)}</small></div>
+                    </div>
+                  </div>
+                </Link>
               );
             })}
           </div>
@@ -71,10 +60,10 @@ async function SearchResults({ searchParams }: { searchParams: SearchPageProps["
   );
 }
 
-export default function SearchPage({ searchParams }: SearchPageProps) {
+export default function SearchPage() {
   return (
-    <Suspense fallback={<main><section><h2>מחפש...</h2></section></main>}>
-      <SearchResults searchParams={searchParams} />
+    <Suspense fallback={<main><section><h2>...</h2></section></main>}>
+      <SearchInner />
     </Suspense>
   );
 }
