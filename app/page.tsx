@@ -49,28 +49,23 @@ export default function Home() {
       {/* 2. Category strip */}
       <CategoryStrip />
 
-      {/* 3. Hero — with gradient depth */}
+      {/* 3. Hero */}
       <section
         className="hero"
         style={{ padding: 0, margin: 0, maxWidth: "100%" }}
       >
         <div className="hero-inner">
           <h1>
-            {locale === "en" ? (
+            {locale === "ar" ? (
               <>
-                Find the{" "}
-                <span className="accent">Exact Part</span> for Your Vehicle
-              </>
-            ) : locale === "ar" ? (
-              <>
-                ابحث عن{" "}
-                <span className="accent">القطعة المناسبة</span> لسيارتك
+                اختر سيارتك،{" "}
+                <span className="accent">اختر القطع</span>، وأرسل طلبك.
               </>
             ) : (
               <>
-                מצא את{" "}
-                <span className="accent">החלק המדויק</span>{" "}
-                לרכב שלך
+                בחר את הרכב שלך,{" "}
+                <span className="accent">בחר חלפים</span>
+                , ושלח הזמנה.
               </>
             )}
           </h1>
@@ -82,11 +77,7 @@ export default function Home() {
               maxWidth: 560,
             }}
           >
-            {locale === "he"
-              ? "4.1 מיליון רכבים במאגר · משלוח מהיר · אחריות יצרן"
-              : locale === "ar"
-              ? "4.1 مليون سيارة في قاعدة البيانات · شحن سريع · ضمان المصنع"
-              : "4.1M vehicles in database · Fast shipping · Manufacturer warranty"}
+            {tr("hero_sub", locale)}
           </p>
         </div>
       </section>
@@ -111,11 +102,7 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {locale === "he"
-              ? "בחר לפי יצרן"
-              : locale === "ar"
-              ? "اختر حسب الماركة"
-              : "Shop by Make"}
+            {locale === "ar" ? "اختر حسب الماركة" : "בחר לפי יצרן"}
             <span className="underline" />
           </h2>
         </div>
@@ -126,11 +113,7 @@ export default function Home() {
       <section>
         <div className="section-head">
           <h2>
-            {locale === "en"
-              ? "Popular Parts"
-              : locale === "ar"
-              ? "القطع الأكثر طلباً"
-              : "חלפים מבוקשים"}
+            {locale === "ar" ? "القطع الأكثر طلباً" : "חלפים מבוקשים"}
             <span className="underline" />
           </h2>
           <Link href="/catalog">{tr("view_all", locale)} →</Link>
@@ -173,11 +156,11 @@ export default function Home() {
             <Link key={k.id} href="/catalog" className="kit-card">
               <span className="badge">−{k.discountPct}%</span>
               <div className="kit-img-wrap">
-                <img src={kitImageUrl(k)} alt={k.name[locale]} loading="lazy" />
+                <img src={kitImageUrl(k)} alt={k.name[locale] ?? k.name.he} loading="lazy" />
               </div>
               <div className="kit-body">
-                <h3>{k.name[locale]}</h3>
-                <p>{k.description[locale]}</p>
+                <h3>{k.name[locale] ?? k.name.he}</h3>
+                <p>{k.description[locale] ?? k.description.he}</p>
                 <div className="price">
                   ₪{k.totalPriceIls}
                   <small>{tr("vat_inc", locale)}</small>
@@ -188,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Categories — top 6 primaries, rest accessible from catalog */}
+      {/* 8. Categories */}
       <section>
         <div className="section-head">
           <h2>
@@ -205,14 +188,14 @@ export default function Home() {
                 <span className="cat-icon">
                   {Icon ? <Icon size={24} aria-hidden="true" /> : c.icon}
                 </span>
-                <span className="cat-name">{c.name[locale]}</span>
+                <span className="cat-name">{c.name[locale] ?? c.name.he}</span>
               </Link>
             );
           })}
         </div>
       </section>
 
-      {/* 9. Stats / trust row */}
+      {/* 9. Stats */}
       <section>
         <div
           style={{
@@ -226,66 +209,16 @@ export default function Home() {
           }}
         >
           {[
-            {
-              num: "30+",
-              label:
-                locale === "he"
-                  ? "שנות ניסיון"
-                  : locale === "ar"
-                  ? "سنة خبرة"
-                  : "Years Experience",
-            },
-            {
-              num: "48K+",
-              label:
-                locale === "he"
-                  ? "חלקים במלאי"
-                  : locale === "ar"
-                  ? "قطعة في المخزون"
-                  : "Parts in Stock",
-            },
-            {
-              num: "10K+",
-              label:
-                locale === "he"
-                  ? "לקוחות מרוצים"
-                  : locale === "ar"
-                  ? "عميل راضٍ"
-                  : "Happy Customers",
-            },
-            {
-              num: "2yr",
-              label:
-                locale === "he"
-                  ? "אחריות יצרן"
-                  : locale === "ar"
-                  ? "ضمان المصنع"
-                  : "Manufacturer Warranty",
-            },
+            { num: "30+", label: locale === "ar" ? "سنة خبرة" : "שנות ניסיון" },
+            { num: "48K+", label: locale === "ar" ? "قطعة في المخزون" : "חלקים במלאי" },
+            { num: "10K+", label: locale === "ar" ? "عميل راضٍ" : "לקוחות מרוצים" },
+            { num: "2yr", label: locale === "ar" ? "ضمان المصنع" : "אחריות יצרן" },
           ].map(({ num, label }) => (
-            <div
-              key={label}
-              style={{ textAlign: "center" }}
-            >
-              <div
-                style={{
-                  fontSize: "clamp(1.6rem, 5vw, 2.4rem)",
-                  fontWeight: 800,
-                  color: "var(--accent)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
-                }}
-              >
+            <div key={label} style={{ textAlign: "center" }}>
+              <div style={{ fontSize: "clamp(1.6rem, 5vw, 2.4rem)", fontWeight: 800, color: "var(--accent)", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
                 {num}
               </div>
-              <div
-                style={{
-                  fontSize: "0.76rem",
-                  color: "var(--text-muted)",
-                  marginTop: 4,
-                  fontWeight: 500,
-                }}
-              >
+              <div style={{ fontSize: "0.76rem", color: "var(--text-muted)", marginTop: 4, fontWeight: 500 }}>
                 {label}
               </div>
             </div>
@@ -324,20 +257,17 @@ export default function Home() {
             {
               he: "מצאתי בדיוק את הרפידות שחיפשתי לקאמרי 2019. הגיעו תוך יומיים, מחיר טוב, ואחריות שנתיים. ממליץ!",
               ar: "وجدت بالضبط الفرامل التي أبحث عنها لكامري 2019. وصلت خلال يومين، سعر جيد، وضمان سنتين. أنصح به!",
-              en: "Found exactly the brake pads I needed for my 2019 Camry. Arrived in 2 days, fair price, 2-year warranty. Recommended!",
-              author: "Yossi K., Tel Aviv",
+              author: "יוסי כ., תל אביב",
             },
             {
               he: "אתר מצוין, חיפוש לפי מספר OEM עובד מושלם. חוסך לי שעות במוסך.",
               ar: "موقع ممتاز، البحث برقم OEM يعمل بشكل مثالي. يوفر علي ساعات في الورشة.",
-              en: "Great site, OEM number search works perfectly. Saves me hours at the garage.",
-              author: "Mohammed S., Haifa",
+              author: "מוחמד ס., חיפה",
             },
             {
-              he: "הזמנתי ערכת טיפול גדול לקורולה — הכל הגיע מסודר באריזה אחת. שירות לקוחות בעברית, ערבית ואנגלית.",
-              ar: "طلبت طقم صيانة كبير للكورولا — كل شيء وصل في علبة واحدة منظمة. خدمة عملاء بالعبرية والعربية والإنجليزية.",
-              en: "Ordered a major service kit for my Corolla — everything arrived neatly packed. Customer service in Hebrew, Arabic, and English.",
-              author: "Sara M., Nazareth",
+              he: "הזמנתי ערכת טיפול גדול לקורולה — הכל הגיע מסודר באריזה אחת. שירות מצוין.",
+              ar: "طلبت طقم صيانة كبير للكورولا — كل شيء وصل في علبة واحدة منظمة. خدمة ممتازة.",
+              author: "שרה מ., נצרת",
             },
           ].map((t, i) => (
             <div key={i} className="testi-card">

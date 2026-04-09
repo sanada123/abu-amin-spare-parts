@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ThemeProvider from "@/components/ThemeProvider";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,9 +13,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Abu Amin Spare Parts | אבו אמין חלפים | أبو أمين لقطع الغيار",
+  title: "אבו אמין חלפים | أبو أمين لقطع الغيار",
   description:
-    "Every part for every car — exact fit. Auto parts e-commerce for Israel and the Arab world.",
+    "חנות חלפים לרכב באזור עוספיא / דלית אל כרמל. בחר רכב, בחר חלפים, ושלח הזמנה — נחזור אליך תוך שעות.",
 };
 
 export default function RootLayout({
@@ -37,6 +38,7 @@ export default function RootLayout({
           <Nav />
           {children}
           <Footer />
+          <WhatsAppButton />
         </ThemeProvider>
       </body>
     </html>

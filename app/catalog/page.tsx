@@ -95,10 +95,10 @@ function CatalogInner() {
     );
 
   const sortLabels: Record<SortKey, Record<string, string>> = {
-    relevance: { he: "רלוונטיות", ar: "الأكثر صلة", en: "Relevance" },
-    price_asc: { he: "מחיר: נמוך→גבוה", ar: "السعر: الأدنى أولاً", en: "Price: Low→High" },
-    price_desc: { he: "מחיר: גבוה→נמוך", ar: "السعر: الأعلى أولاً", en: "Price: High→Low" },
-    newest: { he: "חדש ביותר", ar: "الأحدث", en: "Newest" },
+    relevance: { he: "רלוונטיות", ar: "الأكثر صلة" },
+    price_asc: { he: "מחיר: נמוך→גבוה", ar: "السعر: الأدنى أولاً" },
+    price_desc: { he: "מחיר: גבוה→נמוך", ar: "السعر: الأعلى أولاً" },
+    newest: { he: "חדש ביותר", ar: "الأحدث" },
   };
 
   const FilterSidebar = (
@@ -626,18 +626,10 @@ function CatalogInner() {
           <div className="empty">
             <div className="emoji">🔍</div>
             <h3>
-              {locale === "en"
-                ? "No parts found"
-                : locale === "ar"
-                ? "لم يتم العثور على قطع"
-                : "לא נמצאו חלקים"}
+              {locale === "ar" ? "لم يتم العثور على قطع" : "לא נמצאו חלקים"}
             </h3>
             <p>
-              {locale === "en"
-                ? "Try changing your vehicle or filters"
-                : locale === "ar"
-                ? "جرب تغيير السيارة أو الفلاتر"
-                : "נסה לשנות את הרכב או הסינון"}
+              {locale === "ar" ? "جرب تغيير السيارة أو الفلاتر" : "נסה לשנות את הרכב או הסינון"}
             </p>
             <button
               onClick={clearAll}

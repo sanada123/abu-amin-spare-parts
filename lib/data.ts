@@ -1,10 +1,10 @@
 // Mock seed data for Abu Amin Spare Parts demo
 // Realistic structure mirroring the production schema (lib/db when DB is added)
 
-import type { Locale } from "./i18n";
 import { getAllVehicles, getUniqueMakes as getMakesFromVehicles, getYearsForMake, getModelsForMakeYear, getEnginesForMakeYearModel, getVehicleById } from "./vehicles";
 
-export type LocalizedString = Record<Locale, string>;
+// LocalizedString allows optional 'en' so existing seed data with en keys compiles
+export type LocalizedString = { he: string; ar: string; en?: string };
 
 export interface Vehicle {
   id: number;
@@ -109,6 +109,12 @@ export const categories: Category[] = [
   { id: 10, slug: "exhaust", name: { he: "פליטה", ar: "العادم", en: "Exhaust" }, icon: "💨" },
   { id: 11, slug: "body", name: { he: "מרכב", ar: "الهيكل", en: "Body" }, icon: "🚗" },
   { id: 12, slug: "tires-wheels", name: { he: "צמיגים וגלגלים", ar: "الإطارات والعجلات", en: "Tires & Wheels" }, icon: "⚫" },
+  // Israeli-priority categories
+  { id: 13, slug: "lighting-signals", name: { he: "פנסים ואיתותים", ar: "المصابيح والإشارات" }, icon: "💡" },
+  { id: 14, slug: "bumpers-mirrors", name: { he: "פגושים ומראות", ar: "المصدات والمرايا" }, icon: "🪞" },
+  { id: 15, slug: "shocks-suspension", name: { he: "בולמי זעזועים ומתלים", ar: "الممتصات والتعليق" }, icon: "🔩" },
+  { id: 16, slug: "ac-system", name: { he: "מערכת מיזוג", ar: "نظام التكييف" }, icon: "❄️" },
+  { id: 17, slug: "batteries", name: { he: "מצברים", ar: "البطاريات" }, icon: "🔋" },
 ];
 
 // ============================================================

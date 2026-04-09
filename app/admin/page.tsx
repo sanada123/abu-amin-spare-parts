@@ -94,6 +94,8 @@ export default function AdminPage() {
         <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap" }}>
           <button onClick={() => setTab("parts")} style={{ ...BTN, background: tab === "parts" ? "#FFD700" : "white", border: `2px solid ${tab === "parts" ? "#1a1a1a" : "#ccc"}` }}>⚙️ חלפים ({parts.length})</button>
           <button onClick={() => setTab("kits")} style={{ ...BTN, background: tab === "kits" ? "#FFD700" : "white", border: `2px solid ${tab === "kits" ? "#1a1a1a" : "#ccc"}` }}>📦 קיטים ({kits.length})</button>
+          <a href="/admin/orders" style={{ ...BTN, background: "white", textDecoration: "none", display: "inline-flex", alignItems: "center" }}>📋 הזמנות</a>
+          <a href="/admin/settings" style={{ ...BTN, background: "white", textDecoration: "none", display: "inline-flex", alignItems: "center" }}>⚙️ הגדרות</a>
           <button style={{ ...BTN, background: "white", marginInlineStart: "auto" }} onClick={loadData}>🔄 רענן</button>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 import { useState, use } from "react";
 import Link from "next/link";
+import { MessageCircle } from "lucide-react";
 import { getPartBySlug, getCategory, getBrand, getVehicle, partImageUrl } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import { useLocale, useActiveVehicleId, addToCart } from "@/lib/cart";
@@ -21,6 +22,15 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
   const fitsActive = activeVehicleId && part.fitsVehicleIds.includes(activeVehicleId);
   const sku = part.skus.find((s) => s.id === selectedSku) ?? part.skus[0];
 
+  const WA_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "972500000000";
+  const vehicleLabel = vehicle
+    ? `${vehicle.year} ${vehicle.makeName[locale]} ${vehicle.modelName[locale]} ${vehicle.engine}`
+    : "";
+  const waText = locale === "ar"
+    ? `שלום، أريد الاستفسار عن: ${part.name[locale]}${sku ? ` (${sku.partNumber})` : ""}${vehicleLabel ? ` لسيارة ${vehicleLabel}` : ""}`
+    : `שלום, אני מעוניין ב: ${part.name[locale]}${sku ? ` (${sku.partNumber})` : ""}${vehicleLabel ? ` לרכב ${vehicleLabel}` : ""}`;
+  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}`;
+
   const handleAdd = () => {
     if (!sku) return;
     addToCart({ partId: part.id, skuId: sku.id, qty: 1 });
@@ -38,10 +48,10 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
         </div>
         <div className="product-layout">
           <div className="product-image-wrap">
-            <img src={partImageUrl(part)} alt={part.name[locale]} />
+            <img src={partImageUrl(part)} alt={part.name[locale] ?? part.name.he} />
           </div>
           <div className="product-info">
-            <h1>{part.name[locale]}</h1>
+            <h1>{part.name[locale] ?? part.name.he}</h1>
             <div className="product-oem">
               {part.oemNumbers.length > 0 && (
                 <>
@@ -85,7 +95,7 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
                       <div className="price">₪{s.priceIls}</div>
                       <div className={`stock ${isLow ? "low" : ""}`}>
                         {isLow
-                          ? (locale === "en" ? `Only ${s.stock} left` : locale === "ar" ? `${s.stock} متبقي فقط` : `נותרו ${s.stock}`)
+                          ? (locale === "ar" ? `${s.stock} متبقي فقط` : `נותרו ${s.stock}`)
                           : tr("in_stock", locale)}
                       </div>
                     </div>
@@ -94,9 +104,39 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
               })}
             </div>
 
+            {/* Primary action: Add to order */}
             <button className="add-cart-btn" onClick={handleAdd}>
-              {added ? "✓ " + (locale === "en" ? "Added!" : locale === "ar" ? "أضيف!" : "נוסף!") : tr("add_to_cart", locale) + ` — ₪${sku?.priceIls}`}
+              {added
+                ? `✓ ${locale === "ar" ? "أضيف للطلب!" : "נוסף להזמנה!"}`
+                : `${tr("add_to_cart", locale)} — ₪${sku?.priceIls}`}
             </button>
+
+            {/* Secondary: WhatsApp inline */}
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                marginTop: 10,
+                background: "#25D366",
+                color: "#fff",
+                border: "none",
+                borderRadius: "var(--radius-sm)",
+                padding: "13px 20px",
+                fontSize: "0.95rem",
+                fontWeight: 700,
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+              aria-label={tr("whatsapp_send", locale)}
+            >
+              <MessageCircle size={18} aria-hidden="true" />
+              {tr("whatsapp_send", locale)}
+            </a>
 
             {Object.keys(part.specs).length > 0 && (
               <div className="specs-table">
@@ -118,7 +158,7 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
               <div style={{ marginTop: 24 }}>
                 <h3 style={{ margin: "0 0 12px", fontSize: "0.95rem" }}>📺 {tr("install_video", locale)}</h3>
                 <div style={{ background: "var(--bg-3)", border: "1px solid var(--border)", borderRadius: 14, padding: 24, textAlign: "center", color: "var(--text-3)" }}>
-                  {locale === "en" ? "Installation video available" : locale === "ar" ? "فيديو التركيب متاح" : "סרטון התקנה זמין"} ▶
+                  {locale === "ar" ? "فيديو التركيب متاح" : "סרטון התקנה זמין"} ▶
                 </div>
               </div>
             )}

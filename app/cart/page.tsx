@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import { useCart, removeFromCart, updateQty, useLocale } from "@/lib/cart";
-import { getPart, getBrand, getCategory, partImageUrl } from "@/lib/data";
+import { getPart, getBrand, getCategory } from "@/lib/data";
 import { tr } from "@/lib/i18n";
+import OrderSubmitForm from "@/components/OrderSubmitForm";
 
 export default function CartPage() {
   const locale = useLocale();
@@ -15,9 +16,6 @@ export default function CartPage() {
   }).filter((x) => x.part && x.sku);
 
   const subtotal = items.reduce((s, x) => s + (x.sku?.priceIls ?? 0) * x.cart.qty, 0);
-  const vat = Math.round(subtotal * 0.17);
-  const shipping = subtotal > 300 ? 0 : 35;
-  const total = subtotal + vat + shipping;
 
   if (items.length === 0) {
     return (
@@ -41,57 +39,71 @@ export default function CartPage() {
           <h2>{tr("cart", locale)}</h2>
         </div>
         <div className="cart-layout">
-          <div className="cart-list">
-            {items.map(({ cart: c, part, sku }) => {
-              const b = getBrand(sku!.brandId);
-              const cat = getCategory(part!.categoryId);
-              return (
-                <div key={c.skuId} className="cart-row">
-                  <div className="img">{cat?.icon ?? "🔧"}</div>
-                  <div>
-                    <div className="name">{part!.name[locale]}</div>
-                    <div className="brand-line">
-                      {b?.logo} {b?.name} · {sku!.partNumber}
+          {/* Parts list */}
+          <div>
+            <div className="cart-list">
+              {items.map(({ cart: c, part, sku }) => {
+                const b = getBrand(sku!.brandId);
+                const cat = getCategory(part!.categoryId);
+                return (
+                  <div key={c.skuId} className="cart-row">
+                    <div className="img">{cat?.icon ?? "🔧"}</div>
+                    <div>
+                      <div className="name">{part!.name[locale]}</div>
+                      <div className="brand-line">
+                        {b?.logo} {b?.name} · {sku!.partNumber}
+                      </div>
+                      <div style={{ marginTop: 8, color: "var(--accent)", fontWeight: 800, fontSize: "1.1rem" }}>
+                        ₪{sku!.priceIls * c.qty}
+                      </div>
                     </div>
-                    <div style={{ marginTop: 8, color: "var(--accent)", fontWeight: 800, fontSize: "1.1rem" }}>
-                      ₪{sku!.priceIls * c.qty}
+                    <div className="actions">
+                      <input
+                        type="number"
+                        min={1}
+                        value={c.qty}
+                        onChange={(e) => updateQty(c.skuId, parseInt(e.target.value) || 1)}
+                        className="qty-input"
+                        aria-label={tr("qty", locale)}
+                      />
+                      <button className="remove-btn" onClick={() => removeFromCart(c.skuId)}>
+                        {tr("remove", locale)}
+                      </button>
                     </div>
                   </div>
-                  <div className="actions">
-                    <input
-                      type="number"
-                      min={1}
-                      value={c.qty}
-                      onChange={(e) => updateQty(c.skuId, parseInt(e.target.value) || 1)}
-                      className="qty-input"
-                    />
-                    <button className="remove-btn" onClick={() => removeFromCart(c.skuId)}>
-                      {tr("remove", locale)}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Parts subtotal */}
+            <div style={{
+              background: "var(--surface)",
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius-sm)",
+              padding: "16px 20px",
+              marginTop: 16,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}>
+              <span style={{ fontWeight: 700, color: "var(--text-dim)", fontSize: "0.9rem" }}>
+                {tr("subtotal", locale)} ({items.length} {locale === "ar" ? "قطعة" : "פריטים"})
+              </span>
+              <span style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--accent)" }}>
+                ₪{subtotal}
+              </span>
+            </div>
+            <p style={{ fontSize: "0.78rem", color: "var(--text-dim)", marginTop: 6 }}>
+              {tr("vat_excl", locale)}
+            </p>
           </div>
-          <div className="cart-summary">
-            <h3>{locale === "en" ? "Order Summary" : locale === "ar" ? "ملخص الطلب" : "סיכום הזמנה"}</h3>
-            <div className="row">
-              <span>{tr("subtotal", locale)}</span>
-              <span>₪{subtotal}</span>
-            </div>
-            <div className="row">
-              <span>{tr("vat", locale)}</span>
-              <span>₪{vat}</span>
-            </div>
-            <div className="row">
-              <span>{tr("shipping", locale)}</span>
-              <span>{shipping === 0 ? tr("free", locale) : `₪${shipping}`}</span>
-            </div>
-            <div className="row total">
-              <span>{tr("total", locale)}</span>
-              <span className="price">₪{total}</span>
-            </div>
-            <button className="checkout-cta">{tr("checkout", locale)} →</button>
+
+          {/* Order submit form */}
+          <div className="cart-summary" style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+            <h3 style={{ marginBottom: 20 }}>
+              {locale === "ar" ? "تفاصيل الطلب" : "פרטי הזמנה"}
+            </h3>
+            <OrderSubmitForm items={cart} subtotal={subtotal} />
           </div>
         </div>
       </section>
