@@ -33,7 +33,7 @@ export async function PUT(
       isActive: boolean;
     }>;
 
-    const sku = await prisma.sku.update({
+    const sku = await prisma!.sku.update({
       where: { id: skuIdNum, productId },
       data: body,
       include: { brand: true },
@@ -65,7 +65,7 @@ export async function DELETE(
     const productId = parseInt(id, 10);
     const skuIdNum = parseInt(skuId, 10);
 
-    await prisma.sku.delete({
+    await prisma!.sku.delete({
       where: { id: skuIdNum, productId },
     });
 

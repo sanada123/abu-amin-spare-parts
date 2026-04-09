@@ -35,7 +35,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       customerBreakdown,
     ] = await Promise.all([
       // Today's orders
-      prisma.order.findMany({
+      prisma!.order.findMany({
         where: {
           createdAt: { gte: startOfToday, lt: endOfToday },
           status: { not: 'cancelled' },
@@ -44,12 +44,12 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       }),
 
       // Pending orders (new + confirmed + preparing)
-      prisma.order.count({
+      prisma!.order.count({
         where: { status: { in: ['new', 'confirmed', 'preparing'] } },
       }),
 
       // Low stock SKUs via raw query (stock <= minStock)
-      prisma.$queryRaw<LowStockRow[]>`
+      prisma!.$queryRaw<LowStockRow[]>`
         SELECT s.id, s."partNumber", s.stock, s."minStock", p.name AS "productName"
         FROM "Sku" s
         JOIN "Product" p ON p.id = s."productId"
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       `,
 
       // Recent 10 orders
-      prisma.order.findMany({
+      prisma!.order.findMany({
         orderBy: { createdAt: 'desc' },
         take: 10,
         include: {
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       }),
 
       // Orders in last 30 days
-      prisma.order.findMany({
+      prisma!.order.findMany({
         where: {
           createdAt: { gte: thirtyDaysAgo },
           status: { not: 'cancelled' },
@@ -87,7 +87,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       }),
 
       // Customer type breakdown
-      prisma.customer.groupBy({
+      prisma!.customer.groupBy({
         by: ['type'],
         _count: { type: true },
       }),

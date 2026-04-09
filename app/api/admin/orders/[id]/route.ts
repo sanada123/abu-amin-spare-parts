@@ -18,7 +18,7 @@ export async function GET(
     const { id } = await context.params;
     const orderId = parseInt(id, 10);
 
-    const order = await prisma.order.findUnique({
+    const order = await prisma!.order.findUnique({
       where: { id: orderId },
       include: {
         customer: true,
@@ -67,7 +67,7 @@ export async function PUT(
       channel: string;
     }>;
 
-    const order = await prisma.order.update({
+    const order = await prisma!.order.update({
       where: { id: orderId },
       data: body,
     });
@@ -97,7 +97,7 @@ export async function DELETE(
     const { id } = await context.params;
     const orderId = parseInt(id, 10);
 
-    await prisma.order.update({
+    await prisma!.order.update({
       where: { id: orderId },
       data: { status: 'cancelled' },
     });

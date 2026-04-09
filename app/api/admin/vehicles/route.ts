@@ -10,7 +10,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const vehicles = await prisma.vehicle.findMany({
+    const vehicles = await prisma!.vehicle.findMany({
       where: { isActive: true },
       orderBy: [{ make: 'asc' }, { model: 'asc' }, { year: 'desc' }],
     });
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         years.push(y);
       }
 
-      const result = await prisma.vehicle.createMany({
+      const result = await prisma!.vehicle.createMany({
         data: years.map((year) => ({
           make: body.make!,
           makeHe: body.makeHe!,
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const vehicle = await prisma.vehicle.create({
+    const vehicle = await prisma!.vehicle.create({
       data: {
         make: body.make,
         makeHe: body.makeHe,

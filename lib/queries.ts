@@ -1,6 +1,12 @@
 // Server-side Prisma query functions for Abu Amin Spare Parts storefront
 import { prisma } from '@/lib/db';
 
+// Guard: throw if prisma is null (DB unavailable) — caught by page-level fallback
+function db() {
+  if (!prisma) throw new Error('Database unavailable');
+  return prisma;
+}
+
 // ─── Exported Types ──────────────────────────────────────────────────────────
 
 export type SkuSummary = {
@@ -47,7 +53,7 @@ export type CategoryData = {
 
 /** Up to 8 featured active products with their SKUs, fitments, and category. */
 export async function getFeaturedProducts(): Promise<ProductSummary[]> {
-  const products = await prisma.product.findMany({
+  const products = await db().product.findMany({
     where: { isFeatured: true, isActive: true },
     take: 8,
     orderBy: { position: 'asc' },
@@ -114,7 +120,7 @@ export async function getAllProducts(opts: GetAllProductsOpts = {}): Promise<Pag
   };
 
   const [products, total] = await Promise.all([
-    prisma.product.findMany({
+    db().product.findMany({
       where,
       skip,
       take: limit,
@@ -144,7 +150,7 @@ export async function getAllProducts(opts: GetAllProductsOpts = {}): Promise<Pag
         },
       },
     }),
-    prisma.product.count({ where }),
+    db().product.count({ where }),
   ]);
 
   return {
@@ -158,7 +164,7 @@ export async function getAllProducts(opts: GetAllProductsOpts = {}): Promise<Pag
 
 /** Full product detail by slug, including all SKUs and fitment vehicles. */
 export async function getProductBySlug(slug: string): Promise<ProductDetail | null> {
-  const product = await prisma.product.findUnique({
+  const product = await db().product.findUnique({
     where: { slug, isActive: true },
     select: {
       id: true,
@@ -197,7 +203,7 @@ export async function getProductsByCategory(
   categorySlug: string,
   limit = 24
 ): Promise<ProductSummary[]> {
-  const products = await prisma.product.findMany({
+  const products = await db().product.findMany({
     where: {
       isActive: true,
       category: { slug: categorySlug, isActive: true },
@@ -236,7 +242,7 @@ export async function getProductsByCategory(
 
 /** All active categories ordered by position. */
 export async function getAllCategories(): Promise<CategoryData[]> {
-  const cats = await prisma.category.findMany({
+  const cats = await db().category.findMany({
     where: { isActive: true },
     orderBy: { position: 'asc' },
     select: {
@@ -253,7 +259,7 @@ export async function getAllCategories(): Promise<CategoryData[]> {
 
 /** Single category by slug. */
 export async function getCategoryBySlug(slug: string): Promise<CategoryData | null> {
-  const cat = await prisma.category.findUnique({
+  const cat = await db().category.findUnique({
     where: { slug, isActive: true },
     select: {
       id: true,
@@ -270,7 +276,7 @@ export async function getCategoryBySlug(slug: string): Promise<CategoryData | nu
 
 /** Parent categories with their children[] nested. */
 export async function getCategoryTree(): Promise<CategoryData[]> {
-  const all = await prisma.category.findMany({
+  const all = await db().category.findMany({
     where: { isActive: true },
     orderBy: { position: 'asc' },
     select: {
@@ -312,7 +318,7 @@ export type BrandData = {
 
 /** All active brands. */
 export async function getAllBrands(): Promise<BrandData[]> {
-  return prisma.brand.findMany({
+  return db().brand.findMany({
     where: { isActive: true },
     orderBy: { name: 'asc' },
     select: { id: true, name: true, slug: true, logo: true, country: true },
@@ -333,7 +339,7 @@ export type VehicleData = {
 
 /** All active vehicles. */
 export async function getAllVehicles(): Promise<VehicleData[]> {
-  return prisma.vehicle.findMany({
+  return db().vehicle.findMany({
     where: { isActive: true },
     orderBy: [{ make: 'asc' }, { year: 'desc' }, { model: 'asc' }],
     select: { id: true, make: true, makeHe: true, model: true, modelHe: true, year: true, engine: true },
@@ -344,14 +350,14 @@ export type MakeWithCount = { make: string; makeHe: string; count: number };
 
 /** Distinct makes with product count. */
 export async function getUniqueMakes(): Promise<MakeWithCount[]> {
-  const vehicles = await prisma.vehicle.findMany({
+  const vehicles = await db().vehicle.findMany({
     where: { isActive: true },
     select: { make: true, makeHe: true },
     orderBy: { make: 'asc' },
     distinct: ['make'],
   });
 
-  const counts = await prisma.vehicle.groupBy({
+  const counts = await db().vehicle.groupBy({
     by: ['make'],
     where: { isActive: true },
     _count: { _all: true },
@@ -367,7 +373,7 @@ export async function getUniqueMakes(): Promise<MakeWithCount[]> {
 
 /** Vehicle with its fitments→product. */
 export async function getVehicleById(id: number) {
-  return prisma.vehicle.findUnique({
+  return db().vehicle.findUnique({
     where: { id, isActive: true },
     include: {
       fitments: {
@@ -382,7 +388,7 @@ export async function getPartsForVehicle(
   vehicleId: number,
   categorySlug?: string
 ): Promise<ProductSummary[]> {
-  const products = await prisma.product.findMany({
+  const products = await db().product.findMany({
     where: {
       isActive: true,
       fitments: { some: { vehicleId } },
@@ -426,7 +432,7 @@ export async function searchProducts(
 ): Promise<ProductSummary[]> {
   if (!query.trim()) return [];
 
-  const products = await prisma.product.findMany({
+  const products = await db().product.findMany({
     where: {
       isActive: true,
       ...(vehicleId ? { fitments: { some: { vehicleId } } } : {}),
@@ -470,7 +476,7 @@ export async function searchProducts(
 
 /** All settings as a flat Record<key, string>. JSON values are parsed. */
 export async function getSettings(): Promise<Record<string, string>> {
-  const rows = await prisma.setting.findMany();
+  const rows = await db().setting.findMany();
   const result: Record<string, string> = {};
   for (const row of rows) {
     try {
@@ -509,7 +515,7 @@ export async function createOrder(data: CreateOrderInput): Promise<CreatedOrder>
 
   // Look up SKU prices
   const skuIds = items.map((i) => i.skuId);
-  const skus = await prisma.sku.findMany({
+  const skus = await db().sku.findMany({
     where: { id: { in: skuIds }, isActive: true },
     select: { id: true, priceIls: true },
   });
@@ -536,7 +542,7 @@ export async function createOrder(data: CreateOrderInput): Promise<CreatedOrder>
   const rand = Math.floor(10000 + Math.random() * 90000);
   const orderNumber = `AA-${datePart}-${rand}`;
 
-  const order = await prisma.$transaction(async (tx) => {
+  const order = await db().$transaction(async (tx) => {
     // Upsert customer by phone
     const customer = await tx.customer.upsert({
       where: { phone: customerPhone },

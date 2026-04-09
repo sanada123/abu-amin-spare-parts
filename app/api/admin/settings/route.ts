@@ -9,7 +9,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const settings = await prisma.setting.findMany({
+    const settings = await prisma!.setting.findMany({
       orderBy: { key: 'asc' },
     });
 
@@ -56,7 +56,7 @@ export async function PUT(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const setting = await prisma.setting.upsert({
+    const setting = await prisma!.setting.upsert({
       where: { key: body.key },
       create: { key: body.key, value: String(body.value) },
       update: { value: String(body.value) },

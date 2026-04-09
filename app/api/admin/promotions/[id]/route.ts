@@ -18,7 +18,7 @@ export async function GET(
     const { id } = await context.params;
     const promotionId = parseInt(id, 10);
 
-    const promotion = await prisma.promotion.findUnique({
+    const promotion = await prisma!.promotion.findUnique({
       where: { id: promotionId },
     });
 
@@ -70,7 +70,7 @@ export async function PUT(
       isActive: boolean;
     }>;
 
-    const data: Parameters<typeof prisma.promotion.update>[0]['data'] = {
+    const data: any = {
       ...body,
     };
     if (body.startDate) data.startDate = new Date(body.startDate);
@@ -82,7 +82,7 @@ export async function PUT(
     if (body.endDate)
       (data as Record<string, unknown>).endDate = new Date(body.endDate);
 
-    const promotion = await prisma.promotion.update({
+    const promotion = await prisma!.promotion.update({
       where: { id: promotionId },
       data,
     });
@@ -115,7 +115,7 @@ export async function DELETE(
     const { id } = await context.params;
     const promotionId = parseInt(id, 10);
 
-    await prisma.promotion.delete({ where: { id: promotionId } });
+    await prisma!.promotion.delete({ where: { id: promotionId } });
 
     return NextResponse.json({ ok: true });
   } catch (err) {

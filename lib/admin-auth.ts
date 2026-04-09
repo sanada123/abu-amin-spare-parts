@@ -120,7 +120,7 @@ export function clearAdminSession(response: NextResponse): NextResponse {
 }
 
 export async function verifyAdminPassword(password: string): Promise<boolean> {
-  const setting = await prisma.setting.findUnique({
+  const setting = await prisma!.setting.findUnique({
     where: { key: 'admin_password_hash' },
   });
   if (!setting) return false;

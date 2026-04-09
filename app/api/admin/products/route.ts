@@ -40,7 +40,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const [products, total] = await Promise.all([
-      prisma.product.findMany({
+      prisma!.product.findMany({
         where,
         skip: (page - 1) * limit,
         take: limit,
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           },
         },
       }),
-      prisma.product.count({ where }),
+      prisma!.product.count({ where }),
     ]);
 
     return NextResponse.json({
@@ -105,7 +105,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const product = await prisma.product.create({
+    const product = await prisma!.product.create({
       data: {
         slug: body.slug,
         name: body.name,

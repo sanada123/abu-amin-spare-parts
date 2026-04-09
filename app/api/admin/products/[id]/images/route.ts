@@ -54,7 +54,7 @@ export async function POST(
 
     const imageUrl = `/uploads/${filename}`;
 
-    const product = await prisma.product.findUnique({
+    const product = await prisma!.product.findUnique({
       where: { id: productId },
       select: { images: true },
     });
@@ -63,7 +63,7 @@ export async function POST(
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
-    const updatedProduct = await prisma.product.update({
+    const updatedProduct = await prisma!.product.update({
       where: { id: productId },
       data: { images: [...product.images, imageUrl] },
       select: { id: true, images: true },
@@ -105,7 +105,7 @@ export async function DELETE(
 
     const imgIndex = body.index;
 
-    const product = await prisma.product.findUnique({
+    const product = await prisma!.product.findUnique({
       where: { id: productId },
       select: { images: true },
     });
@@ -125,7 +125,7 @@ export async function DELETE(
       (_: string, i: number) => i !== imgIndex,
     );
 
-    const updatedProduct = await prisma.product.update({
+    const updatedProduct = await prisma!.product.update({
       where: { id: productId },
       data: { images: updatedImages },
       select: { id: true, images: true },

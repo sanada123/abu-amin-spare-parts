@@ -10,7 +10,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const categories = await prisma.category.findMany({
+    const categories = await prisma!.category.findMany({
       orderBy: [{ position: 'asc' }, { name: 'asc' }],
       include: {
         _count: {
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const category = await prisma.category.create({
+    const category = await prisma!.category.create({
       data: {
         slug: body.slug,
         name: body.name,

@@ -18,7 +18,7 @@ export async function GET(
     const { id } = await context.params;
     const productId = parseInt(id, 10);
 
-    const product = await prisma.product.findUnique({
+    const product = await prisma!.product.findUnique({
       where: { id: productId },
       include: {
         category: true,
@@ -68,7 +68,7 @@ export async function PUT(
       position: number;
     }>;
 
-    const product = await prisma.product.update({
+    const product = await prisma!.product.update({
       where: { id: productId },
       data: body,
     });
@@ -98,7 +98,7 @@ export async function DELETE(
     const { id } = await context.params;
     const productId = parseInt(id, 10);
 
-    await prisma.product.update({
+    await prisma!.product.update({
       where: { id: productId },
       data: { isActive: false },
     });

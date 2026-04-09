@@ -10,7 +10,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const brands = await prisma.brand.findMany({
+    const brands = await prisma!.brand.findMany({
       orderBy: { name: 'asc' },
       include: {
         _count: { select: { skus: true } },
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const brand = await prisma.brand.create({
+    const brand = await prisma!.brand.create({
       data: {
         name: body.name,
         slug: body.slug,

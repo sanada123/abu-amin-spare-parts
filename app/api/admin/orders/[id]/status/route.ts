@@ -53,7 +53,7 @@ export async function PUT(
 
     const newStatus = body.status;
 
-    const existing = await prisma.order.findUnique({
+    const existing = await prisma!.order.findUnique({
       where: { id: orderId },
       select: { status: true },
     });
@@ -76,7 +76,7 @@ export async function PUT(
       }
     }
 
-    const order = await prisma.order.update({
+    const order = await prisma!.order.update({
       where: { id: orderId },
       data: { status: newStatus },
     });

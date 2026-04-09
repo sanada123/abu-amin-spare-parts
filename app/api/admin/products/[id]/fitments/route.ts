@@ -29,7 +29,7 @@ export async function POST(
     const vehicleIds = body.vehicleIds;
 
     // Replace all fitments in a transaction
-    const fitments = await prisma.$transaction(async (tx) => {
+    const fitments = await prisma!.$transaction(async (tx) => {
       await tx.fitment.deleteMany({ where: { productId } });
 
       if (vehicleIds.length === 0) {

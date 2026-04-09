@@ -29,7 +29,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const [customers, total] = await Promise.all([
-      prisma.customer.findMany({
+      prisma!.customer.findMany({
         where,
         skip: (page - 1) * limit,
         take: limit,
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           orders: { select: { total: true } },
         },
       }),
-      prisma.customer.count({ where }),
+      prisma!.customer.count({ where }),
     ]);
 
     const customersWithStats = customers.map((c) => ({
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const customer = await prisma.customer.create({
+    const customer = await prisma!.customer.create({
       data: {
         name: body.name,
         phone: body.phone,

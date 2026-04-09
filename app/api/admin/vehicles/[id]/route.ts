@@ -28,7 +28,7 @@ export async function PUT(
       isActive: boolean;
     }>;
 
-    const vehicle = await prisma.vehicle.update({
+    const vehicle = await prisma!.vehicle.update({
       where: { id: vehicleId },
       data: body,
     });
@@ -61,7 +61,7 @@ export async function DELETE(
     const { id } = await context.params;
     const vehicleId = parseInt(id, 10);
 
-    await prisma.vehicle.update({
+    await prisma!.vehicle.update({
       where: { id: vehicleId },
       data: { isActive: false },
     });

@@ -8,7 +8,7 @@ import { validateCoupon, getActiveAutoPromotions } from '@/lib/promotions';
 /** GET /api/promotions — return active banner promotions for storefront */
 export async function GET() {
   const now = new Date();
-  const promos = await prisma.promotion.findMany({
+  const promos = await prisma!.promotion.findMany({
     where: {
       isActive: true,
       startDate: { lte: now },

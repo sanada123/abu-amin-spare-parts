@@ -28,7 +28,7 @@ export async function PUT(
       isActive: boolean;
     }>;
 
-    const category = await prisma.category.update({
+    const category = await prisma!.category.update({
       where: { id: categoryId },
       data: body,
     });
@@ -67,7 +67,7 @@ export async function DELETE(
     const { id } = await context.params;
     const categoryId = parseInt(id, 10);
 
-    await prisma.category.update({
+    await prisma!.category.update({
       where: { id: categoryId },
       data: { isActive: false },
     });

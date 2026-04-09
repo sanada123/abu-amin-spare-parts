@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
   try {
     // Level 3: engines for make+year+model
     if (make && year && model) {
-      const vehicles = await prisma.vehicle.findMany({
+      const vehicles = await prisma!.vehicle.findMany({
         where: { make, year, model, isActive: true },
         select: { id: true, engine: true },
         orderBy: { engine: 'asc' },
@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
 
     // Level 2: models for make+year
     if (make && year) {
-      const rows = await prisma.vehicle.findMany({
+      const rows = await prisma!.vehicle.findMany({
         where: { make, year, isActive: true },
         select: { model: true, modelHe: true },
         distinct: ['model'],
@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
 
     // Level 1: years for make
     if (make) {
-      const rows = await prisma.vehicle.findMany({
+      const rows = await prisma!.vehicle.findMany({
         where: { make, isActive: true },
         select: { year: true },
         distinct: ['year'],
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Level 0: all makes with slug + makeHe + year range
-    const makes = await prisma.vehicle.findMany({
+    const makes = await prisma!.vehicle.findMany({
       where: { isActive: true },
       select: { make: true, makeHe: true, year: true },
       distinct: ['make'],
@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
     });
 
     // Compute year range per make
-    const yearRanges = await prisma.vehicle.groupBy({
+    const yearRanges = await prisma!.vehicle.groupBy({
       by: ['make'],
       where: { isActive: true },
       _min: { year: true },

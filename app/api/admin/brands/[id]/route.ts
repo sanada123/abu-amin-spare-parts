@@ -26,7 +26,7 @@ export async function PUT(
       isActive: boolean;
     }>;
 
-    const brand = await prisma.brand.update({
+    const brand = await prisma!.brand.update({
       where: { id: brandId },
       data: body,
     });
@@ -62,7 +62,7 @@ export async function DELETE(
     const { id } = await context.params;
     const brandId = parseInt(id, 10);
 
-    await prisma.brand.update({
+    await prisma!.brand.update({
       where: { id: brandId },
       data: { isActive: false },
     });

@@ -21,7 +21,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    const promotions = await prisma.promotion.findMany({
+    const promotions = await prisma!.promotion.findMany({
       orderBy: { createdAt: 'desc' },
     });
 
@@ -80,7 +80,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const promotion = await prisma.promotion.create({
+    const promotion = await prisma!.promotion.create({
       data: {
         name: body.name,
         type: body.type,

@@ -10,7 +10,7 @@ async function generateOrderNumber(): Promise<string> {
   const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
 
-  const todayCount = await prisma.order.count({
+  const todayCount = await prisma!.order.count({
     where: { createdAt: { gte: startOfDay, lt: endOfDay } },
   });
 
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     const [orders, total] = await Promise.all([
-      prisma.order.findMany({
+      prisma!.order.findMany({
         where,
         skip: (page - 1) * limit,
         take: limit,
@@ -65,7 +65,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           _count: { select: { items: true } },
         },
       }),
-      prisma.order.count({ where }),
+      prisma!.order.count({ where }),
     ]);
 
     return NextResponse.json({
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
-    const order = await prisma.$transaction(async (tx) => {
+    const order = await prisma!.$transaction(async (tx) => {
       let customerId = body.customerId;
 
       if (!customerId && body.customerData) {

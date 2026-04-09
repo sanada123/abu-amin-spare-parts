@@ -38,7 +38,7 @@ export async function POST(
       );
     }
 
-    const sku = await prisma.sku.create({
+    const sku = await prisma!.sku.create({
       data: {
         partNumber: body.partNumber,
         productId,

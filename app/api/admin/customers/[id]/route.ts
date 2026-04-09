@@ -18,7 +18,7 @@ export async function GET(
     const { id } = await context.params;
     const customerId = parseInt(id, 10);
 
-    const customer = await prisma.customer.findUnique({
+    const customer = await prisma!.customer.findUnique({
       where: { id: customerId },
       include: {
         orders: {
@@ -67,7 +67,7 @@ export async function PUT(
       notes: string;
     }>;
 
-    const customer = await prisma.customer.update({
+    const customer = await prisma!.customer.update({
       where: { id: customerId },
       data: body,
     });
@@ -106,7 +106,7 @@ export async function DELETE(
     const { id } = await context.params;
     const customerId = parseInt(id, 10);
 
-    const existing = await prisma.customer.findUnique({
+    const existing = await prisma!.customer.findUnique({
       where: { id: customerId },
       select: { notes: true },
     });
@@ -122,7 +122,7 @@ export async function DELETE(
       ? `${existing.notes} [deactivated]`
       : '[deactivated]';
 
-    await prisma.customer.update({
+    await prisma!.customer.update({
       where: { id: customerId },
       data: { notes: updatedNotes },
     });
