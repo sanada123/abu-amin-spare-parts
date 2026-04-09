@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" role="img" aria-label="אבו אמין חלפים">
+  <!--
+    Abu Amin Halafim — Mono White Lockup
+    All white — for use on dark/colored backgrounds
+    The yellow hex becomes white; the dark letter becomes white with transparent hex
+  -->
+
+  <!-- ——— MARK ——— -->
+  <!-- Hex body — white -->
+  <polygon
+    points="94,50 72,88.1 28,88.1 6,50 28,11.9 72,11.9"
+    fill="#FFFFFF"
+  />
+  <!-- Aleph — transparent cut-out effect via dark fill -->
+  <text
+    x="50" y="68"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="46" font-weight="900"
+    fill="#000000"
+    text-anchor="middle"
+  >א</text>
+
+  <!-- ——— WORDMARK ——— -->
+  <text
+    x="390" y="50"
+    font-family="Heebo, 'Arial Hebrew', 'David', sans-serif"
+    font-size="30" font-weight="900"
+    fill="#FFFFFF"
+    text-anchor="end"
+    letter-spacing="-0.3"
+  >אבו אמין חלפים</text>
+
+  <!-- Tagline -->
+  <text
+    x="390" y="78"
+    font-family="Heebo, 'Arial Hebrew', 'David', sans-serif"
+    font-size="17" font-weight="700"
+    fill="#FFFFFF"
+    text-anchor="end"
+    opacity="0.75"
+  >מס׳ 1 בכרמל</text>
+</svg>

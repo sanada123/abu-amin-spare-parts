@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="אבו אמין חלפים — מס׳ 1 בכרמל">
+  <!--
+    Abu Amin Halafim — Open Graph Image 1200×630
+    Dark industrial background, centered brand mark + wordmark + contact
+  -->
+
+  <!-- ——— BACKGROUND ——— -->
+  <!-- Base dark background -->
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+
+  <!-- Subtle grid texture (horizontal lines) -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="#1A1A1A" stroke-width="1"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#1A1A1A" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#1A1A1A" stroke-width="1"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#1A1A1A" stroke-width="1"/>
+
+  <!-- Yellow accent bar — top -->
+  <rect x="0" y="0" width="1200" height="6" fill="#F5C300"/>
+
+  <!-- Yellow accent bar — bottom -->
+  <rect x="0" y="624" width="1200" height="6" fill="#F5C300"/>
+
+  <!-- Large decorative hex (background, right side) -->
+  <polygon
+    points="1100,315 1020,453 860,453 780,315 860,177 1020,177"
+    fill="#F5C300"
+    opacity="0.04"
+  />
+  <polygon
+    points="1100,315 1020,453 860,453 780,315 860,177 1020,177"
+    fill="none"
+    stroke="#F5C300"
+    stroke-width="2"
+    opacity="0.08"
+  />
+
+  <!-- ——— MAIN LOGO MARK (left/center section) ——— -->
+  <!-- Scale the 100×100 mark to 180×180, centered at x=220, y=315 -->
+  <g transform="translate(130, 225) scale(1.8)">
+    <!-- Hex shadow -->
+    <polygon
+      points="94,50 72,88.1 28,88.1 6,50 28,11.9 72,11.9"
+      fill="#000"
+      transform="translate(2,3)"
+      opacity="0.4"
+    />
+    <!-- Hex body -->
+    <polygon
+      points="94,50 72,88.1 28,88.1 6,50 28,11.9 72,11.9"
+      fill="#F5C300"
+    />
+    <!-- Inner ring -->
+    <polygon
+      points="88,50 69,83.5 31,83.5 12,50 31,16.5 69,16.5"
+      fill="none"
+      stroke="#0A0A0A"
+      stroke-width="1.5"
+      opacity="0.15"
+    />
+    <!-- Aleph -->
+    <text
+      x="50" y="68"
+      font-family="Heebo, 'Arial Hebrew', sans-serif"
+      font-size="46" font-weight="900"
+      fill="#0A0A0A"
+      text-anchor="middle"
+    >א</text>
+  </g>
+
+  <!-- ——— WORDMARK ——— -->
+  <!-- Brand name -->
+  <text
+    x="780" y="255"
+    font-family="Heebo, 'Arial Hebrew', 'David', sans-serif"
+    font-size="72" font-weight="900"
+    fill="#F5F5F5"
+    text-anchor="end"
+    letter-spacing="-1"
+  >אבו אמין חלפים</text>
+
+  <!-- Tagline -->
+  <text
+    x="780" y="335"
+    font-family="Heebo, 'Arial Hebrew', 'David', sans-serif"
+    font-size="42" font-weight="700"
+    fill="#F5C300"
+    text-anchor="end"
+  >מס׳ 1 בכרמל</text>
+
+  <!-- Divider -->
+  <line x1="420" y1="365" x2="780" y2="365" stroke="#F5C300" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Category line -->
+  <text
+    x="780" y="400"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="22" font-weight="400"
+    fill="#A0A0A0"
+    text-anchor="end"
+    letter-spacing="1"
+  >חלקי חילוף · שמנים · מצברים · כלים · גינה</text>
+
+  <!-- ——— CONTACT INFO ——— -->
+  <!-- Phone landline -->
+  <text
+    x="420" y="460"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="28" font-weight="900"
+    fill="#F5C300"
+    text-anchor="start"
+  >☎ 04-8599333</text>
+
+  <!-- Phone mobile -->
+  <text
+    x="420" y="500"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="24" font-weight="700"
+    fill="#F5F5F5"
+    text-anchor="start"
+    opacity="0.8"
+  >📱 052-3158796</text>
+
+  <!-- Address -->
+  <text
+    x="780" y="460"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="20" font-weight="400"
+    fill="#666666"
+    text-anchor="end"
+  >כביש ראשי דלית–עוספיה</text>
+
+  <!-- Hours -->
+  <text
+    x="780" y="490"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="18" font-weight="400"
+    fill="#666666"
+    text-anchor="end"
+  >א׳–ה׳ 08:00–18:00 · ו׳ 08:00–13:00</text>
+
+  <!-- URL -->
+  <text
+    x="600" y="570"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="16" font-weight="400"
+    fill="#444444"
+    text-anchor="middle"
+    letter-spacing="1"
+  >www.abu-amin.co.il</text>
+</svg>

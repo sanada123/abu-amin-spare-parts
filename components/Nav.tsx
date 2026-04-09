@@ -56,14 +56,23 @@ export default function Nav() {
       {/* Main nav */}
       <nav className="nav">
         <div className="nav-inner">
-          <Link href="/" className="brand">
-            <span className="brand-logo">
-              <img src="/brand/logo.jpg" alt="אבו אמין חלפים" />
-            </span>
-            <div className="brand-text">
-              <span className="name">{tr("brand")}</span>
-              <span className="sub">{tr("tagline")}</span>
-            </div>
+          <Link href="/" className="brand" aria-label="אבו אמין חלפים — דף הבית">
+            {/* Dark mode logo (color — yellow on transparent) */}
+            <img
+              src="/brand/logo-horizontal.svg"
+              alt="אבו אמין חלפים — מס׳ 1 בכרמל"
+              className="brand-logo-svg brand-logo-dark"
+              height={44}
+              style={{ height: 44, width: "auto", display: "block" }}
+            />
+            {/* Light mode logo (mono-black) */}
+            <img
+              src="/brand/logo-mono-black.svg"
+              alt="אבו אמין חלפים — מס׳ 1 בכרמל"
+              className="brand-logo-svg brand-logo-light"
+              height={44}
+              style={{ height: 44, width: "auto", display: "none" }}
+            />
           </Link>
 
           {/* Desktop search */}

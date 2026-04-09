@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="אבו אמין חלפים">
+  <!--
+    Abu Amin Halafim — Favicon Master
+    The hex bolt mark — designed to be legible at 16px
+    At 16px: Yellow hex shape is distinct and brand-recognizable
+    At 32px+: Aleph letter becomes visible
+  -->
+  <!-- Hex — Torque Yellow -->
+  <polygon
+    points="94,50 72,88.1 28,88.1 6,50 28,11.9 72,11.9"
+    fill="#F5C300"
+  />
+  <!-- Aleph — visible at 32px+ -->
+  <text
+    x="50" y="68"
+    font-family="Heebo, 'Arial Hebrew', sans-serif"
+    font-size="46" font-weight="900"
+    fill="#0A0A0A"
+    text-anchor="middle"
+  >א</text>
+</svg>

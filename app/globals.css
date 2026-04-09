@@ -1,10 +1,29 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;900&display=swap');
 
 /* =========================================================
-   ABU AMIN MAHER MALAK — Industrial Dark Design System
+   אבו אמין חלפים — Brand Identity System v1
+   Archetype: Sage + Everyman
+   Palette: Torque Yellow (#F5C300) on Industrial Black (#0A0A0A)
+   Typography: Heebo (Google Fonts — Hebrew-first geometric sans)
    Mobile-first. Base = 360px.
-   Palette: Yellow (#FFD700) on Near-Black (#0a0a0a)
    ========================================================= */
+
+/* ——— Tailwind v4 brand theme tokens ——— */
+@theme {
+  --color-brand-50:  #FEFAE8;
+  --color-brand-100: #FCF4C3;
+  --color-brand-200: #F9E97F;
+  --color-brand-300: #F7DC4A;
+  --color-brand-400: #F6D21E;
+  --color-brand-500: #F5C300;
+  --color-brand-600: #D4A800;
+  --color-brand-700: #A88500;
+  --color-brand-800: #7C6200;
+  --color-brand-900: #524100;
+  --font-heading: 'Heebo', 'Arial Hebrew', 'David', system-ui, sans-serif;
+  --font-body:    'Heebo', 'Arial Hebrew', 'David', system-ui, sans-serif;
+}
 
 :root {
   /* Backgrounds */
@@ -22,11 +41,11 @@
   --text-muted: #a0a0a0;
   --text-dim: #666666;
 
-  /* Accent (yellow) */
-  --accent: #FFD700;
-  --accent-hover: #FFED4E;
+  /* Accent — Torque Yellow (brand primary) */
+  --accent: #F5C300;
+  --accent-hover: #F6D21E;
   --accent-fg: #000;
-  --accent-dim: rgba(255, 215, 0, 0.15);
+  --accent-dim: rgba(245, 195, 0, 0.15);
 
   /* Semantic */
   --danger: #ef4444;
@@ -39,9 +58,9 @@
   --warning: #f59e0b;
 
   /* Legacy aliases (for backward compat with untouched pages) */
-  --yellow: #FFD700;
-  --yellow-2: #FFED4E;
-  --yellow-dark: #d4aa00;
+  --yellow: #F5C300;
+  --yellow-2: #F6D21E;
+  --yellow-dark: #D4A800;
   --black: #0a0a0a;
   --black-2: #141414;
   --ink: #f5f5f5;
@@ -1081,6 +1100,12 @@ footer {
   align-items: center;
 }
 .brand-logo img { height: 40px; width: auto; max-width: 120px; object-fit: contain; display: block; }
+/* Brand v1 SVG logo — theme switching */
+.brand-logo-svg { height: 44px; width: auto; display: block; flex-shrink: 0; }
+.brand-logo-dark  { display: block; }
+.brand-logo-light { display: none; }
+[data-theme="light"] .brand-logo-dark  { display: none; }
+[data-theme="light"] .brand-logo-light { display: block; }
 .brand-text { display: none; line-height: 1.1; }
 @media (min-width: 640px) {
   .brand-text { display: flex; flex-direction: column; }

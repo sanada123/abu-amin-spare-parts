@@ -1,0 +1,66 @@
+{
+  "brand": {
+    "name": "אבו אמין חלפים",
+    "tagline": "מס׳ 1 בכרמל",
+    "archetype": "Sage + Everyman"
+  },
+  "colors": {
+    "yellow": {
+      "50":  "#FEFAE8",
+      "100": "#FCF4C3",
+      "200": "#F9E97F",
+      "300": "#F7DC4A",
+      "400": "#F6D21E",
+      "500": "#F5C300",
+      "600": "#D4A800",
+      "700": "#A88500",
+      "800": "#7C6200",
+      "900": "#524100"
+    },
+    "black": {
+      "50":  "#FAFAF8",
+      "100": "#F5F4F0",
+      "200": "#E8E7E2",
+      "300": "#D0CFC8",
+      "400": "#9E9D95",
+      "500": "#6B6A62",
+      "600": "#47463F",
+      "700": "#2C2B25",
+      "800": "#1A1915",
+      "900": "#0A0A08"
+    },
+    "surface": {
+      "bg":          "#0A0A0A",
+      "card":        "#141414",
+      "raised":      "#1F1F1F",
+      "high":        "#272727",
+      "borderSubtle":"#2A2A2A",
+      "borderStrong": "#3A3A3A"
+    },
+    "text": {
+      "primary":  "#F5F5F5",
+      "muted":    "#A0A0A0",
+      "dim":      "#666666",
+      "disabled": "#444444"
+    },
+    "semantic": {
+      "success": { "dark": "#22C55E", "light": "#16A34A" },
+      "warning": { "dark": "#F59E0B", "light": "#D97706" },
+      "error":   { "dark": "#EF4444", "light": "#DC2626" },
+      "info":    { "dark": "#3B82F6", "light": "#2563EB" }
+    }
+  },
+  "roles": {
+    "primary": "#F5C300",
+    "primaryDark": "#A88500",
+    "primaryLight": "#FCF4C3",
+    "background": "#0A0A0A",
+    "surface": "#141414",
+    "surfaceRaised": "#1F1F1F",
+    "textPrimary": "#F5F5F5",
+    "textMuted": "#A0A0A0",
+    "textDim": "#666666",
+    "border": "#2A2A2A",
+    "borderStrong": "#3A3A3A"
+  }
+}
