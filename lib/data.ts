@@ -44,6 +44,8 @@ export interface Sku {
   stock: number;
   warrantyMonths: number;
   image: string;
+  tier: "original" | "replacement";
+  deliveryDays: number;
 }
 
 export interface Part {
@@ -59,6 +61,7 @@ export interface Part {
   fitsVehicleIds: number[];
   skus: Sku[];
   image: string;
+  images?: string[];
 }
 
 export interface Kit {
@@ -102,7 +105,6 @@ export const categories: Category[] = [
   { id: 1, slug: "brakes", name: { he: "בלמים", ar: "الفرامل", en: "Brakes" }, icon: "🛞" },
   { id: 2, slug: "filters", name: { he: "מסננים", ar: "الفلاتر", en: "Filters" }, icon: "🌀" },
   { id: 3, slug: "engine", name: { he: "מנוע", ar: "المحرك", en: "Engine" }, icon: "⚙️" },
-  { id: 4, slug: "suspension", name: { he: "מתלים", ar: "نظام التعليق", en: "Suspension" }, icon: "🔩" },
   { id: 5, slug: "electrical", name: { he: "חשמל", ar: "الكهرباء", en: "Electrical" }, icon: "⚡" },
   { id: 6, slug: "lighting", name: { he: "תאורה", ar: "الإضاءة", en: "Lighting" }, icon: "💡" },
   { id: 7, slug: "cooling", name: { he: "קירור", ar: "التبريد", en: "Cooling" }, icon: "❄️" },
@@ -246,7 +248,7 @@ function makePart(
   nameEn: string | undefined,
   oems: string[],
   fits: number[],
-  skuConfigs: { brandId: number; pn: string; price: number; stock: number; warranty: number }[],
+  skuConfigs: { brandId: number; pn: string; price: number; stock: number; warranty: number; tier?: "original" | "replacement" }[],
   videoId?: string,
   position?: string,
   specs: Record<string, string> = {}
@@ -275,6 +277,8 @@ function makePart(
       stock: c.stock,
       warrantyMonths: c.warranty,
       image: `/parts/${slug}.svg`,
+      tier: c.tier ?? "replacement",
+      deliveryDays: c.stock > 10 ? 1 : c.stock > 0 ? 3 : 0,
     })),
   };
 }
@@ -293,19 +297,22 @@ const HON_CIVIC = [35, 36];
 
 export const parts: Part[] = [
   // BRAKES (cat 1)
-  makePart(
-    1, 1, "front-brake-pads-corolla",
-    "רפידות בלם קדמיות", "وسادات الفرامل الأمامية", "Front Brake Pads",
-    ["04465-02220", "04465-02240", "04465-12610"],
-    [...TOY_COROLLA, 35, 36],
-    [
-      { brandId: 1, pn: "0986494614", price: 189, stock: 23, warranty: 24 },
-      { brandId: 2, pn: "P83144", price: 245, stock: 12, warranty: 24 },
-      { brandId: 11, pn: "AN-731WK", price: 219, stock: 18, warranty: 18 },
-      { brandId: 4, pn: "16623", price: 165, stock: 31, warranty: 12 },
-    ],
-    "dQw4w9WgXcQ", "front", { material: "Ceramic", thickness: "12mm" }
-  ),
+  {
+    ...makePart(
+      1, 1, "front-brake-pads-corolla",
+      "רפידות בלם קדמיות", "وسادات الفرامل الأمامية", "Front Brake Pads",
+      ["04465-02220", "04465-02240", "04465-12610"],
+      [...TOY_COROLLA, 35, 36],
+      [
+        { brandId: 1, pn: "0986494614", price: 189, stock: 23, warranty: 24 },
+        { brandId: 2, pn: "P83144", price: 245, stock: 12, warranty: 24 },
+        { brandId: 11, pn: "AN-731WK", price: 219, stock: 18, warranty: 18 },
+        { brandId: 4, pn: "16623", price: 165, stock: 31, warranty: 12 },
+      ],
+      "dQw4w9WgXcQ", "front", { material: "Ceramic", thickness: "12mm" }
+    ),
+    images: ["/parts/front-brake-pads-corolla.svg", "/parts/front-brake-pads-corolla.svg", "/parts/front-brake-pads-corolla.svg"],
+  },
   makePart(
     2, 1, "rear-brake-pads-corolla",
     "רפידות בלם אחוריות", "وسادات الفرامل الخلفية", "Rear Brake Pads",
@@ -343,18 +350,21 @@ export const parts: Part[] = [
   ),
 
   // FILTERS (cat 2)
-  makePart(
-    5, 2, "oil-filter-corolla",
-    "מסנן שמן", "فلتر الزيت", "Oil Filter",
-    ["90915-YZZD3", "90915-10009"],
-    [...TOY_COROLLA, ...TOY_RAV4],
-    [
-      { brandId: 3, pn: "W 68/3", price: 39, stock: 87, warranty: 6 },
-      { brandId: 1, pn: "F 026 407 023", price: 35, stock: 65, warranty: 6 },
-      { brandId: 10, pn: "OX 339D", price: 42, stock: 43, warranty: 6 },
-    ],
-    "dQw4w9WgXcQ"
-  ),
+  {
+    ...makePart(
+      5, 2, "oil-filter-corolla",
+      "מסנן שמן", "فلتر الزيت", "Oil Filter",
+      ["90915-YZZD3", "90915-10009"],
+      [...TOY_COROLLA, ...TOY_RAV4],
+      [
+        { brandId: 3, pn: "W 68/3", price: 39, stock: 87, warranty: 6 },
+        { brandId: 1, pn: "F 026 407 023", price: 35, stock: 65, warranty: 6 },
+        { brandId: 10, pn: "OX 339D", price: 42, stock: 43, warranty: 6 },
+      ],
+      "dQw4w9WgXcQ"
+    ),
+    images: ["/parts/oil-filter-corolla.svg", "/parts/oil-filter-corolla.svg"],
+  },
   makePart(
     6, 2, "air-filter-corolla",
     "מסנן אוויר", "فلتر الهواء", "Air Filter",
@@ -410,9 +420,9 @@ export const parts: Part[] = [
     ]
   ),
 
-  // SUSPENSION (cat 4)
+  // SUSPENSION (cat 15)
   makePart(
-    11, 4, "front-shocks-corolla",
+    11, 15, "front-shocks-corolla",
     "בולמי זעזועים קדמיים", "ممتصات الصدمات الأمامية", "Front Shock Absorbers",
     ["48510-12B40"],
     TOY_COROLLA,
@@ -422,7 +432,7 @@ export const parts: Part[] = [
     ]
   ),
   makePart(
-    12, 4, "rear-shocks-corolla",
+    12, 15, "rear-shocks-corolla",
     "בולמי זעזועים אחוריים", "ممتصات الصدمات الخلفية", "Rear Shock Absorbers",
     ["48530-09Y20"],
     TOY_COROLLA,

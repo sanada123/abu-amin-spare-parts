@@ -1,7 +1,7 @@
 "use client";
 import { useState, use } from "react";
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { getPartBySlug, getCategory, getBrand, getVehicle, partImageUrl } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import { useLocale, useActiveVehicleId, addToCart } from "@/lib/cart";
@@ -14,6 +14,8 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
   const part = getPartBySlug(slug);
   const [selectedSku, setSelectedSku] = useState<number | null>(part?.skus[0]?.id ?? null);
   const [added, setAdded] = useState(false);
+  const [selectedImageIdx, setSelectedImageIdx] = useState(0);
+  const [fitsExpanded, setFitsExpanded] = useState(false);
 
   if (!part) return notFound();
 
@@ -46,7 +48,35 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
         </div>
         <div className="product-layout">
           <div className="product-image-wrap">
-            <img src={partImageUrl(part)} alt={part.name.he} />
+            {part.images && part.images.length > 1 ? (
+              <div>
+                <img src={part.images[selectedImageIdx]} alt={part.name.he} />
+                <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
+                  {part.images.map((src, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedImageIdx(i)}
+                      style={{
+                        width: 56,
+                        height: 56,
+                        padding: 3,
+                        border: selectedImageIdx === i ? "2px solid var(--accent)" : "1px solid var(--border)",
+                        borderRadius: "var(--radius-sm)",
+                        background: "var(--surface-2)",
+                        cursor: "pointer",
+                        overflow: "hidden",
+                        flexShrink: 0,
+                      }}
+                      aria-label={`תמונה ${i + 1}`}
+                    >
+                      <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <img src={partImageUrl(part)} alt={part.name.he} />
+            )}
           </div>
           <div className="product-info">
             <h1>{part.name.he}</h1>
@@ -86,7 +116,20 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
                   >
                     <div className="brand-flag">{b.logo}</div>
                     <div className="brand-info">
-                      <div className="name">{b.name}</div>
+                      <div className="name" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        {b.name}
+                        <span style={{
+                          fontSize: "0.6rem",
+                          fontWeight: 700,
+                          padding: "1px 5px",
+                          borderRadius: 3,
+                          background: s.tier === "original" ? "rgba(234,179,8,0.15)" : "var(--surface-3)",
+                          color: s.tier === "original" ? "#b45309" : "var(--text-dim)",
+                          border: s.tier === "original" ? "1px solid rgba(234,179,8,0.4)" : "1px solid var(--border)",
+                        }}>
+                          {s.tier === "original" ? "מקורי" : "חליפי"}
+                        </span>
+                      </div>
                       <div className="pn">{s.partNumber}</div>
                     </div>
                     <div className="brand-price-col">
@@ -102,12 +145,35 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
               })}
             </div>
 
+            {/* Delivery estimate for selected SKU */}
+            {sku && (
+              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: sku.stock === 0 ? "var(--out-of-stock)" : "var(--success)", marginBottom: 4 }}>
+                {sku.stock === 0
+                  ? "❌ אזל מהמלאי"
+                  : sku.deliveryDays === 1
+                  ? "📦 במלאי · משלוח מחר"
+                  : "📦 מלאי מוגבל · 3 ימי עסקים"}
+              </div>
+            )}
+
             {/* Primary action: Add to order */}
-            <button className="add-cart-btn" onClick={handleAdd}>
-              {added
+            <button
+              className="add-cart-btn"
+              onClick={handleAdd}
+              disabled={sku?.stock === 0}
+              style={sku?.stock === 0 ? { opacity: 0.5, cursor: "not-allowed" } : undefined}
+            >
+              {sku?.stock === 0
+                ? "אזל מהמלאי"
+                : added
                 ? "✓ נוסף להזמנה!"
                 : `${tr("add_to_cart", locale)} — ₪${sku?.priceIls}`}
             </button>
+            {sku?.stock === 0 && (
+              <p style={{ fontSize: "0.78rem", color: "var(--text-dim)", textAlign: "center", margin: "4px 0 0" }}>
+                {"הודיעו לי כשחוזר"}
+              </p>
+            )}
 
             {/* Secondary: WhatsApp inline */}
             <a
@@ -136,6 +202,36 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
               {tr("whatsapp_send", locale)}
             </a>
 
+            {/* Trust & Shipping */}
+            <div style={{
+              marginTop: 16,
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius-sm)",
+              overflow: "hidden",
+            }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
+                {[
+                  `✓ אחריות ${sku?.warrantyMonths ?? "—"} חודשים מיצרן`,
+                  "✓ משלוח לכל הארץ תוך 1–3 ימי עסקים",
+                  "✓ איסוף עצמי זמין במחסן בעוספיא",
+                  "✓ החזרה תוך 14 יום לפי חוק הגנת הצרכן",
+                ].map((line, i, arr) => (
+                  <div
+                    key={i}
+                    style={{
+                      padding: "9px 14px",
+                      fontSize: "0.82rem",
+                      color: "var(--text-2)",
+                      borderBottom: i < arr.length - 1 ? "1px solid var(--border)" : "none",
+                      background: i % 2 === 0 ? "var(--surface)" : "var(--surface-2)",
+                    }}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {Object.keys(part.specs).length > 0 && (
               <div className="specs-table">
                 <h3 style={{ margin: "0 0 12px", fontSize: "0.95rem" }}>{tr("specs", locale)}</h3>
@@ -160,6 +256,57 @@ export default function PartPage({ params }: { params: Promise<{ slug: string }>
                 </div>
               </div>
             )}
+
+            {/* Fits Also — collapsible vehicle list */}
+            {part.fitsVehicleIds.length > 0 && (() => {
+              // Group by make+model, collect year range
+              const grouped: Record<string, { makeHe: string; modelHe: string; years: number[] }> = {};
+              part.fitsVehicleIds.forEach((vid) => {
+                const v = getVehicle(vid);
+                if (!v) return;
+                const key = `${v.makeSlug}-${v.modelSlug}`;
+                if (!grouped[key]) grouped[key] = { makeHe: v.makeName.he, modelHe: v.modelName.he, years: [] };
+                grouped[key].years.push(v.year);
+              });
+              const entries = Object.values(grouped).map(({ makeHe, modelHe, years }) => {
+                const minY = Math.min(...years);
+                const maxY = Math.max(...years);
+                return `${makeHe} ${modelHe} ${minY === maxY ? minY : `${minY}–${maxY}`}`;
+              });
+              return (
+                <div style={{ marginTop: 16, border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", overflow: "hidden" }}>
+                  <button
+                    onClick={() => setFitsExpanded((v) => !v)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "12px 16px",
+                      background: "var(--surface-2)",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                      fontWeight: 700,
+                      color: "var(--text)",
+                    }}
+                    aria-expanded={fitsExpanded}
+                  >
+                    <span>{"מתאים גם ל:"} ({part.fitsVehicleIds.length})</span>
+                    {fitsExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                  </button>
+                  {fitsExpanded && (
+                    <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 6 }}>
+                      {entries.map((label, i) => (
+                        <div key={i} style={{ fontSize: "0.82rem", color: "var(--text-2)" }}>
+                          {label}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </section>

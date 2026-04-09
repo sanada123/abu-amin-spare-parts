@@ -11,6 +11,10 @@ interface ProductCardProps {
   price: number;
   oemNumbers?: string[];
   brands?: string[];
+  tiers?: Array<"original" | "replacement">;
+  skuCount?: number;
+  vehicleLabel?: string;
+  deliveryDays?: number;
   inStock?: boolean;
   fitsActiveCar?: boolean;
 }
@@ -22,6 +26,10 @@ export default function ProductCard({
   price,
   oemNumbers = [],
   brands = [],
+  tiers = [],
+  skuCount = 0,
+  vehicleLabel,
+  deliveryDays,
   inStock = true,
   fitsActiveCar = false,
 }: ProductCardProps) {
@@ -40,6 +48,7 @@ export default function ProductCard({
         transition: "border-color 0.15s, background 0.15s",
         minHeight: 280,
         textDecoration: "none",
+        opacity: inStock ? 1 : 0.7,
       }}
       onMouseEnter={(e) => {
         (e.currentTarget as HTMLAnchorElement).style.borderColor =
@@ -142,6 +151,22 @@ export default function ProductCard({
           {name}
         </div>
 
+        {/* Vehicle label */}
+        {vehicleLabel && (
+          <div
+            style={{
+              fontSize: "0.58rem",
+              color: "var(--text-dim)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              lineHeight: 1.4,
+            }}
+          >
+            {vehicleLabel}
+          </div>
+        )}
+
         {/* Fitment badge */}
         {fitsActiveCar && (
           <span
@@ -181,6 +206,25 @@ export default function ProductCard({
           </div>
         )}
 
+        {/* Tier info */}
+        {tiers.length > 0 && (
+          <div style={{ fontSize: "0.6rem", color: "var(--text-dim)", display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap" }}>
+            {tiers.includes("original") && (
+              <span style={{ background: "rgba(234,179,8,0.15)", color: "#b45309", border: "1px solid rgba(234,179,8,0.4)", borderRadius: 3, padding: "1px 5px", fontWeight: 700 }}>
+                מקורי
+              </span>
+            )}
+            {tiers.includes("replacement") && (
+              <span style={{ background: "var(--surface-2)", color: "var(--text-dim)", border: "1px solid var(--border)", borderRadius: 3, padding: "1px 5px", fontWeight: 600 }}>
+                חליפי
+              </span>
+            )}
+            {skuCount > 0 && (
+              <span style={{ color: "var(--text-dim)" }}>· {skuCount} {skuCount === 1 ? "אפשרות" : "אפשרויות"}</span>
+            )}
+          </div>
+        )}
+
         {/* Price + stock — vertical stack, price dominant */}
         <div style={{ marginTop: "auto", display: "flex", flexDirection: "column", gap: 2 }}>
           <span
@@ -199,22 +243,19 @@ export default function ProductCard({
             style={{
               fontSize: "0.6rem",
               fontWeight: 600,
-              color: inStock ? "var(--in-stock)" : "var(--out-of-stock)",
+              color: !inStock ? "var(--out-of-stock)" : "var(--in-stock)",
               display: "inline-flex",
               alignItems: "center",
               gap: 3,
             }}
           >
-            <span
-              style={{
-                width: 5,
-                height: 5,
-                borderRadius: "50%",
-                background: inStock ? "var(--in-stock)" : "var(--out-of-stock)",
-                flexShrink: 0,
-              }}
-            />
-            {inStock ? tr("in_stock") : "אזל"}
+            {!inStock
+              ? "❌ אזל מהמלאי"
+              : deliveryDays === 1
+              ? "📦 במלאי · מחר"
+              : deliveryDays === 3
+              ? "📦 מלאי מוגבל · 3 ימים"
+              : "📦 במלאי"}
           </span>
         </div>
 
@@ -222,16 +263,15 @@ export default function ProductCard({
         <button
           onClick={(e) => {
             e.preventDefault();
-            // Navigate to part page for full selection
             window.location.href = `/part/${slug}`;
           }}
           style={{
             width: "100%",
             height: 36,
-            background: "var(--accent)",
-            border: "none",
+            background: inStock ? "var(--accent)" : "var(--surface-3)",
+            border: inStock ? "none" : "1px solid var(--border)",
             borderRadius: "var(--radius-sm)",
-            color: "var(--accent-fg)",
+            color: inStock ? "var(--accent-fg)" : "var(--text-dim)",
             fontSize: "0.75rem",
             fontWeight: 700,
             cursor: "pointer",
@@ -243,18 +283,16 @@ export default function ProductCard({
             letterSpacing: "0.03em",
             transition: "background 0.12s",
           }}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background =
-              "var(--accent-hover)")
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLButtonElement).style.background =
-              "var(--accent)")
-          }
-          aria-label={`${tr("add_to_cart", locale)} — ${name}`}
+          onMouseEnter={(e) => {
+            if (inStock) (e.currentTarget as HTMLButtonElement).style.background = "var(--accent-hover)";
+          }}
+          onMouseLeave={(e) => {
+            if (inStock) (e.currentTarget as HTMLButtonElement).style.background = "var(--accent)";
+          }}
+          aria-label={`${inStock ? tr("add_to_cart", locale) : "אזל מהמלאי"} — ${name}`}
         >
-          <ShoppingCart size={12} aria-hidden="true" />
-          {tr("add_to_cart", locale)}
+          {inStock ? <ShoppingCart size={12} aria-hidden="true" /> : null}
+          {inStock ? tr("add_to_cart", locale) : "אזל"}
         </button>
       </div>
     </Link>

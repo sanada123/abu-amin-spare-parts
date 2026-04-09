@@ -38,6 +38,7 @@ function CatalogInner() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [catsExpanded, setCatsExpanded] = useState(true);
   const [brandsExpanded, setBrandsExpanded] = useState(true);
+  const [fitMyCarOnly, setFitMyCarOnly] = useState(!!activeVehicleId);
 
   const vehicle = activeVehicleId ? getVehicle(activeVehicleId) : null;
   const makeLabel = makeSlug
@@ -45,9 +46,9 @@ function CatalogInner() {
     : null;
 
   const baseList = useMemo(() => {
-    let list = activeVehicleId ? partsForVehicle(activeVehicleId) : parts;
-    return list;
-  }, [activeVehicleId]);
+    if (activeVehicleId && fitMyCarOnly) return partsForVehicle(activeVehicleId);
+    return parts;
+  }, [activeVehicleId, fitMyCarOnly]);
 
   const visible = useMemo(() => {
     let list = baseList;
@@ -240,31 +241,155 @@ function CatalogInner() {
           )}
         </button>
         {catsExpanded && (
-          <div style={{ padding: "0 16px 12px", display: "flex", flexDirection: "column", gap: 4 }}>
-            {categories.map((c) => (
-              <label
-                key={c.id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  cursor: "pointer",
-                  color: selectedCats.includes(c.id)
-                    ? "var(--text)"
-                    : "var(--text-muted)",
-                  fontWeight: selectedCats.includes(c.id) ? 600 : 400,
-                  padding: "4px 0",
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedCats.includes(c.id)}
-                  onChange={() => toggleCat(c.id)}
-                  style={{ accentColor: "var(--accent)", width: 13, height: 13 }}
-                />
-                {c.name[locale]}
-              </label>
-            ))}
+          <div style={{ padding: "0 16px 12px", display: "flex", flexDirection: "column", gap: 2 }}>
+            {/* Auto parts group */}
+            <div style={{ fontSize: 10, fontWeight: 700, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.06em", padding: "6px 0 2px" }}>
+              {"חלפי רכב"}
+            </div>
+            {categories
+              .filter((c) => !c.parentId && !c.group)
+              .map((c) => (
+                <label
+                  key={c.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    cursor: "pointer",
+                    color: selectedCats.includes(c.id) ? "var(--text)" : "var(--text-muted)",
+                    fontWeight: selectedCats.includes(c.id) ? 600 : 400,
+                    padding: "3px 0",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedCats.includes(c.id)}
+                    onChange={() => toggleCat(c.id)}
+                    style={{ accentColor: "var(--accent)", width: 13, height: 13 }}
+                  />
+                  {c.name[locale]}
+                </label>
+              ))}
+
+            {/* Tools group */}
+            {(() => {
+              const toolsParent = categories.find((c) => c.group === "tools");
+              const toolsChildren = categories.filter((c) => c.parentId === toolsParent?.id);
+              if (!toolsParent) return null;
+              const allChildIds = toolsChildren.map((c) => c.id);
+              const allSelected = allChildIds.every((id) => selectedCats.includes(id));
+              const toggleAllTools = () =>
+                setSelectedCats((prev) =>
+                  allSelected
+                    ? prev.filter((id) => !allChildIds.includes(id))
+                    : [...new Set([...prev, ...allChildIds])]
+                );
+              return (
+                <>
+                  <button
+                    onClick={toggleAllTools}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: "6px 0 2px",
+                      textAlign: "start",
+                    }}
+                  >
+                    <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                      {toolsParent.name[locale]}
+                    </span>
+                    {allSelected ? <ChevronUp size={10} color="var(--text-dim)" /> : <ChevronDown size={10} color="var(--text-dim)" />}
+                  </button>
+                  {toolsChildren.map((c) => (
+                    <label
+                      key={c.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        cursor: "pointer",
+                        color: selectedCats.includes(c.id) ? "var(--text)" : "var(--text-muted)",
+                        fontWeight: selectedCats.includes(c.id) ? 600 : 400,
+                        padding: "3px 0",
+                        paddingInlineStart: 16,
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCats.includes(c.id)}
+                        onChange={() => toggleCat(c.id)}
+                        style={{ accentColor: "var(--accent)", width: 13, height: 13 }}
+                      />
+                      {c.name[locale]}
+                    </label>
+                  ))}
+                </>
+              );
+            })()}
+
+            {/* Garden group */}
+            {(() => {
+              const gardenParent = categories.find((c) => c.group === "garden");
+              const gardenChildren = categories.filter((c) => c.parentId === gardenParent?.id);
+              if (!gardenParent) return null;
+              const allChildIds = gardenChildren.map((c) => c.id);
+              const allSelected = allChildIds.every((id) => selectedCats.includes(id));
+              const toggleAllGarden = () =>
+                setSelectedCats((prev) =>
+                  allSelected
+                    ? prev.filter((id) => !allChildIds.includes(id))
+                    : [...new Set([...prev, ...allChildIds])]
+                );
+              return (
+                <>
+                  <button
+                    onClick={toggleAllGarden}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: "6px 0 2px",
+                      textAlign: "start",
+                    }}
+                  >
+                    <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                      {gardenParent.name[locale]}
+                    </span>
+                    {allSelected ? <ChevronUp size={10} color="var(--text-dim)" /> : <ChevronDown size={10} color="var(--text-dim)" />}
+                  </button>
+                  {gardenChildren.map((c) => (
+                    <label
+                      key={c.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        cursor: "pointer",
+                        color: selectedCats.includes(c.id) ? "var(--text)" : "var(--text-muted)",
+                        fontWeight: selectedCats.includes(c.id) ? 600 : 400,
+                        padding: "3px 0",
+                        paddingInlineStart: 16,
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedCats.includes(c.id)}
+                        onChange={() => toggleCat(c.id)}
+                        style={{ accentColor: "var(--accent)", width: 13, height: 13 }}
+                      />
+                      {c.name[locale]}
+                    </label>
+                  ))}
+                </>
+              );
+            })()}
           </div>
         )}
       </div>
@@ -500,7 +625,35 @@ function CatalogInner() {
           >
             {visible.length}{" "}
             {"חלקים"}
+            {activeVehicleId && fitMyCarOnly && (
+              <span style={{ color: "var(--success)", marginInlineStart: 4 }}>
+                {"מתאימים לרכב שלך"}
+              </span>
+            )}
           </span>
+
+          {/* Fit my car toggle */}
+          {activeVehicleId && vehicle && (
+            <button
+              onClick={() => setFitMyCarOnly((v) => !v)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                background: fitMyCarOnly ? "var(--accent-dim)" : "var(--surface)",
+                border: fitMyCarOnly ? "1px solid var(--accent)" : "1px solid var(--border-strong)",
+                borderRadius: "var(--radius-sm)",
+                padding: "7px 12px",
+                color: fitMyCarOnly ? "var(--accent)" : "var(--text-muted)",
+                fontSize: 12,
+                fontWeight: 700,
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {fitMyCarOnly ? "מציג חלפים לרכב שלך" : "הראה הכל"}
+            </button>
+          )}
 
           {/* Sort */}
           <div style={{ marginInlineStart: "auto", position: "relative" }}>
@@ -595,18 +748,20 @@ function CatalogInner() {
           </div>
         )}
 
-        {/* Category chip strip — always visible, compact */}
+        {/* Category chip strip — auto parts only, no sub-categories of tools/garden */}
         <div className="cat-chip-strip" role="group" aria-label={"קטגוריות"}>
-          {categories.map((c) => (
-            <button
-              key={c.id}
-              className={`cat-chip${selectedCats.includes(c.id) ? " active" : ""}`}
-              onClick={() => toggleCat(c.id)}
-              aria-pressed={selectedCats.includes(c.id)}
-            >
-              {c.name[locale]}
-            </button>
-          ))}
+          {categories
+            .filter((c) => !c.parentId && !c.group)
+            .map((c) => (
+              <button
+                key={c.id}
+                className={`cat-chip${selectedCats.includes(c.id) ? " active" : ""}`}
+                onClick={() => toggleCat(c.id)}
+                aria-pressed={selectedCats.includes(c.id)}
+              >
+                {c.name[locale]}
+              </button>
+            ))}
         </div>
 
         {/* Parts grid or empty */}
@@ -637,6 +792,20 @@ function CatalogInner() {
                 .slice(0, 4)
                 .map((s) => getBrand(s.brandId)?.name)
                 .filter((n): n is string => Boolean(n));
+              const tierSet = [...new Set(p.skus.map((s) => s.tier))] as Array<"original" | "replacement">;
+              const inStock = p.skus.some((s) => s.stock > 0);
+              // Best delivery days across in-stock SKUs
+              const inStockSkus = p.skus.filter((s) => s.stock > 0);
+              const bestDelivery = inStockSkus.length > 0
+                ? Math.min(...inStockSkus.map((s) => s.deliveryDays))
+                : undefined;
+              // Build vehicle label: primary vehicle + "+N נוספים"
+              const fitVehicles = p.fitsVehicleIds.slice(0, 3).map((id) => getVehicle(id)).filter(Boolean);
+              const primaryVehicle = fitVehicles[0];
+              const extraCount = p.fitsVehicleIds.length - 1;
+              const vehicleLabel = primaryVehicle
+                ? `${primaryVehicle.makeName.he} ${primaryVehicle.modelName.he} ${primaryVehicle.year}${extraCount > 0 ? ` +${extraCount} נוספים` : ""}`
+                : undefined;
               return (
                 <ProductCard
                   key={p.id}
@@ -645,7 +814,11 @@ function CatalogInner() {
                   imageSrc={partImageUrl(p)}
                   price={minP}
                   brands={brandNames}
-                  inStock={true}
+                  tiers={tierSet}
+                  skuCount={p.skus.length}
+                  vehicleLabel={vehicleLabel}
+                  deliveryDays={bestDelivery}
+                  inStock={inStock}
                   fitsActiveCar={fitsActive}
                 />
               );

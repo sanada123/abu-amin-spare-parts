@@ -60,7 +60,7 @@ export default function CategoryStrip() {
           minWidth: "max-content",
         }}
       >
-        {categories.map((cat) => {
+        {categories.filter((cat) => !cat.parentId && !cat.group).map((cat) => {
           const Icon = CATEGORY_ICONS[cat.slug] ?? Settings;
           const isActive = pathname?.includes(`cat=${cat.slug}`);
           return (
