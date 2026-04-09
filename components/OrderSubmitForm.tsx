@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
-import { useActiveVehicleId, clearCart } from "@/lib/cart";
-import { getVehicle, getPart, categories } from "@/lib/data";
-import { tr } from "@/lib/i18n";
+import { useActiveVehicleId } from "@/lib/cart";
+import { getVehicle, getPart, getBrand } from "@/lib/data";
 import type { CartItem } from "@/lib/cart";
 
 interface Props {
@@ -10,109 +9,58 @@ interface Props {
   subtotal: number;
 }
 
-const TOOLS_GARDEN_GROUPS = new Set(["tools", "garden"]);
-
-function isToolsGardenCategory(catId: number): boolean {
-  const cat = categories.find((c) => c.id === catId);
-  if (!cat) return false;
-  if (cat.group && TOOLS_GARDEN_GROUPS.has(cat.group)) return true;
-  if (cat.parentId) {
-    const parent = categories.find((c) => c.id === cat.parentId);
-    return !!(parent?.group && TOOLS_GARDEN_GROUPS.has(parent.group));
-  }
-  return false;
-}
+type CustomerType = "private" | "garage";
 
 export default function OrderSubmitForm({ items, subtotal }: Props) {
   const vehicleId = useActiveVehicleId();
   const vehicle = vehicleId ? getVehicle(vehicleId) : null;
 
-  // Vehicle is optional when all cart items are tools/garden
-  const allToolsGarden =
-    items.length > 0 &&
-    items.every((item) => {
-      const part = getPart(item.partId);
-      return part ? isToolsGardenCategory(part.categoryId) : false;
-    });
-  const vehicleRequired = !allToolsGarden;
-
+  const [customerType, setCustomerType] = useState<CustomerType>("private");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
-  const [notes, setNotes] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
 
   const vehicleLabel = vehicle
     ? `${vehicle.year} ${vehicle.makeName.he} ${vehicle.modelName.he} ${vehicle.engine}`
-    : tr("no_vehicle_set");
+    : "לא נבחר";
 
-  const partsPayload = items.map((c) => {
+  const partsLines = items.map((c) => {
     const part = getPart(c.partId);
     const sku = part?.skus.find((s) => s.id === c.skuId);
-    return {
-      name: part?.name.he ?? "?",
-      partNumber: sku?.partNumber ?? "",
-      priceIls: sku?.priceIls ?? 0,
-      qty: c.qty,
-    };
+    const brand = sku ? getBrand(sku.brandId) : null;
+    return `• ${part?.name.he ?? "?"} | ${brand?.name ?? ""} | ${sku?.partNumber ?? ""} | כמות: ${c.qty} | ₪${(sku?.priceIls ?? 0) * c.qty}`;
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim() || !phone.trim() || !city.trim()) return;
-    setLoading(true);
-    setError("");
-    try {
-      const res = await fetch("/api/order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name.trim(),
-          phone: phone.trim(),
-          city: city.trim(),
-          notes: notes.trim(),
-          vehicle: vehicleLabel,
-          parts: partsPayload,
-          subtotal,
-          locale: "he",
-        }),
-      });
-      if (!res.ok) throw new Error("Server error");
-      setSuccess(true);
-      clearCart();
-    } catch {
-      setError(tr("order_error"));
-    } finally {
-      setLoading(false);
-    }
+  const buildWhatsAppUrl = () => {
+    const typeLabel = customerType === "garage" ? "מוסך" : "לקוח פרטי";
+    const msg = [
+      `🔧 *הזמנה חדשה — אבו אמין חלפים*`,
+      ``,
+      `👤 *${typeLabel}*`,
+      `שם: ${name.trim()}`,
+      `טלפון: ${phone.trim()}`,
+      vehicle ? `🚗 רכב: ${vehicleLabel}` : "",
+      ``,
+      `📦 *פריטים:*`,
+      ...partsLines,
+      ``,
+      `💰 *סה"כ: ₪${subtotal}* (לפני מע"מ)`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    return `https://wa.me/972523158796?text=${encodeURIComponent(msg)}`;
   };
 
-  if (success) {
-    return (
-      <div style={{
-        background: "var(--surface)",
-        border: "1px solid var(--success)",
-        borderRadius: "var(--radius-md)",
-        padding: "40px 32px",
-        textAlign: "center",
-      }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-        <h2 style={{ color: "var(--success)", marginBottom: 8 }}>{tr("order_success")}</h2>
-        <p style={{ color: "var(--text-dim)" }}>{tr("order_success_sub")}</p>
-      </div>
-    );
-  }
+  const canSubmit = name.trim().length > 0 && phone.trim().length > 0;
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    padding: "12px 14px",
+    padding: "14px 16px",
     background: "var(--surface-2)",
     border: "1px solid var(--border)",
     borderRadius: "var(--radius-sm)",
     color: "var(--text)",
-    fontSize: "0.95rem",
+    fontSize: "1rem",
     outline: "none",
     boxSizing: "border-box",
     direction: "rtl",
@@ -120,18 +68,46 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
 
   const labelStyle: React.CSSProperties = {
     display: "block",
-    fontSize: "0.82rem",
+    fontSize: "0.85rem",
     fontWeight: 700,
     color: "var(--text-dim)",
     marginBottom: 6,
-    letterSpacing: "0.02em",
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {/* Customer type toggle */}
+      <div>
+        <label style={labelStyle}>סוג לקוח</label>
+        <div style={{ display: "flex", gap: 8 }}>
+          {(["private", "garage"] as const).map((type) => (
+            <button
+              key={type}
+              type="button"
+              onClick={() => setCustomerType(type)}
+              style={{
+                flex: 1,
+                padding: "12px 16px",
+                borderRadius: "var(--radius-sm)",
+                border: customerType === type ? "2px solid var(--accent)" : "1px solid var(--border)",
+                background: customerType === type ? "rgba(255,196,36,0.12)" : "var(--surface-2)",
+                color: customerType === type ? "var(--accent)" : "var(--text-dim)",
+                fontWeight: 800,
+                fontSize: "0.95rem",
+                cursor: "pointer",
+                transition: "all 0.15s",
+              }}
+            >
+              {type === "private" ? "🧑 לקוח פרטי" : "🔧 מוסך"}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Name */}
       <div>
         <label style={labelStyle} htmlFor="order-name">
-          {tr("order_name")} <span style={{ color: "var(--danger)" }}>*</span>
+          {customerType === "garage" ? "שם המוסך" : "שם מלא"}
         </label>
         <input
           id="order-name"
@@ -139,16 +115,14 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           style={inputStyle}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="ישראל ישראלי"
-          required
+          placeholder={customerType === "garage" ? "מוסך הכרמל" : "ישראל ישראלי"}
           autoComplete="name"
         />
       </div>
 
+      {/* Phone */}
       <div>
-        <label style={labelStyle} htmlFor="order-phone">
-          {tr("order_phone")} <span style={{ color: "var(--danger)" }}>*</span>
-        </label>
+        <label style={labelStyle} htmlFor="order-phone">טלפון</label>
         <input
           id="order-phone"
           type="tel"
@@ -156,85 +130,58 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           placeholder="050-1234567"
-          required
           autoComplete="tel"
           inputMode="tel"
         />
       </div>
 
-      <div>
-        <label style={labelStyle} htmlFor="order-city">
-          {tr("order_city")} <span style={{ color: "var(--danger)" }}>*</span>
-        </label>
-        <input
-          id="order-city"
-          type="text"
-          style={inputStyle}
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="חיפה, רח׳ הרצל 12"
-          required
-          autoComplete="address-level2"
-        />
-      </div>
-
-      {/* Vehicle field — shown but optional for tools/garden orders */}
-      <div>
-        <label style={labelStyle} htmlFor="order-vehicle">
-          {vehicleRequired ? tr("order_vehicle") : "רכב (אופציונלי — הזמנת כלים/גינה)"}
-        </label>
-        <input
-          id="order-vehicle"
-          type="text"
-          style={{ ...inputStyle, color: "var(--text-dim)", cursor: "not-allowed" }}
-          value={vehicleLabel}
-          readOnly
-        />
-        {!vehicleRequired && !vehicle && (
-          <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginTop: 4 }}>
-            הזמנה זו אינה דורשת בחירת רכב
-          </p>
-        )}
-      </div>
-
-      <div>
-        <label style={labelStyle} htmlFor="order-notes">
-          {tr("order_notes")}
-        </label>
-        <textarea
-          id="order-notes"
-          style={{ ...inputStyle, minHeight: 80, resize: "vertical" }}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder="הערה נוספת, זמן נוח לאיסוף..."
-        />
-      </div>
-
-      {error && (
-        <div style={{ color: "var(--danger)", fontSize: "0.85rem", fontWeight: 600 }}>
-          {error}
+      {/* Vehicle info (read-only, just display) */}
+      {vehicle && (
+        <div style={{
+          padding: "10px 14px",
+          background: "var(--surface-2)",
+          borderRadius: "var(--radius-sm)",
+          fontSize: "0.85rem",
+          color: "var(--text-dim)",
+        }}>
+          🚗 {vehicleLabel}
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={loading || !name.trim() || !phone.trim() || !city.trim()}
+      {/* WhatsApp submit button */}
+      <a
+        href={canSubmit ? buildWhatsAppUrl() : undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => { if (!canSubmit) e.preventDefault(); }}
         style={{
-          background: loading ? "var(--surface-2)" : "var(--accent)",
-          color: loading ? "var(--text-dim)" : "#000",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          background: canSubmit ? "#25D366" : "var(--surface-2)",
+          color: canSubmit ? "#fff" : "var(--text-dim)",
           border: "none",
           borderRadius: "var(--radius-sm)",
           padding: "16px 24px",
-          fontSize: "1rem",
+          fontSize: "1.1rem",
           fontWeight: 800,
-          cursor: loading ? "not-allowed" : "pointer",
+          cursor: canSubmit ? "pointer" : "not-allowed",
+          textDecoration: "none",
           width: "100%",
-          transition: "opacity 0.15s",
+          transition: "all 0.15s",
           letterSpacing: "-0.01em",
         }}
       >
-        {loading ? "שולח..." : `${tr("order_submit")} →`}
-      </button>
-    </form>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        שלח הזמנה בוואטסאפ
+      </a>
+
+      <p style={{ fontSize: "0.75rem", color: "var(--text-dim)", textAlign: "center", marginTop: -8 }}>
+        ההזמנה תישלח ישירות לוואטסאפ של אבו אמין חלפים
+      </p>
+    </div>
   );
 }
