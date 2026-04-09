@@ -19,7 +19,11 @@ export default function Footer() {
       <div className="footer-inner">
         {/* Brand + contact col */}
         <div className="footer-col" style={{ gridColumn: "span 2" }}>
-          <h4 style={{ fontSize: "1.1rem", marginBottom: 6 }}>{tr("brand")}</h4>
+          <img
+            src="/brand/logo-horizontal.png"
+            alt="אבו אמין חלפים"
+            style={{ height: 44, width: "auto", display: "block", marginBottom: 10 }}
+          />
           <p style={{ color: "var(--text-dim)", fontSize: "0.82rem", lineHeight: 1.7, margin: "0 0 16px" }}>
             חנות חלפים ותיקה בלב הכרמל — חלקי חילוף לרכב, שמנים, מצברים, כלי עבודה, מכונות שטיפה וציוד גינה.
           </p>

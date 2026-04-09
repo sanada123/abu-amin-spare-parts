@@ -117,7 +117,7 @@ export default function Home() {
             <span className="accent">חלפי רכב · כלי עבודה · ציוד גינה</span>
           </h1>
           <p style={{ fontSize: "clamp(0.9rem, 2vw, 1.05rem)", fontWeight: 700, color: "var(--text)", margin: "8px auto 4px" }}>
-            הכל במקום אחד, בלב הכרמל.
+            חלקים מקוריים וחליפיים לכל סוגי הרכב
           </p>
           <p
             style={{
@@ -127,7 +127,7 @@ export default function Home() {
               maxWidth: 560,
             }}
           >
-            {tr("hero_sub")}
+            מס׳ 1 בכרמל
           </p>
         </div>
       </section>

@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     title: "אבו אמין חלפים | מס׳ 1 בכרמל",
     description:
       "חנות חלפים ותיקה בלב הכרמל — חלקי חילוף לרכב, שמנים, מצברים, כלי עבודה וציוד גינה.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/brand/og-image.png", width: 1200, height: 630 }],
     locale: "he_IL",
     type: "website",
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
