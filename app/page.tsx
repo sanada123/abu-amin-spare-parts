@@ -11,7 +11,7 @@ function adaptStaticParts(parts: any[]) {
     id: p.id || 0,
     slug: p.slug || '',
     name: typeof p.name === 'object' ? p.name.he || p.name.ar || '' : p.name,
-    images: p.images || [p.image || '/placeholder.jpg'],
+    images: p.images || [p.image || getProductImage(p.slug || '', [])],
     category: { name: typeof p.category === 'string' ? p.category : p.category?.he || '' },
     skus: (p.variants || [{ price: p.price || 0 }]).map((v: any) => ({
       partNumber: v.sku || v.partNumber || '',
@@ -51,6 +51,57 @@ import TopMakes from "@/components/TopMakes";
 import CategoryStrip from "@/components/CategoryStrip";
 import ProductCard from "@/components/ProductCard";
 import HeroSearch from "@/components/HeroSearch";
+
+// Map product slugs to actual image files in /parts/
+const PRODUCT_IMAGE_MAP: Record<string, string> = {
+  'front-brake-pads-corolla': '/parts/brake-pad.jpg',
+  'rear-brake-pads-corolla': '/parts/brake-pad.jpg',
+  'front-brake-discs-camry': '/parts/disc-brake.jpg',
+  'front-brake-pads-i30': '/parts/brake-pad.jpg',
+  'oil-filter-corolla': '/parts/oil-filter.jpg',
+  'air-filter-corolla': '/parts/air-filter.png',
+  'cabin-filter-corolla': '/parts/cabin-filter.png',
+  'fuel-filter-i30': '/parts/fuel-filter.jpg',
+  'spark-plugs-corolla': '/parts/spark-plug.jpg',
+  'timing-belt-kit-octavia': '/parts/timing-belt.jpg',
+  'front-shocks-corolla': '/parts/shock-absorber.jpg',
+  'rear-shocks-corolla': '/parts/shock-absorber.jpg',
+  'battery-70ah': '/parts/battery.jpg',
+  'alternator-corolla': '/parts/alternator.jpg',
+  'headlight-bulb-h7': '/parts/led-bulb.jpg',
+  'radiator-corolla': '/parts/radiator.jpg',
+  'thermostat-corolla': '/parts/thermostat.png',
+  'engine-oil-5w30-4l': '/parts/motor-oil.jpg',
+  'brake-fluid-dot4': '/parts/brake-fluid.jpg',
+  'muffler-corolla': '/parts/muffler.jpg',
+  'pressure-washer-1500w': '/parts/water-pump.jpg',
+  'pressure-washer-2200w': '/parts/water-pump.jpg',
+  'pressure-washer-foam-lance': '/parts/water-pump.jpg',
+  'air-compressor-24l': '/parts/turbocharger.jpg',
+  'air-compressor-50l': '/parts/turbocharger.jpg',
+  'tire-inflator-kit': '/parts/tire.jpg',
+  'circular-saw-1200w': '/parts/windshield.jpg',
+  'chainsaw-petrol-40cc': '/parts/windshield.jpg',
+  'jigsaw-650w': '/parts/windshield.jpg',
+  'wet-dry-vacuum-20l': '/parts/windshield.jpg',
+  'industrial-vacuum-30l': '/parts/windshield.jpg',
+  'socket-set-108pc': '/parts/wheel-bearing.jpg',
+  'cordless-drill-18v': '/parts/starter.jpg',
+  'angle-grinder-125mm': '/parts/starter.jpg',
+  'brush-cutter-45cc': '/parts/wiper-blade.jpg',
+  'brush-cutter-electric-1200w': '/parts/wiper-blade.jpg',
+  'cutting-line-3mm': '/parts/wiper-blade.jpg',
+  'garden-tool-set-5pc': '/parts/wiper-blade.jpg',
+  'wheelbarrow-65l': '/parts/wheel.jpg',
+  'hose-reel-20m': '/parts/wiper-blade.jpg',
+  'lawn-mower-petrol-46cm': '/parts/wiper-blade.jpg',
+  'lawn-mower-electric-32cm': '/parts/wiper-blade.jpg',
+};
+
+function getProductImage(slug: string, images: string[]): string {
+  if (images && images.length > 0 && images[0]) return images[0];
+  return PRODUCT_IMAGE_MAP[slug] || '/parts/brake-pad.jpg';
+}
 
 const TRUST_ITEMS = [
   { icon: Shield, keyLabel: "trust_oem" as const },
@@ -162,7 +213,7 @@ export default async function Home() {
             const vehicleLabel = firstFitment
               ? `${firstFitment.vehicle.make} ${firstFitment.vehicle.model} ${firstFitment.vehicle.year}${extraCount > 0 ? ` +${extraCount} נוספים` : ""}`
               : undefined;
-            const imageSrc = p.images[0] ?? `/parts/${p.slug}.svg`;
+            const imageSrc = getProductImage(p.slug, p.images);
 
             return (
               <ProductCard
