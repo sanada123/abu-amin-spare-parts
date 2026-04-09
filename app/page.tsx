@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
+import { Shield, Truck, Clock, Award, Car, Wrench, Search } from "lucide-react";
 import {
   categories,
   brands,
@@ -106,30 +106,99 @@ export default function Home() {
       {/* 2. Category strip */}
       <CategoryStrip />
 
-      {/* 3. Hero */}
+      {/* 3. Hero — Search-centric */}
       <section
         className="hero"
         style={{ padding: 0, margin: 0, maxWidth: "100%" }}
       >
-        <div className="hero-inner">
-          <h1>
-            <strong>אבו אמין חלפים</strong>
-            <br />
-            <span className="accent">חלפי רכב · כלי עבודה · ציוד גינה</span>
+        <div className="hero-inner" style={{ textAlign: "center", padding: "40px 20px 32px" }}>
+          <img
+            src="/brand/logo-horizontal.png"
+            alt="אבו אמין חלפים"
+            style={{ height: 80, width: "auto", margin: "0 auto 16px", display: "block" }}
+          />
+          <h1 style={{ fontSize: "clamp(1.1rem, 3vw, 1.5rem)", margin: "0 0 6px" }}>
+            <span className="accent">חלקים מקוריים וחליפיים לכל סוגי הרכב</span>
           </h1>
-          <p style={{ fontSize: "clamp(0.9rem, 2vw, 1.05rem)", fontWeight: 700, color: "var(--text)", margin: "8px auto 4px" }}>
-            חלקים מקוריים וחליפיים לכל סוגי הרכב
+          <p style={{ fontSize: "0.9rem", color: "var(--text-dim)", margin: "0 0 24px" }}>
+            מס׳ 1 בכרמל · עוספיה
           </p>
-          <p
+
+          {/* Hero search bar */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const q = (e.currentTarget.elements.namedItem("hero-q") as HTMLInputElement)?.value?.trim();
+              if (q) window.location.href = `/search?q=${encodeURIComponent(q)}`;
+            }}
             style={{
-              fontSize: "clamp(0.82rem, 2vw, 0.96rem)",
-              color: "var(--text-dim)",
-              margin: "0 auto",
+              display: "flex",
               maxWidth: 560,
+              margin: "0 auto",
+              background: "var(--surface)",
+              border: "2px solid var(--accent)",
+              borderRadius: "var(--radius-md)",
+              overflow: "hidden",
             }}
           >
-            מס׳ 1 בכרמל
-          </p>
+            <input
+              name="hero-q"
+              type="search"
+              placeholder="חפש חלק, מק״ט, או דגם רכב..."
+              style={{
+                flex: 1,
+                border: "none",
+                background: "transparent",
+                padding: "14px 18px",
+                fontSize: "1rem",
+                color: "var(--text)",
+                outline: "none",
+                direction: "rtl",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                background: "var(--accent)",
+                border: "none",
+                padding: "14px 24px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontWeight: 800,
+                fontSize: "0.95rem",
+                color: "#000",
+              }}
+            >
+              <Search size={18} />
+              חפש
+            </button>
+          </form>
+
+          {/* Quick links */}
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 16,
+            marginTop: 16,
+            flexWrap: "wrap",
+          }}>
+            {["רפידות בלם", "פילטר שמן", "בולם זעזועים", "פנס קדמי"].map((term) => (
+              <a
+                key={term}
+                href={`/search?q=${encodeURIComponent(term)}`}
+                style={{
+                  fontSize: "0.8rem",
+                  color: "var(--text-dim)",
+                  textDecoration: "underline",
+                  textUnderlineOffset: 3,
+                }}
+              >
+                {term}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 

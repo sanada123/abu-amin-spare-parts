@@ -60,7 +60,7 @@ export default function Nav() {
             <img
               src="/brand/logo-horizontal.png"
               alt="אבו אמין חלפים"
-              style={{ height: 50, width: "auto", display: "block" }}
+              style={{ height: 64, width: "auto", display: "block" }}
             />
           </Link>
 
