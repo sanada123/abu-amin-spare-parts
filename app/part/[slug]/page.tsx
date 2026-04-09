@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/lib/queries";
 import ProductDetailClient from "@/components/ProductDetailClient";

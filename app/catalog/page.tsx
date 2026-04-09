@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 import { getAllCategories, getAllBrands, getAllProducts, getPartsForVehicle, type ProductSummary, type CategoryData, type BrandData } from "@/lib/queries";
 import CatalogClient from "@/components/CatalogClient";

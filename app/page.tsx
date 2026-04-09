@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
 import { getFeaturedProducts, getAllCategories, getAllBrands } from "@/lib/queries";
