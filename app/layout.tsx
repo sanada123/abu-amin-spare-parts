@@ -39,7 +39,7 @@ export default function RootLayout({
         {/* Prevent flash of unstyled theme — runs before React hydration */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'){localStorage.setItem('theme','light');t='light';}if(!t)t='light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t)t='light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
           }}
         />
         {/* Heebo — Hebrew-first font, 3 weights */}
