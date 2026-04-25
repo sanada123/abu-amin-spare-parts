@@ -68,9 +68,20 @@ export async function PUT(
       position: number;
     }>;
 
+    // Whitelist allowed fields to prevent mass assignment
+    const data: Record<string, unknown> = {};
+    if (body.slug !== undefined) data.slug = body.slug;
+    if (body.name !== undefined) data.name = body.name;
+    if (body.description !== undefined) data.description = body.description;
+    if (body.categoryId !== undefined) data.categoryId = body.categoryId;
+    if (body.images !== undefined) data.images = body.images;
+    if (body.isFeatured !== undefined) data.isFeatured = body.isFeatured;
+    if (body.isActive !== undefined) data.isActive = body.isActive;
+    if (body.position !== undefined) data.position = body.position;
+
     const product = await prisma!.product.update({
       where: { id: productId },
-      data: body,
+      data,
     });
 
     return NextResponse.json({ product });

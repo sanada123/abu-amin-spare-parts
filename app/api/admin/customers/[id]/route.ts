@@ -67,9 +67,17 @@ export async function PUT(
       notes: string;
     }>;
 
+    // Whitelist allowed fields to prevent mass assignment
+    const data: Record<string, unknown> = {};
+    if (body.name !== undefined) data.name = body.name;
+    if (body.phone !== undefined) data.phone = body.phone;
+    if (body.type !== undefined) data.type = body.type;
+    if (body.garageName !== undefined) data.garageName = body.garageName;
+    if (body.notes !== undefined) data.notes = body.notes;
+
     const customer = await prisma!.customer.update({
       where: { id: customerId },
-      data: body,
+      data,
     });
 
     return NextResponse.json({ customer });

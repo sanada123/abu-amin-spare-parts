@@ -67,9 +67,15 @@ export async function PUT(
       channel: string;
     }>;
 
+    // Whitelist allowed fields to prevent mass assignment
+    const data: Record<string, unknown> = {};
+    if (body.vehicleInfo !== undefined) data.vehicleInfo = body.vehicleInfo;
+    if (body.notes !== undefined) data.notes = body.notes;
+    if (body.channel !== undefined) data.channel = body.channel;
+
     const order = await prisma!.order.update({
       where: { id: orderId },
-      data: body,
+      data,
     });
 
     return NextResponse.json({ order });

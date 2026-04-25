@@ -50,9 +50,13 @@ function generateOrderId(): string {
   return `A-${yy}${mm}${dd}-${rand}`;
 }
 
+function escapeHtml(text: string): string {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function formatTelegramMessage(order: StoredOrder): string {
   const partsLines = order.parts
-    .map((p) => `• ${p.name}${p.partNumber ? ` (${p.partNumber})` : ""} — ₪${p.priceIls * p.qty}${p.qty > 1 ? ` x${p.qty}` : ""}`)
+    .map((p) => `• ${escapeHtml(p.name)}${p.partNumber ? ` (${escapeHtml(p.partNumber)})` : ""} — ₪${p.priceIls * p.qty}${p.qty > 1 ? ` x${p.qty}` : ""}`)
     .join("\n");
 
   const date = new Date(order.createdAt).toLocaleDateString("he-IL", {
@@ -65,16 +69,16 @@ function formatTelegramMessage(order: StoredOrder): string {
 
   return `🛠️ הזמנה חדשה — אבו אמין חלפים
 
-👤 ${order.name}
-📞 ${order.phone}
-📍 ${order.city}
-🚗 ${order.vehicle}
+👤 ${escapeHtml(order.name)}
+📞 ${escapeHtml(order.phone)}
+📍 ${escapeHtml(order.city)}
+🚗 ${escapeHtml(order.vehicle || '')}
 
 📦 פריטים:
 ${partsLines}
 
 💰 סה"כ: ₪${order.subtotal} (לא כולל מע"מ)
-${order.notes ? `\n📝 הערות: ${order.notes}` : ""}
+${order.notes ? `\n📝 הערות: ${escapeHtml(order.notes)}` : ""}
 ───
 הזמנה #${order.id} · ${date}`;
 }
@@ -104,12 +108,45 @@ export async function POST(req: NextRequest) {
   try {
     const body: OrderPayload = await req.json();
 
-    if (!body.name || !body.phone || !body.city || !body.parts?.length) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    // Input validation
+    if (!body.name || typeof body.name !== 'string' || body.name.length > 200) {
+      return NextResponse.json({ error: "Invalid name" }, { status: 400 });
+    }
+    if (!body.phone || typeof body.phone !== 'string' || body.phone.length > 20) {
+      return NextResponse.json({ error: "Invalid phone" }, { status: 400 });
+    }
+    if (!body.city || typeof body.city !== 'string' || body.city.length > 100) {
+      return NextResponse.json({ error: "Invalid city" }, { status: 400 });
+    }
+    if (!Array.isArray(body.parts) || body.parts.length === 0 || body.parts.length > 50) {
+      return NextResponse.json({ error: "Invalid parts list" }, { status: 400 });
+    }
+    if (body.notes && (typeof body.notes !== 'string' || body.notes.length > 1000)) {
+      return NextResponse.json({ error: "Notes too long" }, { status: 400 });
+    }
+    if (body.vehicle && (typeof body.vehicle !== 'string' || body.vehicle.length > 200)) {
+      return NextResponse.json({ error: "Invalid vehicle" }, { status: 400 });
+    }
+
+    // Sanitize parts
+    for (const part of body.parts) {
+      if (!part.name || typeof part.name !== 'string' || part.name.length > 200) {
+        return NextResponse.json({ error: "Invalid part name" }, { status: 400 });
+      }
+      if (typeof part.qty !== 'number' || part.qty < 1 || part.qty > 999) {
+        return NextResponse.json({ error: "Invalid quantity" }, { status: 400 });
+      }
+      if (typeof part.priceIls !== 'number' || part.priceIls < 0 || part.priceIls > 100000) {
+        return NextResponse.json({ error: "Invalid price" }, { status: 400 });
+      }
     }
 
     const order: StoredOrder = {
       ...body,
+      name: body.name.trim().slice(0, 200),
+      phone: body.phone.trim().slice(0, 20),
+      city: body.city.trim().slice(0, 100),
+      notes: (body.notes || '').trim().slice(0, 1000),
       id: generateOrderId(),
       createdAt: new Date().toISOString(),
       status: "new",
@@ -132,9 +169,13 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
+  const apiKey = process.env.ADMIN_API_KEY;
+  if (!apiKey) {
+    console.error("[order-GET] ADMIN_API_KEY not configured");
+    return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
+  }
   const authHeader = req.headers.get("Authorization");
-  const expectedAuth = `Bearer ${process.env.ADMIN_API_KEY || "admin-abu-amin-2026"}`;
-  if (authHeader !== expectedAuth) {
+  if (authHeader !== `Bearer ${apiKey}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -143,9 +184,12 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const apiKey = process.env.ADMIN_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "Server misconfiguration" }, { status: 500 });
+  }
   const authHeader = req.headers.get("Authorization");
-  const expectedAuth = `Bearer ${process.env.ADMIN_API_KEY || "admin-abu-amin-2026"}`;
-  if (authHeader !== expectedAuth) {
+  if (authHeader !== `Bearer ${apiKey}`) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
