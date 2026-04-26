@@ -37,7 +37,7 @@ export default function Footer() {
               alignItems: "center",
               gap: 10,
               background: "var(--accent)",
-              color: "#000",
+              color: "var(--accent-fg)",
               fontWeight: 800,
               fontSize: "1.1rem",
               padding: "12px 20px",

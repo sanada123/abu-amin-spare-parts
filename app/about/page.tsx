@@ -35,7 +35,7 @@ export default function AboutPage() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <div style={{ background: "var(--accent)", borderRadius: "var(--radius-sm)", padding: 8 }}>
-                <Shield size={18} color="#000" aria-hidden="true" />
+                <Shield size={18} color="var(--accent-fg)" aria-hidden="true" />
               </div>
               <h2 style={{ margin: 0, fontSize: "1.1rem" }}>מי אנחנו</h2>
             </div>
@@ -56,7 +56,7 @@ export default function AboutPage() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <div style={{ background: "var(--accent)", borderRadius: "var(--radius-sm)", padding: 8 }}>
-                <Users size={18} color="#000" aria-hidden="true" />
+                <Users size={18} color="var(--accent-fg)" aria-hidden="true" />
               </div>
               <h2 style={{ margin: 0, fontSize: "1.1rem" }}>הספקים שלנו</h2>
             </div>
@@ -84,7 +84,7 @@ export default function AboutPage() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <div style={{ background: "var(--accent)", borderRadius: "var(--radius-sm)", padding: 8 }}>
-                <Wrench size={18} color="#000" aria-hidden="true" />
+                <Wrench size={18} color="var(--accent-fg)" aria-hidden="true" />
               </div>
               <h2 style={{ margin: 0, fontSize: "1.1rem" }}>מה אנחנו מוכרים</h2>
             </div>
@@ -110,7 +110,7 @@ export default function AboutPage() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
               <div style={{ background: "var(--accent)", borderRadius: "var(--radius-sm)", padding: 8 }}>
-                <Clock size={18} color="#000" aria-hidden="true" />
+                <Clock size={18} color="var(--accent-fg)" aria-hidden="true" />
               </div>
               <h2 style={{ margin: 0, fontSize: "1.1rem" }}>שעות פעילות</h2>
             </div>
@@ -144,7 +144,7 @@ export default function AboutPage() {
                 alignItems: "center",
                 gap: 12,
                 background: "var(--accent)",
-                color: "#000",
+                color: "var(--accent-fg)",
                 fontWeight: 800,
                 fontSize: "1.05rem",
                 padding: "14px 20px",

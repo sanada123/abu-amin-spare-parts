@@ -49,7 +49,7 @@ export default function HeroSearch() {
             gap: 6,
             fontWeight: 800,
             fontSize: "0.95rem",
-            color: "#000",
+            color: "var(--accent-fg)",
           }}
         >
           <Search size={18} aria-hidden="true" />

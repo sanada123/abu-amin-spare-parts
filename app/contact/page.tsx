@@ -73,7 +73,7 @@ export default function ContactPage() {
                   alignItems: "center",
                   gap: 12,
                   background: "var(--accent)",
-                  color: "#000",
+                  color: "var(--accent-fg)",
                   fontWeight: 800,
                   fontSize: "1.05rem",
                   padding: "14px 18px",
