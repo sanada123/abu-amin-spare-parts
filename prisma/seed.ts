@@ -1080,32 +1080,24 @@ async function main() {
       },
     });
 
-    // SKUs
-    for (const sc of ps.skus) {
-      const dbBrandId = brandMap[sc.brand];
-      if (!dbBrandId) { console.warn(`⚠️  Missing brand: ${sc.brand}`); continue; }
-      const deliveryDays = sc.delivery ?? (sc.stock > 10 ? 1 : sc.stock > 0 ? 3 : 0);
-      await prisma.sku.create({
-        data: {
-          partNumber: sc.pn,
-          productId: product.id,
-          brandId: dbBrandId,
-          tier: sc.tier ?? 'replacement',
-          priceIls: sc.price,
-          stock: sc.stock,
-          warrantyMonths: sc.warranty,
-          deliveryDays,
-        },
-      });
-    }
+    // SKUs — batch create
+    const skuData = ps.skus
+      .filter(sc => brandMap[sc.brand])
+      .map(sc => ({
+        partNumber: sc.pn,
+        productId: product.id,
+        brandId: brandMap[sc.brand],
+        tier: sc.tier ?? 'replacement',
+        priceIls: sc.price,
+        stock: sc.stock,
+        warrantyMonths: sc.warranty,
+        deliveryDays: sc.delivery ?? (sc.stock > 10 ? 1 : sc.stock > 0 ? 3 : 0),
+      }));
+    if (skuData.length > 0) await prisma.sku.createMany({ data: skuData });
 
-    // Fitments (auto parts only)
-    for (const vehicleId of ps.fits) {
-      if (!vehicleId) continue;
-      await prisma.fitment.create({
-        data: { productId: product.id, vehicleId },
-      });
-    }
+    // Fitments — batch create
+    const fitData = ps.fits.filter(Boolean).map(vehicleId => ({ productId: product.id, vehicleId }));
+    if (fitData.length > 0) await prisma.fitment.createMany({ data: fitData, skipDuplicates: true });
   }
   console.log(`✅ ${partSeeds.length} products with SKUs + fitments`);
 
