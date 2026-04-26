@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ShoppingCart, CheckCircle, AlertCircle } from "lucide-react";
+import { ShoppingCart, CheckCircle, AlertCircle, Car, Package, XCircle } from "lucide-react";
 import { tr } from "@/lib/i18n";
 import { useLocale } from "@/lib/cart";
 
@@ -103,7 +103,7 @@ export default function ProductCard({
             padding: 8,
           }}
         >
-          <span style={{ fontSize: "1.4rem" }}>🔧</span>
+          <ShoppingCart size={22} color="var(--text-dim)" aria-hidden="true" />
           <span>תמונה להמחשה</span>
         </div>
       </div>
@@ -157,7 +157,7 @@ export default function ProductCard({
             style={{
               fontSize: "0.75rem",
               fontWeight: 700,
-              color: "#FFC424",
+              color: "var(--accent)",
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
@@ -165,7 +165,7 @@ export default function ProductCard({
               marginTop: 2,
             }}
           >
-            🚗 {vehicleLabel}
+            <Car size={12} style={{ flexShrink: 0 }} aria-hidden="true" /> {vehicleLabel}
           </div>
         )}
 
@@ -237,6 +237,8 @@ export default function ProductCard({
               lineHeight: 1.1,
               direction: "ltr",
               display: "block",
+              fontFamily: "var(--font-mono, ui-monospace, monospace)",
+              fontVariantNumeric: "tabular-nums",
             }}
           >
             ₪{price}
@@ -251,13 +253,15 @@ export default function ProductCard({
               gap: 3,
             }}
           >
-            {!inStock
-              ? "❌ אזל מהמלאי"
-              : deliveryDays === 1
-              ? "📦 במלאי · מחר"
-              : deliveryDays === 3
-              ? "📦 מלאי מוגבל · 3 ימים"
-              : "📦 במלאי"}
+            {!inStock ? (
+              <><XCircle size={10} aria-hidden="true" /> אזל מהמלאי</>
+            ) : deliveryDays === 1 ? (
+              <><Package size={10} aria-hidden="true" /> במלאי · מחר</>
+            ) : deliveryDays === 3 ? (
+              <><Package size={10} aria-hidden="true" /> מלאי מוגבל · 3 ימים</>
+            ) : (
+              <><Package size={10} aria-hidden="true" /> במלאי</>
+            )}
           </span>
         </div>
 

@@ -1,16 +1,15 @@
 "use client";
 import { MessageCircle } from "lucide-react";
+import { whatsappUrl } from "@/lib/store-config";
 
 interface WhatsAppButtonProps {
   context?: string;
 }
 
-const WA_NUMBER = "972523158796";
-
 export default function WhatsAppButton({ context }: WhatsAppButtonProps) {
   const defaultText = "שלום, אני מעוניין בחלפים / כלים";
   const text = context ? `${defaultText} — ${context}` : defaultText;
-  const href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+  const href = whatsappUrl(text);
 
   return (
     <a

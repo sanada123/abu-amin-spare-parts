@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { Suspense } from "react";
 import Link from "next/link";
+import { Search, Wrench, MessageCircle } from "lucide-react";
 import { searchProducts as dbSearch } from "@/lib/queries";
 import { parts as staticParts } from "@/lib/data";
 import ProductCard from "@/components/ProductCard";
@@ -54,16 +55,38 @@ async function SearchResults({ searchParams }: { searchParams: SearchPageProps["
 
         {!q ? (
           <div className="empty">
-            <div className="emoji">🔍</div>
+            <div className="emoji"><Search size={48} color="var(--text-dim)" aria-hidden="true" /></div>
             <h3>הזן מילת חיפוש</h3>
             <p>חפש לפי שם חלק, מספר מק״ט, או דגם רכב</p>
           </div>
         ) : results.length === 0 ? (
           <div className="empty">
-            <div className="emoji">🔍</div>
-            <h3>אין תוצאות</h3>
-            <p>נסה מילת חיפוש אחרת או מספר OEM</p>
-            <Link href="/catalog" className="cta">עיין בקטלוג →</Link>
+            <div className="emoji"><Wrench size={48} color="var(--text-dim)" aria-hidden="true" /></div>
+            <h3>לא נמצאו חלקים</h3>
+            <p>נסה מילת חיפוש אחרת, מספר OEM, או צרו קשר בוואטסאפ</p>
+            <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
+              <Link href="/catalog" className="cta">עיין בקטלוג</Link>
+              <a
+                href={`https://wa.me/972523158796?text=${encodeURIComponent(`שלום, אני מחפש: ${q}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 6,
+                  background: "#25D366",
+                  color: "#fff",
+                  padding: "12px 24px",
+                  borderRadius: "var(--radius)",
+                  fontWeight: 700,
+                  fontSize: "0.9rem",
+                  textDecoration: "none",
+                }}
+              >
+                <MessageCircle size={16} aria-hidden="true" />
+                שלח בוואטסאפ
+              </a>
+            </div>
           </div>
         ) : (
           <div className="parts-grid">

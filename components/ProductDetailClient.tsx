@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { MessageCircle, ChevronDown, ChevronUp, Package, XCircle } from "lucide-react";
 import { tr } from "@/lib/i18n";
 import { useActiveVehicleId, addToCart } from "@/lib/cart";
 import { STORE, whatsappUrl } from "@/lib/store-config";
@@ -179,12 +179,14 @@ export default function ProductDetailClient({ product }: Props) {
 
             {/* Delivery estimate */}
             {sku && (
-              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: sku.stock === 0 ? "var(--out-of-stock)" : "var(--success)", marginBottom: 4 }}>
-                {sku.stock === 0
-                  ? "❌ אזל מהמלאי"
-                  : sku.deliveryDays === 1
-                  ? "📦 במלאי · משלוח מחר"
-                  : "📦 מלאי מוגבל · 3 ימי עסקים"}
+              <div style={{ fontSize: "0.85rem", fontWeight: 600, color: sku.stock === 0 ? "var(--out-of-stock)" : "var(--success)", marginBottom: 4, display: "flex", alignItems: "center", gap: 6 }}>
+                {sku.stock === 0 ? (
+                  <><XCircle size={14} aria-hidden="true" /> אזל מהמלאי</>
+                ) : sku.deliveryDays === 1 ? (
+                  <><Package size={14} aria-hidden="true" /> במלאי · משלוח מחר</>
+                ) : (
+                  <><Package size={14} aria-hidden="true" /> מלאי מוגבל · 3 ימי עסקים</>
+                )}
               </div>
             )}
 
