@@ -7,9 +7,7 @@ import { useActiveVehicleId, useCart, setActiveVehicleId } from "@/lib/cart";
 import { getVehicle, getPart } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
-
-const PHONE_LANDLINE = "04-8599333";
-const PHONE_MOBILE = "052-3158796";
+import { STORE } from "@/lib/store-config";
 
 export default function Nav() {
   const cart = useCart();
@@ -38,13 +36,13 @@ export default function Nav() {
       {/* Top info strip — desktop only */}
       <div className="top-strip">
         <div className="top-strip-inner">
-          <a href={`tel:+972${PHONE_LANDLINE.replace(/-/g, "").replace(/^0/, "")}`}
+          <a href={`tel:+972${STORE.phoneLandline.replace(/-/g, "").replace(/^0/, "")}`}
              style={{ color: "inherit", textDecoration: "none" }}>
-            <strong>📞 {PHONE_LANDLINE}</strong>
+            <strong>📞 {STORE.phoneLandline}</strong>
           </a>
-          <a href={`tel:+972${PHONE_MOBILE.replace(/-/g, "").replace(/^0/, "")}`}
+          <a href={`tel:+972${STORE.phoneMobile.replace(/-/g, "").replace(/^0/, "")}`}
              style={{ color: "inherit", textDecoration: "none" }}>
-            📱 {PHONE_MOBILE}
+            📱 {STORE.phoneMobile}
           </a>
           <span>משלוח חינם מעל ₪300</span>
           <span style={{ marginInlineStart: "auto", color: "var(--text-dim)" }}>

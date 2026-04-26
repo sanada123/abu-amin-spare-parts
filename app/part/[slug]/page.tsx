@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+// Use ISR caching — revalidate every 2 minutes (see revalidate export below)
 import { notFound } from "next/navigation";
 import { getProductBySlug as dbGetProduct } from "@/lib/queries";
 import { parts as staticParts } from "@/lib/data";

@@ -14,6 +14,7 @@ export type SkuSummary = {
   partNumber: string;
   priceIls: number;
   tier: string;
+  stock?: number;
   brand: { name: string; slug: string; country: string | null };
 };
 
@@ -71,6 +72,7 @@ export async function getFeaturedProducts(): Promise<ProductSummary[]> {
           partNumber: true,
           priceIls: true,
           tier: true,
+          stock: true,
           brand: { select: { name: true, slug: true, country: true } },
         },
       },
@@ -87,6 +89,7 @@ export async function getFeaturedProducts(): Promise<ProductSummary[]> {
 
 export type GetAllProductsOpts = {
   categoryId?: number;
+  group?: string;
   search?: string;
   page?: number;
   limit?: number;
@@ -102,12 +105,13 @@ export type PaginatedProducts = {
 
 /** Paginated product list with optional category/search filters. */
 export async function getAllProducts(opts: GetAllProductsOpts = {}): Promise<PaginatedProducts> {
-  const { categoryId, search, page = 1, limit = 24 } = opts;
+  const { categoryId, group, search, page = 1, limit = 24 } = opts;
   const skip = (page - 1) * limit;
 
   const where = {
     isActive: true,
     ...(categoryId ? { categoryId } : {}),
+    ...(group && !categoryId ? { category: { group } } : {}),
     ...(search
       ? {
           OR: [
@@ -224,6 +228,7 @@ export async function getProductsByCategory(
           partNumber: true,
           priceIls: true,
           tier: true,
+          stock: true,
           brand: { select: { name: true, slug: true, country: true } },
         },
       },
@@ -409,6 +414,7 @@ export async function getPartsForVehicle(
           partNumber: true,
           priceIls: true,
           tier: true,
+          stock: true,
           brand: { select: { name: true, slug: true, country: true } },
         },
       },
@@ -458,6 +464,7 @@ export async function searchProducts(
           partNumber: true,
           priceIls: true,
           tier: true,
+          stock: true,
           brand: { select: { name: true, slug: true, country: true } },
         },
       },

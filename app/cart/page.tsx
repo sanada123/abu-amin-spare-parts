@@ -1,10 +1,13 @@
 "use client";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useCart, removeFromCart, updateQty, useLocale } from "@/lib/cart";
 import { getPart, getBrand, getCategory } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import OrderSubmitForm from "@/components/OrderSubmitForm";
 
+// Resolve cart items from static data. In the future, items added from DB-sourced
+// pages should be resolved via API — for now static data is the single source.
 export default function CartPage() {
   const locale = useLocale();
   const cart = useCart();

@@ -105,11 +105,28 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       );
     }
 
+    // Validate field types and lengths
+    if (typeof body.slug !== 'string' || body.slug.length > 200 || !/^[a-z0-9-]+$/.test(body.slug)) {
+      return NextResponse.json({ error: 'Invalid slug (lowercase alphanumeric + hyphens, max 200)' }, { status: 400 });
+    }
+    if (typeof body.name !== 'string' || body.name.length > 500) {
+      return NextResponse.json({ error: 'Invalid name (max 500 chars)' }, { status: 400 });
+    }
+    if (body.description && (typeof body.description !== 'string' || body.description.length > 5000)) {
+      return NextResponse.json({ error: 'Description too long (max 5000 chars)' }, { status: 400 });
+    }
+    if (typeof body.categoryId !== 'number' || body.categoryId < 1) {
+      return NextResponse.json({ error: 'Invalid categoryId' }, { status: 400 });
+    }
+    if (body.images && (!Array.isArray(body.images) || body.images.length > 20)) {
+      return NextResponse.json({ error: 'Invalid images (max 20)' }, { status: 400 });
+    }
+
     const product = await prisma!.product.create({
       data: {
-        slug: body.slug,
-        name: body.name,
-        description: body.description,
+        slug: body.slug.trim(),
+        name: body.name.trim(),
+        description: body.description?.trim(),
         categoryId: body.categoryId,
         images: body.images ?? [],
         isFeatured: body.isFeatured ?? false,

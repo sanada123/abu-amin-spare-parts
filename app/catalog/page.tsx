@@ -11,7 +11,7 @@ async function getAllProducts(opts?: any) { try { return await dbProducts(opts);
 export const revalidate = 120;
 
 interface CatalogPageProps {
-  searchParams: Promise<{ cat?: string; vehicleId?: string; search?: string; page?: string }>;
+  searchParams: Promise<{ cat?: string; vehicleId?: string; search?: string; page?: string; group?: string }>;
 }
 
 async function CatalogContent({ searchParams }: { searchParams: CatalogPageProps["searchParams"] }) {
@@ -31,17 +31,41 @@ async function CatalogContent({ searchParams }: { searchParams: CatalogPageProps
           limit: products.length,
           totalPages: 1,
         }))
-      : getAllProducts({ search, page, limit: 48 }),
+      : getAllProducts({ search, page, limit: 48, group: sp.group }),
   ]);
+
+  // If group param is set, filter categories by group and pre-filter products
+  const group = sp.group ?? undefined;
+  let categories = categoriesRaw as CategoryData[];
+  let products = productsResult.products as ProductSummary[];
+
+  if (group && !sp.cat && !vehicleId && !search) {
+    // Get category IDs that belong to this group (parent + children)
+    const groupParent = categories.find((c: any) => c.group === group && !c.parentId);
+    if (groupParent) {
+      const groupCatIds = new Set<number>();
+      groupCatIds.add(groupParent.id);
+      // Also include children of the group parent
+      for (const c of categories) {
+        if (c.parentId === groupParent.id) groupCatIds.add(c.id);
+      }
+      // Filter products to only those in group categories
+      products = products.filter((p: any) => {
+        const cat = categories.find((c: any) => c.name === p.category.name);
+        return cat ? groupCatIds.has(cat.id) : false;
+      });
+    }
+  }
 
   return (
     <CatalogClient
-      initialProducts={productsResult.products}
-      allCategories={categoriesRaw}
+      initialProducts={products}
+      allCategories={categories}
       allBrands={brandsRaw}
       initialCatSlug={sp.cat}
       initialVehicleId={vehicleId}
-      total={productsResult.total}
+      initialGroup={group}
+      total={products.length}
     />
   );
 }

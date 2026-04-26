@@ -1,27 +1,30 @@
-export const dynamic = "force-dynamic";
+// Use ISR caching — revalidate every 5 minutes (see revalidate export below)
 import Link from "next/link";
 import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
 import { getFeaturedProducts as dbFeatured, getAllCategories as dbCategories, getAllBrands as dbBrands } from "@/lib/queries";
 import { parts as staticParts, categories as staticCategories, brands as staticBrands } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 
-// Graceful DB fallback — adapt static data to Prisma format
+// Graceful DB fallback — adapt static data to Prisma-compatible format
 function adaptStaticParts(parts: any[]) {
   return parts.slice(0, 8).map((p: any) => ({
     id: p.id || 0,
     slug: p.slug || '',
-    name: typeof p.name === 'object' ? p.name.he || p.name.ar || '' : p.name,
-    images: p.images || [p.image || getProductImage(p.slug || '', [])],
-    category: { name: typeof p.category === 'string' ? p.category : p.category?.he || '' },
-    skus: (p.variants || [{ price: p.price || 0 }]).map((v: any) => ({
-      partNumber: v.sku || v.partNumber || '',
-      priceIls: v.price || p.price || 0,
-      tier: v.tier || 'replacement',
-      brand: { name: v.brand || p.brand || 'כללי', slug: '', country: null },
-      stock: v.stock ?? 1,
-      deliveryDays: v.deliveryDays ?? 3,
+    name: typeof p.name === 'object' ? (p.name.he || p.name.ar || '') : (p.name || ''),
+    images: p.images || [getProductImage(p.slug || '', [])],
+    category: { name: typeof p.category === 'object' ? (p.category?.he || '') : (p.category || '') },
+    skus: (p.skus || []).map((s: any) => ({
+      id: s.id || 0,
+      partNumber: s.partNumber || s.sku || '',
+      priceIls: s.priceIls ?? s.price ?? 0,
+      tier: s.tier || 'replacement',
+      brand: typeof s.brand === 'object'
+        ? { name: s.brand?.name || 'כללי', slug: s.brand?.slug || '', country: s.brand?.country || null }
+        : { name: s.brand || 'כללי', slug: '', country: null },
+      stock: s.stock ?? 1,
+      deliveryDays: s.deliveryDays ?? 3,
     })),
-    fitments: (p.vehicles || []).map((vid: any) => ({
+    fitments: (p.vehicleIds || []).map(() => ({
       vehicle: { make: '', model: '', year: 0 },
     })),
   }));
@@ -98,9 +101,38 @@ const PRODUCT_IMAGE_MAP: Record<string, string> = {
   'lawn-mower-electric-32cm': '/parts/wiper-blade.jpg',
 };
 
+/** Category-based fallback images when product has no image */
+const CATEGORY_IMAGE_MAP: Record<string, string> = {
+  "brake": "/parts/brake-pad.jpg",
+  "filter": "/parts/oil-filter.jpg",
+  "oil": "/parts/motor-oil.jpg",
+  "battery": "/parts/battery.jpg",
+  "shock": "/parts/shock-absorber.jpg",
+  "spark": "/parts/spark-plug.jpg",
+  "timing": "/parts/timing-belt.jpg",
+  "radiator": "/parts/radiator.jpg",
+  "alternator": "/parts/alternator.jpg",
+  "muffler": "/parts/muffler.jpg",
+  "pressure-washer": "/parts/water-pump.jpg",
+  "compressor": "/parts/turbocharger.jpg",
+  "saw": "/parts/windshield.jpg",
+  "drill": "/parts/starter.jpg",
+  "grinder": "/parts/starter.jpg",
+  "brush-cutter": "/parts/wiper-blade.jpg",
+  "garden": "/parts/wiper-blade.jpg",
+  "lawn-mower": "/parts/wiper-blade.jpg",
+  "tire": "/parts/tire.jpg",
+};
+
 function getProductImage(slug: string, images: string[]): string {
   if (images && images.length > 0 && images[0]) return images[0];
-  return PRODUCT_IMAGE_MAP[slug] || '/parts/brake-pad.jpg';
+  // Try exact match first
+  if (PRODUCT_IMAGE_MAP[slug]) return PRODUCT_IMAGE_MAP[slug];
+  // Try keyword match from slug
+  for (const [keyword, img] of Object.entries(CATEGORY_IMAGE_MAP)) {
+    if (slug.includes(keyword)) return img;
+  }
+  return '/parts/brake-pad.jpg';
 }
 
 const TRUST_ITEMS = [

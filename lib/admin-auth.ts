@@ -101,7 +101,7 @@ export async function setAdminSession(
   response.cookies.set(COOKIE_NAME, value, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'strict',
     path: '/',
     maxAge: SESSION_DURATION_S,
   });
@@ -112,7 +112,7 @@ export function clearAdminSession(response: NextResponse): NextResponse {
   response.cookies.set(COOKIE_NAME, '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: 'strict',
     path: '/',
     maxAge: 0,
   });

@@ -1,50 +1,120 @@
 "use client";
-import { useState, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, X, Search } from "lucide-react";
-import {
-  uniqueMakes,
-  yearsForMakeSelector,
-  modelsForMakeYear,
-  enginesForMakeYearModel,
-} from "@/lib/data";
+import { ChevronDown, X, Search, Loader2 } from "lucide-react";
 import { setActiveVehicleId, useActiveVehicleId, useLocale } from "@/lib/cart";
 import { tr } from "@/lib/i18n";
+
+// ----- types matching /api/vehicle-selector responses -----
+interface MakeOption {
+  slug: string;
+  name: string;
+  yearMin: number | null;
+  yearMax: number | null;
+}
+interface ModelOption {
+  model: string;
+  modelHe: string | null;
+}
+interface EngineOption {
+  id: number;
+  engine: string | null;
+}
 
 export default function VehicleSelector() {
   const locale = useLocale();
   const router = useRouter();
   const activeVehicleId = useActiveVehicleId();
 
-  const [make, setMake] = useState<string>("");
+  const [make, setMake] = useState("");
   const [year, setYear] = useState<number | "">("");
-  const [model, setModel] = useState<string>("");
+  const [model, setModel] = useState("");
   const [vehicleId, setVehicleId] = useState<number | "">("");
   const [collapsed, setCollapsed] = useState(false);
 
-  const allMakes = useMemo(() => uniqueMakes(), []);
-  const years = useMemo(() => (make ? yearsForMakeSelector(make) : []), [make]);
-  const models = useMemo(
-    () => (make && year ? modelsForMakeYear(make, year as number) : []),
-    [make, year]
-  );
-  const engines = useMemo(
-    () =>
-      make && year && model
-        ? enginesForMakeYearModel(make, year as number, model)
-        : [],
-    [make, year, model]
-  );
+  // Data from API
+  const [makes, setMakes] = useState<MakeOption[]>([]);
+  const [years, setYears] = useState<number[]>([]);
+  const [models, setModels] = useState<ModelOption[]>([]);
+  const [engines, setEngines] = useState<EngineOption[]>([]);
+
+  // Loading states
+  const [loadingMakes, setLoadingMakes] = useState(true);
+  const [loadingYears, setLoadingYears] = useState(false);
+  const [loadingModels, setLoadingModels] = useState(false);
+  const [loadingEngines, setLoadingEngines] = useState(false);
+
+  // Fetch makes on mount
+  useEffect(() => {
+    let cancelled = false;
+    setLoadingMakes(true);
+    fetch("/api/vehicle-selector")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data.makes) setMakes(data.makes);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoadingMakes(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Fetch years when make changes
+  useEffect(() => {
+    if (!make) { setYears([]); return; }
+    let cancelled = false;
+    setLoadingYears(true);
+    fetch(`/api/vehicle-selector?make=${encodeURIComponent(make)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data.years) setYears(data.years);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoadingYears(false); });
+    return () => { cancelled = true; };
+  }, [make]);
+
+  // Fetch models when make+year change
+  useEffect(() => {
+    if (!make || !year) { setModels([]); return; }
+    let cancelled = false;
+    setLoadingModels(true);
+    fetch(`/api/vehicle-selector?make=${encodeURIComponent(make)}&year=${year}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data.models) setModels(data.models);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoadingModels(false); });
+    return () => { cancelled = true; };
+  }, [make, year]);
+
+  // Fetch engines when make+year+model change
+  useEffect(() => {
+    if (!make || !year || !model) { setEngines([]); return; }
+    let cancelled = false;
+    setLoadingEngines(true);
+    fetch(`/api/vehicle-selector?make=${encodeURIComponent(make)}&year=${year}&model=${encodeURIComponent(model)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled && data.engines) setEngines(data.engines);
+      })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setLoadingEngines(false); });
+    return () => { cancelled = true; };
+  }, [make, year, model]);
 
   const hasSelection = !!(make || year || model || vehicleId);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setMake("");
     setYear("");
     setModel("");
     setVehicleId("");
+    setYears([]);
+    setModels([]);
+    setEngines([]);
     setActiveVehicleId(null);
-  };
+  }, []);
 
   const handleFind = () => {
     if (vehicleId) {
@@ -58,11 +128,9 @@ export default function VehicleSelector() {
   };
 
   // Mobile collapsed summary
-  const summaryParts = [
-    allMakes.find((m) => m.slug === make)?.name[locale],
-    year,
-    models.find((m) => m.slug === model)?.name[locale],
-  ].filter(Boolean);
+  const makeName = makes.find((m) => m.slug === make)?.name;
+  const modelName = models.find((m) => m.model === model)?.modelHe ?? models.find((m) => m.model === model)?.model;
+  const summaryParts = [makeName, year || null, modelName].filter(Boolean);
   const summary = summaryParts.join(" · ");
 
   return (
@@ -170,6 +238,7 @@ export default function VehicleSelector() {
             <div style={{ position: "relative" }}>
               <select
                 value={make}
+                disabled={loadingMakes}
                 onChange={(e) => {
                   setMake(e.target.value);
                   setYear("");
@@ -179,26 +248,37 @@ export default function VehicleSelector() {
                 aria-label={tr("step_make", locale)}
                 style={selectStyle(!!make)}
               >
-                <option value="">{tr("step_make", locale)}</option>
-                {allMakes.map((m) => (
+                <option value="">
+                  {loadingMakes ? "טוען..." : tr("step_make", locale)}
+                </option>
+                {makes.map((m) => (
                   <option key={m.slug} value={m.slug}>
-                    {m.name[locale]}
+                    {m.name}
                   </option>
                 ))}
               </select>
-              <ChevronDown
-                size={12}
-                color="var(--text-dim)"
-                style={chevronStyle}
-                aria-hidden="true"
-              />
+              {loadingMakes ? (
+                <Loader2
+                  size={12}
+                  color="var(--text-dim)"
+                  style={{ ...chevronStyle, animation: "spin 1s linear infinite" }}
+                  aria-hidden="true"
+                />
+              ) : (
+                <ChevronDown
+                  size={12}
+                  color="var(--text-dim)"
+                  style={chevronStyle}
+                  aria-hidden="true"
+                />
+              )}
             </div>
 
             {/* Year */}
             <div style={{ position: "relative" }}>
               <select
                 value={year}
-                disabled={!make}
+                disabled={!make || loadingYears}
                 onChange={(e) => {
                   setYear(parseInt(e.target.value) || "");
                   setModel("");
@@ -207,26 +287,37 @@ export default function VehicleSelector() {
                 aria-label={tr("step_year", locale)}
                 style={selectStyle(!!year)}
               >
-                <option value="">{tr("step_year", locale)}</option>
+                <option value="">
+                  {loadingYears ? "טוען..." : tr("step_year", locale)}
+                </option>
                 {years.map((y) => (
                   <option key={y} value={y}>
                     {y}
                   </option>
                 ))}
               </select>
-              <ChevronDown
-                size={12}
-                color="var(--text-dim)"
-                style={chevronStyle}
-                aria-hidden="true"
-              />
+              {loadingYears ? (
+                <Loader2
+                  size={12}
+                  color="var(--text-dim)"
+                  style={{ ...chevronStyle, animation: "spin 1s linear infinite" }}
+                  aria-hidden="true"
+                />
+              ) : (
+                <ChevronDown
+                  size={12}
+                  color="var(--text-dim)"
+                  style={chevronStyle}
+                  aria-hidden="true"
+                />
+              )}
             </div>
 
             {/* Model */}
             <div style={{ position: "relative" }}>
               <select
                 value={model}
-                disabled={!year}
+                disabled={!year || loadingModels}
                 onChange={(e) => {
                   setModel(e.target.value);
                   setVehicleId("");
@@ -234,43 +325,65 @@ export default function VehicleSelector() {
                 aria-label={tr("step_model", locale)}
                 style={selectStyle(!!model)}
               >
-                <option value="">{tr("step_model", locale)}</option>
+                <option value="">
+                  {loadingModels ? "טוען..." : tr("step_model", locale)}
+                </option>
                 {models.map((m) => (
-                  <option key={m.slug} value={m.slug}>
-                    {m.name[locale]}
+                  <option key={m.model} value={m.model}>
+                    {m.modelHe ?? m.model}
                   </option>
                 ))}
               </select>
-              <ChevronDown
-                size={12}
-                color="var(--text-dim)"
-                style={chevronStyle}
-                aria-hidden="true"
-              />
+              {loadingModels ? (
+                <Loader2
+                  size={12}
+                  color="var(--text-dim)"
+                  style={{ ...chevronStyle, animation: "spin 1s linear infinite" }}
+                  aria-hidden="true"
+                />
+              ) : (
+                <ChevronDown
+                  size={12}
+                  color="var(--text-dim)"
+                  style={chevronStyle}
+                  aria-hidden="true"
+                />
+              )}
             </div>
 
             {/* Engine */}
             <div style={{ position: "relative" }}>
               <select
                 value={vehicleId}
-                disabled={!model}
+                disabled={!model || loadingEngines}
                 onChange={(e) => setVehicleId(parseInt(e.target.value) || "")}
                 aria-label={tr("step_engine", locale)}
                 style={selectStyle(!!vehicleId)}
               >
-                <option value="">{tr("step_engine", locale)}</option>
+                <option value="">
+                  {loadingEngines ? "טוען..." : tr("step_engine", locale)}
+                </option>
                 {engines.map((e) => (
                   <option key={e.id} value={e.id}>
-                    {e.engine}
+                    {e.engine ?? "—"}
                   </option>
                 ))}
               </select>
-              <ChevronDown
-                size={12}
-                color="var(--text-dim)"
-                style={chevronStyle}
-                aria-hidden="true"
-              />
+              {loadingEngines ? (
+                <Loader2
+                  size={12}
+                  color="var(--text-dim)"
+                  style={{ ...chevronStyle, animation: "spin 1s linear infinite" }}
+                  aria-hidden="true"
+                />
+              ) : (
+                <ChevronDown
+                  size={12}
+                  color="var(--text-dim)"
+                  style={chevronStyle}
+                  aria-hidden="true"
+                />
+              )}
             </div>
           </div>
 
@@ -312,6 +425,7 @@ export default function VehicleSelector() {
       </div>
 
       <style>{`
+        @keyframes spin { from { transform: translateY(-50%) rotate(0deg); } to { transform: translateY(-50%) rotate(360deg); } }
         @media (min-width: 900px) {
           .vs-mobile-header button[aria-expanded] { display: none; }
           .vs-mobile-header { padding: 12px 0 0 !important; }

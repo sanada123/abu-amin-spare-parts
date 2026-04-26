@@ -261,7 +261,7 @@ export default function ProductCard({
           </span>
         </div>
 
-        {/* Add to cart CTA */}
+        {/* View details CTA */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -291,10 +291,10 @@ export default function ProductCard({
           onMouseLeave={(e) => {
             if (inStock) (e.currentTarget as HTMLButtonElement).style.background = "var(--accent)";
           }}
-          aria-label={`${inStock ? tr("add_to_cart", locale) : "אזל מהמלאי"} — ${name}`}
+          aria-label={`${inStock ? "פרטים והזמנה" : "אזל מהמלאי"} — ${name}`}
         >
           {inStock ? <ShoppingCart size={12} aria-hidden="true" /> : null}
-          {inStock ? tr("add_to_cart", locale) : "אזל"}
+          {inStock ? "פרטים והזמנה" : "אזל"}
         </button>
       </div>
     </Link>

@@ -13,6 +13,7 @@ interface CatalogClientProps {
   allBrands: BrandData[];
   initialCatSlug?: string;
   initialVehicleId?: number;
+  initialGroup?: string;
   total: number;
 }
 
@@ -33,6 +34,7 @@ export default function CatalogClient({
   allBrands,
   initialCatSlug,
   initialVehicleId,
+  initialGroup,
   total,
 }: CatalogClientProps) {
   const activeVehicleId = useActiveVehicleId();
@@ -68,9 +70,10 @@ export default function CatalogClient({
     }
 
     if (inStockOnly) {
-      // Client-side: filter products that have at least one sku with priceIls > 0 (stock not known at summary level)
-      // In a real setup you'd include stock in the summary query
-      list = list.filter((p) => p.skus.length > 0);
+      // Filter products that have at least one SKU with stock > 0
+      list = list.filter((p) =>
+        p.skus.some((s: any) => (s.stock ?? 1) > 0)
+      );
     }
 
     if (sort === "price_asc") {
@@ -109,6 +112,13 @@ export default function CatalogClient({
   const rootAutoCats = allCategories.filter((c) => !c.parentId && !c.group);
   const toolsParent = allCategories.find((c) => c.group === "tools" && !c.parentId);
   const gardenParent = allCategories.find((c) => c.group === "garden" && !c.parentId);
+
+  // Determine which categories to show in the chip strip based on active group
+  const chipStripCats = initialGroup === "tools" && toolsParent
+    ? allCategories.filter((c) => c.parentId === toolsParent.id)
+    : initialGroup === "garden" && gardenParent
+    ? allCategories.filter((c) => c.parentId === gardenParent.id)
+    : rootAutoCats;
 
   const FilterSidebar = (
     <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 1, fontSize: 13 }}>
@@ -258,7 +268,7 @@ export default function CatalogClient({
           </button>
 
           <span style={{ color: "var(--text-dim)", fontSize: 12, fontWeight: 500 }}>
-            {visible.length} חלקים
+            {visible.length} {initialGroup === "tools" ? "כלים" : initialGroup === "garden" ? "פריטי גינה" : "חלקים"}
           </span>
 
           <div style={{ marginInlineStart: "auto", position: "relative" }}>
@@ -300,7 +310,7 @@ export default function CatalogClient({
 
         {/* Category chip strip */}
         <div className="cat-chip-strip" role="group" aria-label="קטגוריות">
-          {rootAutoCats.map((c) => (
+          {chipStripCats.map((c) => (
             <button
               key={c.id}
               className={`cat-chip${selectedCatIds.includes(c.id) ? " active" : ""}`}

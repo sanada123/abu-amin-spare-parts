@@ -4,6 +4,12 @@
  */
 import { prisma } from './db';
 
+/** Guard: return prisma client or throw if DB unavailable */
+function db() {
+  if (!prisma) throw new Error('Database unavailable');
+  return prisma;
+}
+
 export interface CartItem {
   skuId: number;
   productId: number;
@@ -33,7 +39,7 @@ export interface ApplyResult {
 /** Fetch all currently active auto-apply promotions (no code needed) */
 export async function getActiveAutoPromotions() {
   const now = new Date();
-  return prisma!.promotion.findMany({
+  return db().promotion.findMany({
     where: {
       isActive: true,
       code: null,
@@ -46,7 +52,7 @@ export async function getActiveAutoPromotions() {
 /** Validate a coupon code and return the promotion (or null if invalid) */
 export async function validateCoupon(code: string) {
   const now = new Date();
-  return prisma!.promotion.findFirst({
+  return db().promotion.findFirst({
     where: {
       code: { equals: code, mode: 'insensitive' },
       isActive: true,
@@ -164,7 +170,7 @@ export async function applyPromotions(
 
 /** Mark a promotion as used (increment usedCount) */
 export async function recordPromotionUse(promotionId: number) {
-  await prisma!.promotion.update({
+  await db().promotion.update({
     where: { id: promotionId },
     data: { usedCount: { increment: 1 } },
   });

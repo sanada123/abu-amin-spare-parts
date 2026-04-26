@@ -6,9 +6,24 @@ import { parts as staticParts } from "@/lib/data";
 import ProductCard from "@/components/ProductCard";
 
 async function searchProducts(q: string, vehicleId?: number) {
-  try { return await dbSearch(q); } catch {
+  try { return await dbSearch(q, vehicleId); } catch {
     const lower = q.toLowerCase();
-    return (staticParts.filter((p: any) => String(p.name).includes(lower) || String(p.category).includes(lower))) as any;
+    return staticParts.filter((p: any) => {
+      const name = typeof p.name === 'object' ? (p.name.he || '') : String(p.name);
+      const cat = typeof p.category === 'object' ? (p.category?.he || '') : String(p.category || '');
+      return name.toLowerCase().includes(lower) || cat.toLowerCase().includes(lower);
+    }).map((p: any) => ({
+      ...p,
+      name: typeof p.name === 'object' ? p.name.he : p.name,
+      images: p.images || [],
+      category: { name: typeof p.category === 'object' ? p.category?.he : p.category },
+      skus: (p.skus || []).map((s: any) => ({
+        ...s,
+        priceIls: s.priceIls ?? s.price ?? 0,
+        brand: s.brand ?? { name: 'כללי', slug: '', country: null },
+        tier: s.tier ?? 'replacement',
+      })),
+    }));
   }
 }
 

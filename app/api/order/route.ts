@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { promises as fs } from "fs";
 import path from "path";
+import { prisma } from "@/lib/db";
 
 const ORDERS_FILE = path.join(process.cwd(), "data", "orders.json");
 
@@ -41,17 +42,25 @@ async function writeOrders(orders: StoredOrder[]) {
   await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf-8");
 }
 
+let _orderSeq = 0;
 function generateOrderId(): string {
   const date = new Date();
   const yy = date.getFullYear();
   const mm = String(date.getMonth() + 1).padStart(2, "0");
   const dd = String(date.getDate()).padStart(2, "0");
-  const rand = Math.floor(Math.random() * 9000) + 1000;
-  return `A-${yy}${mm}${dd}-${rand}`;
+  const ts = String(date.getTime()).slice(-5);
+  _orderSeq = (_orderSeq + 1) % 1000;
+  const seq = String(_orderSeq).padStart(3, "0");
+  return `A-${yy}${mm}${dd}-${ts}${seq}`;
 }
 
 function escapeHtml(text: string): string {
-  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function formatTelegramMessage(order: StoredOrder): string {
@@ -152,10 +161,44 @@ export async function POST(req: NextRequest) {
       status: "new",
     };
 
-    // Store order
-    const orders = await readOrders();
-    orders.unshift(order);
-    await writeOrders(orders);
+    // Store order — try DB first, fall back to JSON file
+    let savedToDb = false;
+    if (prisma) {
+      try {
+        const customer = await prisma.customer.upsert({
+          where: { phone: order.phone },
+          update: { name: order.name },
+          create: { name: order.name, phone: order.phone, type: "private" },
+        });
+        await prisma.order.create({
+          data: {
+            orderNumber: order.id,
+            customerId: customer.id,
+            vehicleInfo: order.vehicle || null,
+            subtotal: order.subtotal,
+            vatRate: 17,
+            vatAmount: Math.round(order.subtotal * 0.17 * 100) / 100,
+            total: Math.round(order.subtotal * 1.17 * 100) / 100,
+            notes: order.notes || null,
+            channel: "whatsapp",
+            status: "new",
+          },
+        });
+        savedToDb = true;
+      } catch (dbErr) {
+        console.error("Failed to save order to DB, falling back to JSON:", dbErr);
+      }
+    }
+
+    // Fallback: save to JSON file (also serves as backup)
+    try {
+      const orders = await readOrders();
+      orders.unshift(order);
+      await writeOrders(orders);
+    } catch {
+      // JSON write may fail on ephemeral FS — non-critical if DB saved
+      if (!savedToDb) console.error("Failed to save order to both DB and JSON file");
+    }
 
     // Send Telegram notification (non-blocking failure)
     const message = formatTelegramMessage(order);

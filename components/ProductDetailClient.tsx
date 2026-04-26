@@ -4,9 +4,8 @@ import Link from "next/link";
 import { MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { tr } from "@/lib/i18n";
 import { useActiveVehicleId, addToCart } from "@/lib/cart";
+import { STORE, whatsappUrl } from "@/lib/store-config";
 import type { SkuDetail, CategoryData } from "@/lib/queries";
-
-const WA_NUMBER = "972523158796";
 
 // Explicitly typed product for the detail page so sku fields are fully available
 interface ProductDetailFull {
@@ -63,7 +62,7 @@ export default function ProductDetailClient({ product }: Props) {
     ? `${firstFitVehicle.year} ${firstFitVehicle.make} ${firstFitVehicle.model}${firstFitVehicle.engine ? ` ${firstFitVehicle.engine}` : ""}`
     : "";
   const waText = `שלום, אני מעוניין ב: ${product.name}${sku ? ` (${sku.partNumber})` : ""}${vehicleLabel ? ` לרכב ${vehicleLabel}` : ""}`;
-  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waText)}`;
+  const waHref = whatsappUrl(waText);
 
   const imageSrc =
     product.images.length > 0
