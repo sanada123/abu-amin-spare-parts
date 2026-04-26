@@ -11,7 +11,7 @@ async function getAllProducts(opts?: any) { try { return await dbProducts(opts);
 export const revalidate = 120;
 
 interface CatalogPageProps {
-  searchParams: Promise<{ cat?: string; vehicleId?: string; search?: string; page?: string; group?: string }>;
+  searchParams: Promise<{ cat?: string; vehicleId?: string; search?: string; page?: string; group?: string; brand?: string }>;
 }
 
 async function CatalogContent({ searchParams }: { searchParams: CatalogPageProps["searchParams"] }) {
@@ -65,6 +65,7 @@ async function CatalogContent({ searchParams }: { searchParams: CatalogPageProps
       initialCatSlug={sp.cat}
       initialVehicleId={vehicleId}
       initialGroup={group}
+      initialBrandSlug={sp.brand}
       total={products.length}
     />
   );

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo } from "react";
-import { SlidersHorizontal, X, ChevronDown, ChevronUp } from "lucide-react";
+import { SlidersHorizontal, X, ChevronDown, ChevronUp, Search as SearchIcon } from "lucide-react";
 import { useActiveVehicleId, setActiveVehicleId } from "@/lib/cart";
 import ProductCard from "@/components/ProductCard";
 import type { ProductSummary, CategoryData, BrandData } from "@/lib/queries";
@@ -14,6 +14,7 @@ interface CatalogClientProps {
   initialCatSlug?: string;
   initialVehicleId?: number;
   initialGroup?: string;
+  initialBrandSlug?: string;
   total: number;
 }
 
@@ -35,6 +36,7 @@ export default function CatalogClient({
   initialCatSlug,
   initialVehicleId,
   initialGroup,
+  initialBrandSlug,
   total,
 }: CatalogClientProps) {
   const activeVehicleId = useActiveVehicleId();
@@ -46,7 +48,9 @@ export default function CatalogClient({
   const [selectedCatIds, setSelectedCatIds] = useState<number[]>(
     initCat ? [initCat.id] : []
   );
-  const [selectedBrandSlugs, setSelectedBrandSlugs] = useState<string[]>([]);
+  const [selectedBrandSlugs, setSelectedBrandSlugs] = useState<string[]>(
+    initialBrandSlug ? [initialBrandSlug] : []
+  );
   const [inStockOnly, setInStockOnly] = useState(false);
   const [sort, setSort] = useState<SortKey>("relevance");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -128,7 +132,7 @@ export default function CatalogClient({
           <SlidersHorizontal size={13} aria-hidden="true" />
           סינון
           {activeFilterCount > 0 && (
-            <span style={{ background: "var(--accent)", color: "#000", borderRadius: "3px", fontSize: 11, fontWeight: 800, padding: "1px 6px" }}>
+            <span style={{ background: "var(--accent)", color: "var(--accent-fg)", borderRadius: "3px", fontSize: 11, fontWeight: 800, padding: "1px 6px" }}>
               {activeFilterCount}
             </span>
           )}
@@ -261,7 +265,7 @@ export default function CatalogClient({
             <SlidersHorizontal size={13} />
             סינון
             {activeFilterCount > 0 && (
-              <span style={{ background: "var(--accent)", color: "#000", borderRadius: 3, fontSize: 11, fontWeight: 800, padding: "1px 5px" }}>
+              <span style={{ background: "var(--accent)", color: "var(--accent-fg)", borderRadius: 3, fontSize: 11, fontWeight: 800, padding: "1px 5px" }}>
                 {activeFilterCount}
               </span>
             )}
@@ -325,7 +329,7 @@ export default function CatalogClient({
         {/* Grid or empty state */}
         {visible.length === 0 ? (
           <div className="empty">
-            <div className="emoji">🔍</div>
+            <div className="emoji"><SearchIcon size={48} color="var(--text-dim)" aria-hidden="true" /></div>
             <h3>לא נמצאו חלקים</h3>
             <p>נסה לשנות את הרכב או הסינון</p>
             <button onClick={clearAll} className="cta" style={{ cursor: "pointer" }}>
@@ -335,9 +339,15 @@ export default function CatalogClient({
         ) : (
           <div className="parts-grid">
             {visible.map((p) => {
-              const mp = minPrice(p);
-              const brandNames = p.skus.slice(0, 4).map((s) => s.brand.name);
-              const tiers = [...new Set(p.skus.map((s) => s.tier))] as Array<"original" | "replacement">;
+              // When brand filter is active, only show matching SKUs' info
+              const relevantSkus = selectedBrandSlugs.length > 0
+                ? p.skus.filter((s) => selectedBrandSlugs.includes(s.brand.slug))
+                : p.skus;
+              const mp = relevantSkus.length > 0
+                ? Math.min(...relevantSkus.map((s) => s.priceIls))
+                : minPrice(p);
+              const brandNames = relevantSkus.slice(0, 4).map((s) => s.brand.name);
+              const tiers = [...new Set(relevantSkus.map((s) => s.tier))] as Array<"original" | "replacement">;
               const firstFitment = p.fitments[0];
               const extraCount = p.fitments.length - 1;
               const vehicleLabel = firstFitment
@@ -353,9 +363,9 @@ export default function CatalogClient({
                   price={mp}
                   brands={brandNames}
                   tiers={tiers}
-                  skuCount={p.skus.length}
+                  skuCount={relevantSkus.length}
                   vehicleLabel={vehicleLabel}
-                  inStock={p.skus.length > 0}
+                  inStock={relevantSkus.length > 0}
                 />
               );
             })}

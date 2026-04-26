@@ -334,10 +334,10 @@ export default async function Home() {
         </div>
         <div className="brand-strip">
           {brands.map((b: any) => (
-            <span key={b.id} className="brand-chip">
+            <Link key={b.id} href={`/catalog?brand=${b.slug}`} className="brand-chip">
               {b.logo && <span className="flag">{b.logo}</span>}
               <span>{b.name}</span>
-            </span>
+            </Link>
           ))}
         </div>
       </section>
