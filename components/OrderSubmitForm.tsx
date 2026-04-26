@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useActiveVehicleId } from "@/lib/cart";
-import { getVehicle, getPart, getBrand, vehicles } from "@/lib/data";
+import { getVehicle, vehicles } from "@/lib/data";
 import { STORE, whatsappUrl } from "@/lib/store-config";
 import type { CartItem } from "@/lib/cart";
 
@@ -58,10 +58,7 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
       : "";
 
   const partsLines = items.map((c) => {
-    const part = getPart(c.partId);
-    const sku = part?.skus.find((s) => s.id === c.skuId);
-    const brand = sku ? getBrand(sku.brandId) : null;
-    return `• ${part?.name.he ?? "?"} | ${brand?.name ?? ""} | ${sku?.partNumber ?? ""} | כמות: ${c.qty} | ₪${(sku?.priceIls ?? 0) * c.qty}`;
+    return `• ${c.name ?? "?"} | ${c.brandName ?? ""} | ${c.partNumber ?? ""} | כמות: ${c.qty} | ₪${((c.priceIls ?? 0) * c.qty)}`;
   });
 
   const buildWhatsAppUrl = () => {
@@ -106,17 +103,12 @@ export default function OrderSubmitForm({ items, subtotal }: Props) {
           vehicle: vehicleLabel,
           notes: "",
           locale: "he",
-          parts: items.map((c) => {
-            const part = getPart(c.partId);
-            const sku = part?.skus.find((s) => s.id === c.skuId);
-            const brand = sku ? getBrand(sku.brandId) : null;
-            return {
-              name: part?.name.he ?? "?",
-              partNumber: sku?.partNumber ?? "",
-              priceIls: sku?.priceIls ?? 0,
-              qty: c.qty,
-            };
-          }),
+          parts: items.map((c) => ({
+            name: c.name ?? "?",
+            partNumber: c.partNumber ?? "",
+            priceIls: c.priceIls ?? 0,
+            qty: c.qty,
+          })),
           subtotal,
         }),
       });

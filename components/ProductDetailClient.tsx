@@ -71,7 +71,19 @@ export default function ProductDetailClient({ product }: Props) {
 
   const handleAdd = () => {
     if (!sku) return;
-    addToCart({ partId: product.id, skuId: sku.id, qty: 1 });
+    addToCart({
+      partId: product.id,
+      skuId: sku.id,
+      qty: 1,
+      name: product.name,
+      slug: product.slug,
+      partNumber: sku.partNumber,
+      brandName: sku.brand.name,
+      brandLogo: sku.brand.country ?? "",
+      priceIls: sku.priceIls,
+      image: product.images[0] ?? `/parts/${product.slug}.svg`,
+      warrantyMonths: sku.warrantyMonths,
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };

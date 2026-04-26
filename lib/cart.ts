@@ -5,6 +5,15 @@ export interface CartItem {
   partId: number;
   skuId: number;
   qty: number;
+  // Display data stored at add-time so cart page doesn't need API lookup
+  name?: string;
+  slug?: string;
+  partNumber?: string;
+  brandName?: string;
+  brandLogo?: string;
+  priceIls?: number;
+  image?: string;
+  warrantyMonths?: number;
 }
 
 const CART_KEY = "abu-amin-cart";

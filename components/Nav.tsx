@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Search, ShoppingCart, Home, Car, LayoutGrid, Wrench } from "lucide-react";
 import { useActiveVehicleId, useCart, setActiveVehicleId } from "@/lib/cart";
-import { getVehicle, getPart } from "@/lib/data";
+import { getVehicle } from "@/lib/data";
 import { tr } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
 import { STORE } from "@/lib/store-config";
@@ -19,9 +19,7 @@ export default function Nav() {
   const cartCount = cart.reduce((s, c) => s + c.qty, 0);
   const vehicle = vehicleId ? getVehicle(vehicleId) : null;
   const cartTotal = cart.reduce((sum, item) => {
-    const part = getPart(item.partId);
-    const sku = part?.skus.find((s) => s.id === item.skuId);
-    return sum + (sku?.priceIls ?? 0) * item.qty;
+    return sum + (item.priceIls ?? 0) * item.qty;
   }, 0);
 
   const submitSearch = (e: React.FormEvent) => {

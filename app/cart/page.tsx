@@ -1,25 +1,20 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
-import { useCart, removeFromCart, updateQty, useLocale } from "@/lib/cart";
-import { getPart, getBrand, getCategory } from "@/lib/data";
+import { ShoppingCart, Trash2 } from "lucide-react";
+import { useCart, removeFromCart, updateQty, useLocale, type CartItem } from "@/lib/cart";
 import { tr } from "@/lib/i18n";
 import OrderSubmitForm from "@/components/OrderSubmitForm";
 
-// Resolve cart items from static data. In the future, items added from DB-sourced
-// pages should be resolved via API — for now static data is the single source.
 export default function CartPage() {
   const locale = useLocale();
   const cart = useCart();
 
-  const items = cart.map((c) => {
-    const part = getPart(c.partId);
-    const sku = part?.skus.find((s) => s.id === c.skuId);
-    return { cart: c, part, sku };
-  }).filter((x) => x.part && x.sku);
+  // Filter out items that have display data (added from DB pages)
+  // Also support legacy items from static data as fallback
+  const items = cart.filter((c) => c.name && c.priceIls);
 
-  const subtotal = items.reduce((s, x) => s + (x.sku?.priceIls ?? 0) * x.cart.qty, 0);
+  const subtotal = items.reduce((s, c) => s + (c.priceIls ?? 0) * c.qty, 0);
 
   if (items.length === 0) {
     return (
@@ -29,7 +24,7 @@ export default function CartPage() {
             <div className="emoji"><ShoppingCart size={48} color="var(--text-dim)" aria-hidden="true" /></div>
             <h3>{tr("cart_empty", locale)}</h3>
             <p>{tr("hero_sub", locale)}</p>
-            <Link href="/" className="cta">{tr("cta_select_vehicle", locale)}</Link>
+            <Link href="/catalog" className="cta">{"לקטלוג המוצרים"}</Link>
           </div>
         </section>
       </main>
@@ -46,37 +41,58 @@ export default function CartPage() {
           {/* Parts list */}
           <div>
             <div className="cart-list">
-              {items.map(({ cart: c, part, sku }) => {
-                const b = getBrand(sku!.brandId);
-                const cat = getCategory(part!.categoryId);
-                return (
-                  <div key={c.skuId} className="cart-row">
-                    <div className="img">{cat?.icon ?? "🔧"}</div>
-                    <div>
-                      <div className="name">{part!.name[locale]}</div>
-                      <div className="brand-line">
-                        {b?.logo} {b?.name} · {sku!.partNumber}
-                      </div>
-                      <div style={{ marginTop: 8, color: "var(--accent)", fontWeight: 800, fontSize: "1.1rem" }}>
-                        ₪{sku!.priceIls * c.qty}
-                      </div>
-                    </div>
-                    <div className="actions">
-                      <input
-                        type="number"
-                        min={1}
-                        value={c.qty}
-                        onChange={(e) => updateQty(c.skuId, parseInt(e.target.value) || 1)}
-                        className="qty-input"
-                        aria-label={tr("qty", locale)}
+              {items.map((c) => (
+                <div key={c.skuId} className="cart-row">
+                  <div className="img">
+                    {c.image ? (
+                      <img
+                        src={c.image}
+                        alt={c.name ?? ""}
+                        style={{ width: 56, height: 56, objectFit: "contain", borderRadius: "var(--radius-sm)" }}
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                       />
-                      <button className="remove-btn" onClick={() => removeFromCart(c.skuId)}>
-                        {tr("remove", locale)}
-                      </button>
+                    ) : (
+                      "🔧"
+                    )}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div className="name">
+                      {c.slug ? (
+                        <Link href={`/part/${c.slug}`} style={{ color: "inherit", textDecoration: "none" }}>
+                          {c.name}
+                        </Link>
+                      ) : (
+                        c.name
+                      )}
+                    </div>
+                    <div className="brand-line" style={{ fontSize: "0.82rem", color: "var(--text-dim)" }}>
+                      {c.brandLogo} {c.brandName} · <span style={{ fontFamily: "var(--font-mono, monospace)" }}>{c.partNumber}</span>
+                    </div>
+                    <div style={{ marginTop: 8, color: "var(--accent)", fontWeight: 800, fontSize: "1.1rem", fontFamily: "var(--font-mono, monospace)" }}>
+                      ₪{((c.priceIls ?? 0) * c.qty).toLocaleString()}
                     </div>
                   </div>
-                );
-              })}
+                  <div className="actions" style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+                    <input
+                      type="number"
+                      min={1}
+                      value={c.qty}
+                      onChange={(e) => updateQty(c.skuId, parseInt(e.target.value) || 1)}
+                      className="qty-input"
+                      aria-label={tr("qty", locale)}
+                      style={{ width: 56, textAlign: "center" }}
+                    />
+                    <button
+                      className="remove-btn"
+                      onClick={() => removeFromCart(c.skuId)}
+                      style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.8rem" }}
+                    >
+                      <Trash2 size={14} aria-hidden="true" />
+                      {tr("remove", locale)}
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Parts subtotal */}
@@ -93,8 +109,8 @@ export default function CartPage() {
               <span style={{ fontWeight: 700, color: "var(--text-dim)", fontSize: "0.9rem" }}>
                 {tr("subtotal", locale)} ({items.length} {"פריטים"})
               </span>
-              <span style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--accent)" }}>
-                ₪{subtotal}
+              <span style={{ fontWeight: 800, fontSize: "1.3rem", color: "var(--accent)", fontFamily: "var(--font-mono, monospace)" }}>
+                ₪{subtotal.toLocaleString()}
               </span>
             </div>
             <p style={{ fontSize: "0.78rem", color: "var(--text-dim)", marginTop: 6 }}>
