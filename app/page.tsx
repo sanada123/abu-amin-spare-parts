@@ -1,6 +1,6 @@
 // Use ISR caching — revalidate every 5 minutes (see revalidate export below)
 import Link from "next/link";
-import { Shield, Truck, Clock, Award, Car, Wrench } from "lucide-react";
+import { Shield, Truck, Clock, Award, Car, Wrench, Search as SearchIcon } from "lucide-react";
 import { getFeaturedProducts as dbFeatured, getAllCategories as dbCategories, getAllBrands as dbBrands } from "@/lib/queries";
 import { parts as staticParts, categories as staticCategories, brands as staticBrands } from "@/lib/data";
 import { tr } from "@/lib/i18n";
@@ -287,7 +287,7 @@ export default async function Home() {
           ))}
           {/* Last tile: all categories */}
           <Link href="/catalog" className="cat-card">
-            <span className="cat-icon">🔍</span>
+            <span className="cat-icon"><SearchIcon size={20} aria-hidden="true" /></span>
             <span className="cat-name">כל הקטגוריות</span>
           </Link>
         </div>
@@ -364,8 +364,8 @@ export default async function Home() {
               quote: "הזמנתי ערכת טיפול גדול לקורולה — הכל הגיע מסודר באריזה אחת. שירות מצוין.",
               author: "שרה מ., נצרת",
             },
-          ].map((t, i) => (
-            <div key={i} className="testi-card">
+          ].map((t) => (
+            <div key={t.author} className="testi-card">
               <div className="stars">★★★★★</div>
               <div className="quote">&ldquo;{t.quote}&rdquo;</div>
               <div className="author">— {t.author}</div>

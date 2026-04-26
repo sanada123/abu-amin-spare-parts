@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -53,7 +54,7 @@ export default function RootLayout({
       <body style={{ fontFamily: "'Heebo', 'Arial Hebrew', 'David', system-ui, sans-serif" }}>
         <ThemeProvider>
           <PromoBanner />
-          <Nav />
+          <Suspense fallback={null}><Nav /></Suspense>
           {children}
           <Footer />
           <WhatsAppButton />

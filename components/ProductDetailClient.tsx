@@ -194,6 +194,7 @@ export default function ProductDetailClient({ product }: Props) {
               onClick={handleAdd}
               disabled={sku?.stock === 0}
               style={sku?.stock === 0 ? { opacity: 0.5, cursor: "not-allowed" } : undefined}
+              aria-live="polite"
             >
               {sku?.stock === 0
                 ? "אזל מהמלאי"

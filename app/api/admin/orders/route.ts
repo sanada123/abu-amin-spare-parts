@@ -75,7 +75,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       limit,
       pages: Math.ceil(total / limit),
     });
-  } catch {
+  } catch (err) {
+    console.error('[admin/orders GET]', err);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },
@@ -168,7 +169,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     });
 
     return NextResponse.json({ order }, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error('[admin/orders POST]', err);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

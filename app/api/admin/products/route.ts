@@ -73,7 +73,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       limit,
       pages: Math.ceil(total / limit),
     });
-  } catch {
+  } catch (err) {
+    console.error('[admin/products GET]', err);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Search, ShoppingCart, Home, Car, LayoutGrid, Wrench } from "lucide-react";
 import { useActiveVehicleId, useCart, setActiveVehicleId } from "@/lib/cart";
@@ -14,6 +14,7 @@ export default function Nav() {
   const vehicleId = useActiveVehicleId();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [q, setQ] = useState("");
   const cartCount = cart.reduce((s, c) => s + c.qty, 0);
   const vehicle = vehicleId ? getVehicle(vehicleId) : null;
@@ -57,7 +58,7 @@ export default function Nav() {
           <Link href="/" className="brand" aria-label="אבו אמין חלפים — דף הבית">
             <img
               src="/brand/logo-horizontal.png"
-              alt="אבו אמין חלפים"
+              alt="לוגו אבו אמין חלפים"
               style={{ height: 64, width: "auto", display: "block" }}
             />
           </Link>
@@ -172,7 +173,7 @@ export default function Nav() {
         </Link>
         <Link
           href="/catalog?group=tools"
-          className={isActive("/catalog") && pathname?.includes("group=tools") ? "active" : ""}
+          className={isActive("/catalog") && searchParams?.get("group") === "tools" ? "active" : ""}
           aria-label="כלים"
         >
           <Wrench size={20} className="icon" aria-hidden="true" />

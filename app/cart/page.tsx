@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 import { useCart, removeFromCart, updateQty, useLocale } from "@/lib/cart";
 import { getPart, getBrand, getCategory } from "@/lib/data";
 import { tr } from "@/lib/i18n";
@@ -25,7 +26,7 @@ export default function CartPage() {
       <main>
         <section>
           <div className="empty">
-            <div className="emoji">🛒</div>
+            <div className="emoji"><ShoppingCart size={48} color="var(--text-dim)" aria-hidden="true" /></div>
             <h3>{tr("cart_empty", locale)}</h3>
             <p>{tr("hero_sub", locale)}</p>
             <Link href="/" className="cta">{tr("cta_select_vehicle", locale)}</Link>

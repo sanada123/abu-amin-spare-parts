@@ -152,7 +152,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       revenueByDay,
       customerBreakdown: customerBreakdownResult,
     });
-  } catch {
+  } catch (err) {
+    console.error('[admin/dashboard GET]', err);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 },

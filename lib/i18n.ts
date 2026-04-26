@@ -84,5 +84,12 @@ export const t = {
 };
 
 export function tr(key: keyof typeof t, _locale?: Locale): string {
-  return t[key].he;
+  const entry = t[key];
+  if (!entry) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn(`[i18n] Missing translation key: "${key}"`);
+    }
+    return String(key);
+  }
+  return entry.he;
 }

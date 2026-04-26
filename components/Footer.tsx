@@ -1,14 +1,15 @@
 "use client";
 import Link from "next/link";
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, MessageCircle, MapPin, Clock } from "lucide-react";
 import { tr } from "@/lib/i18n";
+import { STORE, whatsappUrl } from "@/lib/store-config";
 
-const PHONE_LANDLINE = "04-8599333";
-const PHONE_MOBILE = "052-3158796";
-const PHONE_LANDLINE_HREF = "tel:+97248599333";
-const PHONE_MOBILE_HREF = "tel:+972523158796";
-const WA_HREF = "https://wa.me/972523158796";
-const ADDRESS = "כביש ראשי דלית עוספיא, מול אמל חשמל, עוספיה";
+const PHONE_LANDLINE = STORE.phoneLandline;
+const PHONE_MOBILE = STORE.phoneMobile;
+const PHONE_LANDLINE_HREF = `tel:+972${STORE.phoneLandline.replace(/-/g, "").replace(/^0/, "")}`;
+const PHONE_MOBILE_HREF = `tel:+972${STORE.phoneMobile.replace(/-/g, "").replace(/^0/, "")}`;
+const WA_HREF = `https://wa.me/${STORE.whatsappNumber}`;
+const ADDRESS = STORE.address;
 const VAT_ID = process.env.NEXT_PUBLIC_VAT_ID;
 
 export default function Footer() {
@@ -21,7 +22,7 @@ export default function Footer() {
         <div className="footer-col" style={{ gridColumn: "span 2" }}>
           <img
             src="/brand/logo-horizontal.png"
-            alt="אבו אמין חלפים"
+            alt="לוגו אבו אמין חלפים"
             style={{ height: 44, width: "auto", display: "block", marginBottom: 10 }}
           />
           <p style={{ color: "var(--text-dim)", fontSize: "0.82rem", lineHeight: 1.7, margin: "0 0 16px" }}>
@@ -104,8 +105,14 @@ export default function Footer() {
 
           {/* Address + hours */}
           <div style={{ fontSize: "0.82rem", color: "var(--text-dim)", lineHeight: 1.8 }}>
-            <div>📍 {ADDRESS}</div>
-            <div>🕒 א׳–ה׳ 08:00–18:00 · ו׳ 08:00–13:00 · שבת סגור</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <MapPin size={13} aria-hidden="true" style={{ flexShrink: 0 }} />
+              {ADDRESS}
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <Clock size={13} aria-hidden="true" style={{ flexShrink: 0 }} />
+              {STORE.hours}
+            </div>
           </div>
         </div>
 
